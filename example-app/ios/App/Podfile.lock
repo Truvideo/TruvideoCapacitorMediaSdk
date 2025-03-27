@@ -1,0 +1,28 @@
+PODS:
+  - Capacitor (7.0.0):
+    - CapacitorCordova
+  - CapacitorCordova (7.0.0)
+  - TruvideoCapacitorMediaSdk (0.0.1):
+    - Capacitor
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - TruvideoCapacitorMediaSdk (from `../../..`)
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  TruvideoCapacitorMediaSdk:
+    :path: "../../.."
+
+SPEC CHECKSUMS:
+  Capacitor: fcbee427ff437f414bbb3bc2d39364ad9bd2b8a5
+  CapacitorCordova: 345f93b7edd121db98e4ec20ac94d6d7bcaf7e48
+  TruvideoCapacitorMediaSdk: 33792fc0543d9bd14946cc68753a33d69772d6e0
+
+PODFILE CHECKSUM: 9b5d03972ab1685132673a97ef68dba244fb1034
+
+COCOAPODS: 1.16.2
