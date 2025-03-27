@@ -6,10 +6,10 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "MediaPlugin")
-public class MediaPluginPlugin extends Plugin {
+@CapacitorPlugin(name = "TruvideoSdkMedia")
+public class TruvideoSdkMediaPlugin extends Plugin {
 
-    private MediaPlugin implementation = new MediaPlugin();
+    private TruvideoSdkMedia implementation = new TruvideoSdkMedia();
 
     @PluginMethod
     public void echo(PluginCall call) {

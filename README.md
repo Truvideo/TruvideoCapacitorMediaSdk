@@ -1,6 +1,6 @@
 # truvideo-capacitor-media-sdk
 
-Native Plugin for media module
+Native media Plugin using capacitor js
 
 ## Install
 

@@ -1,10 +1,10 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { MediaPluginPlugin } from './definitions';
+import type { TruvideoSdkMediaPlugin } from './definitions';
 
-const MediaPlugin = registerPlugin<MediaPluginPlugin>('MediaPlugin', {
-  web: () => import('./web').then((m) => new m.MediaPluginWeb()),
+const TruvideoSdkMedia = registerPlugin<TruvideoSdkMediaPlugin>('TruvideoSdkMedia', {
+  web: () => import('./web').then((m) => new m.TruvideoSdkMediaWeb()),
 });
 
 export * from './definitions';
-export { MediaPlugin };
+export { TruvideoSdkMedia };

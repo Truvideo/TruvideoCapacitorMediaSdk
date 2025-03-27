@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorMediaPlugin',
+      name: 'capacitorTruvideoSdkMedia',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

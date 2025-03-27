@@ -1,7 +1,7 @@
 import { registerPlugin } from '@capacitor/core';
-const MediaPlugin = registerPlugin('MediaPlugin', {
-    web: () => import('./web').then((m) => new m.MediaPluginWeb()),
+const TruvideoSdkMedia = registerPlugin('TruvideoSdkMedia', {
+    web: () => import('./web').then((m) => new m.TruvideoSdkMediaWeb()),
 });
 export * from './definitions';
-export { MediaPlugin };
+export { TruvideoSdkMedia };
 //# sourceMappingURL=index.js.map

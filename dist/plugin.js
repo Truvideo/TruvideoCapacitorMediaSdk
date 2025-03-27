@@ -1,11 +1,11 @@
-var capacitorMediaPlugin = (function (exports, core) {
+var capacitorTruvideoSdkMedia = (function (exports, core) {
     'use strict';
 
-    const MediaPlugin = core.registerPlugin('MediaPlugin', {
-        web: () => Promise.resolve().then(function () { return web; }).then((m) => new m.MediaPluginWeb()),
+    const TruvideoSdkMedia = core.registerPlugin('TruvideoSdkMedia', {
+        web: () => Promise.resolve().then(function () { return web; }).then((m) => new m.TruvideoSdkMediaWeb()),
     });
 
-    class MediaPluginWeb extends core.WebPlugin {
+    class TruvideoSdkMediaWeb extends core.WebPlugin {
         async echo(options) {
             console.log('ECHO', options);
             return options;
@@ -14,10 +14,10 @@ var capacitorMediaPlugin = (function (exports, core) {
 
     var web = /*#__PURE__*/Object.freeze({
         __proto__: null,
-        MediaPluginWeb: MediaPluginWeb
+        TruvideoSdkMediaWeb: TruvideoSdkMediaWeb
     });
 
-    exports.MediaPlugin = MediaPlugin;
+    exports.TruvideoSdkMedia = TruvideoSdkMedia;
 
     return exports;
 

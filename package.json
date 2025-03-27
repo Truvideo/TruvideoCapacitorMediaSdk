@@ -1,7 +1,7 @@
 {
   "name": "truvideo-capacitor-media-sdk",
   "version": "0.0.1",
-  "description": "Native Plugin for media module",
+  "description": "Native media Plugin using capacitor js",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -19,10 +19,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Truvideo/TruvideoCapacitorMediaSdk.git.git"
+    "url": "git+https://github.com/Truvideo/TruVideoCapacitorMediaSdk.git.git"
   },
   "bugs": {
-    "url": "https://github.com/Truvideo/TruvideoCapacitorMediaSdk.git/issues"
+    "url": "https://github.com/Truvideo/TruVideoCapacitorMediaSdk.git/issues"
   },
   "keywords": [
     "capacitor",
@@ -39,7 +39,7 @@
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
-    "docgen": "docgen --api MediaPluginPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api TruvideoSdkMediaPlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",

@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
-import type { MediaPluginPlugin } from './definitions';
-export declare class MediaPluginWeb extends WebPlugin implements MediaPluginPlugin {
+import type { TruvideoSdkMediaPlugin } from './definitions';
+export declare class TruvideoSdkMediaWeb extends WebPlugin implements TruvideoSdkMediaPlugin {
     echo(options: {
         value: string;
     }): Promise<{

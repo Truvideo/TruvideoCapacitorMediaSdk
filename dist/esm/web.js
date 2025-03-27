@@ -1,5 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-export class MediaPluginWeb extends WebPlugin {
+export class TruvideoSdkMediaWeb extends WebPlugin {
     async echo(options) {
         console.log('ECHO', options);
         return options;

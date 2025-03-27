@@ -1,7 +1,7 @@
 {
   "api": {
-    "name": "MediaPluginPlugin",
-    "slug": "mediapluginplugin",
+    "name": "TruvideoSdkMediaPlugin",
+    "slug": "truvideosdkmediaplugin",
     "docs": "",
     "tags": [],
     "methods": [
