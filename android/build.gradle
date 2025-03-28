@@ -7,6 +7,7 @@ ext {
 
 buildscript {
     repositories {
+        maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
     }
@@ -41,8 +42,8 @@ android {
         targetCompatibility JavaVersion.VERSION_21
     }
 }
-
 repositories {
+    maven { url 'https://jitpack.io' }
     google()
     mavenCentral()
 }
@@ -55,4 +56,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation "com.github.Truvideo:truvideo-sdk-android-media:76.3.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+
 }
