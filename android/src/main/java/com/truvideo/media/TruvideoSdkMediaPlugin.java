@@ -83,7 +83,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 public void onError(@NonNull String id, @NonNull TruvideoSdkException ex) {
                                     JSObject ret = new JSObject();
                                     ret.put("id",id);
-                                    ret.put("error",ex);
+                                    ret.put("error",new Gson().toJson(ex));
                                     //promise.resolve(gson.toJson(mainResponse));
                                     sendEvent("onError", ret);
                                 }
@@ -92,14 +92,14 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 public void onProgressChanged(@NonNull String id, float progress) {
                                     JSObject ret = new JSObject();
                                     ret.put("id",id);
-                                    ret.put("progress",progress * 100);
+                                    ret.put("progress",new Gson().toJson(progress * 100));
                                     sendEvent("onProgress", ret);
                                 }
                                 @Override
                                 public void onComplete(@NonNull String id, @NonNull TruvideoSdkMediaFileUploadRequest response) {
                                     JSObject ret = new JSObject();
                                     ret.put("id",id);
-                                    ret.put("response",response);
+                                    ret.put("response",new Gson().toJson(response));
                                     call.resolve(ret);
                                     sendEvent("onComplete", ret);
                                 }
