@@ -13,7 +13,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "TruvideoSdkMedia"
     private var disposeBag = Set<AnyCancellable>()
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "uploadMedia", returnType: CAPPluginReturnPromise)
     ]
     //private let implementation = TruvideoSdkMedia()
 
@@ -27,13 +28,23 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     
     
     @objc public func uploadMedia(_ call: CAPPluginCall) {
-        let filepath = call.getString("filepath") ?? ""
+        print("🔍 Full Call Data: \(call)")
+        let filepath = call.getString("filePath") ?? ""
         let tag = call.getString("tag") ?? ""
         let metaData = call.getString("metaData") ?? ""
-        guard let fileURL = URL(string: "file://\(#filePath)") else {
-                call.reject("INVALID_URL", "The file URL is invalid", nil)
-                return
-            }
+        
+        print("📂 Filepath Received: \(filepath)")  // Debugging
+        print("🏷 Tag: \(tag)")
+        print("📜 MetaData: \(metaData)")
+         
+        
+         guard !filepath.isEmpty else {
+             call.reject("INVALID_FILE_PATH", "File path is empty")
+             return
+         }
+         
+         let fileURL = URL(fileURLWithPath: filepath) // ✅ Correct way to create a file URL
+        
 
             do {
                 let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
@@ -53,7 +64,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             }
             
             // Convert metadata JSON string to Metadata type
-            let metadataObj = try convertToDictionary(from: metaData)
+//            let metadataObj = try convertToDictionary(from: metaData)
             for (key, value) in tagDict {
                 builder.addMetadata(key, value)
             }
@@ -79,28 +90,55 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                         call.reject("UPLOAD_ERROR", "Upload failed", error)
                     }
                 }, receiveValue: { uploadedResult in
+                    print("uploadedResult" , uploadedResult);
                     // Upon successful upload, retrieve the uploaded file URL
                     let uploadedFileURL = uploadedResult.uploadedFileURL
+                    let transcriptionURL = uploadedResult.transcriptionURL
                     let metadataDict = uploadedResult.metadata
                     let tags = uploadedResult.tags
-                    let transcriptionURL = uploadedResult.transcriptionURL
                     let transcriptionLength = uploadedResult.transcriptionLength
                     let id = request.id.uuidString
-                  print("uploadedResult: ", uploadedResult)
-                    
+    
+                    // ✅ Convert metadata and tags into JSON-safe dictionaries
+                       var metadataSafeDict: [String: Any] = [:]
+                       if let metadata = uploadedResult.metadata as? Encodable {
+                           metadataSafeDict = (try? JSONSerialization.jsonObject(with: JSONEncoder().encode(metadata), options: [])) as? [String: Any] ?? [:]
+                       } else {
+                           print("❌ Failed to convert metadata")
+                       }
+
+                    var tagsSafeDict: [String: Any] = [:]
+                     if let tags = uploadedResult.tags as? Encodable {
+                         tagsSafeDict = (try? JSONSerialization.jsonObject(with: JSONEncoder().encode(tags), options: [])) as? [String: Any] ?? [:]
+                     } else {
+                         print("❌ Failed to convert tags")
+                     }
+
+
                     // Send completion event
-                    let mainResponse: [String: Any] = [
+                        let responseDict: [String: Any] = [
                         "id": id, // Generate a unique ID for the event
                         "uploadedFileURL": uploadedFileURL.absoluteString,
-                        "metaData": metadataDict,
-                        "tags": tags,
-                        "transcriptionURL": transcriptionURL,
+                        "metaData": metadataSafeDict,
+                        "tags": tagsSafeDict,
+                        "transcriptionURL": transcriptionURL ?? "",
                         "transcriptionLength": transcriptionLength
                     ]
                     
-                    // resolve
-                    call.resolve(["status": mainResponse])
-                    self.sendEvent(withName: "onComplete", body: mainResponse)
+                    let mainResponse: [String: Any] = [
+                         "id": request.id.uuidString,
+                         "response": responseDict  // ✅ Converted to a Dictionary
+                     ]
+
+                    
+                    // ✅ Ensure JSON serializability
+                      if JSONSerialization.isValidJSONObject(mainResponse) {
+                          call.resolve(mainResponse)
+                          self.sendEvent(withName: "onComplete", body: mainResponse)
+                      } else {
+                          print("❌ JSON Serialization Failed:", mainResponse)
+                          call.reject("JSON_ERROR", "Response is not serializable")
+                      }
                 })
             
             // Store the completion handler in the dispose bag to avoid premature deallocation
