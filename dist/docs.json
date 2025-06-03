@@ -20,12 +20,82 @@
         "docs": "",
         "complexTypes": [],
         "slug": "echo"
+      },
+      {
+        "name": "uploadMedia",
+        "signature": "(options: object) => Promise<{}>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "object"
+          }
+        ],
+        "returns": "Promise<{}>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "uploadmedia"
+      },
+      {
+        "name": "addListener",
+        "signature": "<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: MediaEventMap[K]) => void) => Promise<PluginListenerHandle>",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "K"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(event: MediaEventMap[K]) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "MediaEventMap",
+          "K"
+        ],
+        "slug": "addlistenerk-"
       }
     ],
     "properties": []
   },
-  "interfaces": [],
+  "interfaces": [
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => Promise<void>"
+        }
+      ]
+    }
+  ],
   "enums": [],
-  "typeAliases": [],
+  "typeAliases": [
+    {
+      "name": "MediaEventMap",
+      "slug": "mediaeventmap",
+      "docs": "",
+      "types": [
+        {
+          "text": "{\r\n    onProgress: { id: string; progress: number };\r\n    onComplete: { id: string; response: any };\r\n    onError: { id: string; error: any };\r\n}",
+          "complexTypes": []
+        }
+      ]
+    }
+  ],
   "pluginConfigs": []
 }
