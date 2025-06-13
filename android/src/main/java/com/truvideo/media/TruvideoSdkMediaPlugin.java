@@ -2,7 +2,7 @@ package com.truvideo.media;
 
 import static com.truvideo.sdk.media.TruvideoSdkMedia.TruvideoSdkMedia;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
