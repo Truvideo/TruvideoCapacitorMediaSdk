@@ -85,6 +85,6 @@ addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: M
 
 #### MediaEventMap
 
-<code>{ onProgress: { id: string; progress: number }; onComplete: { id: string; response: any }; onError: { id: string; error: any }; }</code>
+<code>{ onProgress: { id: string; progress: number }; onComplete: { id: string; response: any }; onError: { id: string; error: any }; }</code>
 
 </docgen-api>

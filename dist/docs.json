@@ -91,7 +91,7 @@
       "docs": "",
       "types": [
         {
-          "text": "{\r\n    onProgress: { id: string; progress: number };\r\n    onComplete: { id: string; response: any };\r\n    onError: { id: string; error: any };\r\n}",
+          "text": "{\n    onProgress: { id: string; progress: number };\n    onComplete: { id: string; response: any };\n    onError: { id: string; error: any };\n}",
           "complexTypes": []
         }
       ]
