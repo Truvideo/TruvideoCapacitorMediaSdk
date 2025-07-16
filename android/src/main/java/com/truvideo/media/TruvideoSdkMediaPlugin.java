@@ -365,7 +365,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                     var mainResponse = returnRequest(data);
                     // Upload the file
                     JSObject ret = new JSObject();
-                    ret.put("request",mainResponse);
+                    ret.put("value",mainResponse);
                     call.resolve(ret);
                 }
 
