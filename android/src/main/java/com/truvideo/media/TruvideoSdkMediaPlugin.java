@@ -402,82 +402,70 @@ public class TruvideoSdkMediaPlugin extends Plugin {
     }
 
     private void uploadFile(Context context, PluginCall call) {
-        try {
-            String filePath = call.getString("filePath");
-            String tag = call.getString("tag");
-            String metaData = call.getString("metaData");
-            final TruvideoSdkMediaFileUploadRequestBuilder builder = TruvideoSdkMedia.FileUploadRequestBuilder(filePath);
-            JSONObject jsonTag = new JSONObject(tag);
-            Iterator<String> keys = jsonTag.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                String value = jsonTag.getString(key); // Can be any type: String, Integer, Boolean, etc.
-                builder.addTag(key,value);
-            }
 
-            JSONObject jsonMetadata = new JSONObject(metaData);
-            Iterator<String> metadataKeys = jsonMetadata.keys();
-            while (metadataKeys.hasNext()) {
-                String key = metadataKeys.next();
-                String value = jsonMetadata.getString(key); // Can be any type: String, Integer, Boolean, etc.
-                builder.addMetadata(key, value);
-            }
-
-            builder.build(new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
-                @Override
-                public void onComplete(TruvideoSdkMediaFileUploadRequest data) {
-                    // File upload request created successfully
-                    // Send to upload
-                    data.upload(new TruvideoSdkMediaCallback<Unit>() {
-                                    @Override
-                                    public void onComplete(Unit data) {
-                                        // Upload started successfully
-                                    }
-                                    @Override
-                                    public void onError(@NonNull TruvideoSdkException exception) {
-                                        // Upload started with error
-                                        call.reject("API_FAILURE", "upload", exception);
-                                    }
-                                },
-                            new TruvideoSdkMediaFileUploadCallback() {
-                                @Override
-                                public void onError(@NonNull String id, @NonNull TruvideoSdkException ex) {
-                                    JSObject ret = new JSObject();
-                                    ret.put("id",id);
-                                    ret.put("error",new Gson().toJson(ex));
-                                    //promise.resolve(gson.toJson(mainResponse));
-                                    sendEvent("onError", ret);
-                                }
-
-                                @Override
-                                public void onProgressChanged(@NonNull String id, float progress) {
-                                    JSObject ret = new JSObject();
-                                    ret.put("id",id);
-                                    ret.put("progress",new Gson().toJson(progress * 100));
-                                    sendEvent("onProgress", ret);
-                                }
-                                @Override
-                                public void onComplete(@NonNull String id, @NonNull TruvideoSdkMediaFileUploadRequest response) {
-                                    JSObject ret = new JSObject();
-                                    ret.put("id",id);
-                                    ret.put("response",new Gson().toJson(response));
-                                    call.resolve(ret);
-                                    sendEvent("onComplete", ret);
-                                }
-                            }
-                    );
-                }
-
-                @Override
-                public void onError(@NonNull TruvideoSdkException exception) {
-                    call.reject("API_FAILURE", "TruvideoSdkMediaFileUploadRequest", exception);
-                    // Handle error creating the file upload request
-                }
-            });
-
-        } catch (JSONException e) {
-            call.reject("JSON_ERROR", "Invalid JSON format", e);
+        String id = call.getString("id");
+        if (id == null || id.isEmpty()) {
+            call.reject("ID_MISSING", "Upload ID is required.");
+            return;
         }
+
+        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+            @Override
+            public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
+                request.upload(
+                        new TruvideoSdkMediaCallback<Unit>() {
+                            @Override
+                            public void onComplete(Unit unit) {
+                                // Upload started successfully
+                            }
+
+                            @Override
+                            public void onError(@NonNull TruvideoSdkException exception) {
+                                call.reject("UPLOAD_FAILED", "Upload failed to start", exception);
+                            }
+                        },
+                        new TruvideoSdkMediaFileUploadCallback() {
+                            @Override
+                            public void onError(@NonNull String id, @NonNull TruvideoSdkException ex) {
+                                JSObject ret = new JSObject();
+                                ret.put("id", id);
+                                ret.put("error", new Gson().toJson(ex));
+                                sendEvent("onError", ret);
+                            }
+
+                            @Override
+                            public void onProgressChanged(@NonNull String id, float progress) {
+                                JSObject ret = new JSObject();
+                                ret.put("id", id);
+                                ret.put("progress", progress * 100);
+                                sendEvent("onProgress", ret);
+                            }
+
+                            @Override
+                            public void onComplete(@NonNull String id, @NonNull TruvideoSdkMediaFileUploadRequest response) {
+                                JSObject ret = new JSObject();
+                                ret.put("id", id);
+                                ret.put("createdDate", response.getCreatedAt());
+                                ret.put("remoteId", response.getRemoteId());
+                                ret.put("uploadedFileURL", response.getRemoteUrl());
+                                ret.put("metaData", response.getMetadata().toJson());
+                                ret.put("tags", response.getTags().toJson());
+                                ret.put("transcriptionURL", response.getTranscriptionUrl());
+                                ret.put("transcriptionLength", response.getTranscriptionLength());
+                                ret.put("fileType", response.getType().name());
+
+                                call.resolve(ret);
+                                sendEvent("onComplete", ret);
+                            }
+                        }
+                );
+            }
+
+            @Override
+            public void onError(@NonNull TruvideoSdkException e) {
+                call.reject("SDK_EXCEPTION", "Failed to fetch upload request by ID", e);
+            }
+        });
     }
 
     public void sendEvent(String event, JSObject object) {
