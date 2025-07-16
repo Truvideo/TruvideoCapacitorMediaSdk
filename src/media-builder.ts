@@ -1,12 +1,14 @@
-import { TruvideoSdkMedia } from './index';
+import { TruvideoSdkMedia } from './plugin';
+
+import { PluginListenerHandle } from '@capacitor/core';
 import type {
   UploadCallbacks,
   UploadCompleteEventData,
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
-} from './definitions.ts';
-import { PluginListenerHandle } from '@capacitor/core';
+} from './definitions';
+
 
 export class MediaBuilder {
   private _filePath: string;

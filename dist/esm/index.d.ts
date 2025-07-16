@@ -1,4 +1,3 @@
-import type { TruvideoSdkMediaPlugin } from './definitions';
-declare const TruvideoSdkMedia: TruvideoSdkMediaPlugin;
 export * from './definitions';
-export { TruvideoSdkMedia };
+export * from './media-builder';
+export * from './plugin';
