@@ -22,20 +22,148 @@
         "slug": "echo"
       },
       {
-        "name": "uploadMedia",
-        "signature": "(options: object) => Promise<{}>",
+        "name": "mediaBuilder",
+        "signature": "(options: { filePath: string; tag: string; metaData: string; }) => Promise<{ value: string; }>",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "object"
+            "type": "{ filePath: string; tag: string; metaData: string; }"
           }
         ],
-        "returns": "Promise<{}>",
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "mediabuilder"
+      },
+      {
+        "name": "getFileUploadRequestById",
+        "signature": "(options: { id: string; }) => Promise<string>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<string>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "getfileuploadrequestbyid"
+      },
+      {
+        "name": "getAllFileUploadRequests",
+        "signature": "(options: { status: string; }) => Promise<string>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ status: string; }"
+          }
+        ],
+        "returns": "Promise<string>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "getallfileuploadrequests"
+      },
+      {
+        "name": "cancelMedia",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "cancelmedia"
+      },
+      {
+        "name": "deleteMedia",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "deletemedia"
+      },
+      {
+        "name": "pauseMedia",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "pausemedia"
+      },
+      {
+        "name": "resumeMedia",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "resumemedia"
+      },
+      {
+        "name": "uploadMedia",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
         "slug": "uploadmedia"
+      },
+      {
+        "name": "search",
+        "signature": "(options: { tag: string; type: string; page: string; pageSize: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ tag: string; type: string; page: string; pageSize: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "search"
       },
       {
         "name": "addListener",
@@ -81,6 +209,124 @@
           "type": "() => Promise<void>"
         }
       ]
+    },
+    {
+      "name": "UploadProgressEvent",
+      "slug": "uploadprogressevent",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "progress",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UploadCompleteEventData",
+      "slug": "uploadcompleteeventdata",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "createdDate",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "remoteId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "uploadedFileURL",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "metaData",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "tags",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "transcriptionURL",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "transcriptionLength",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "fileType",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UploadErrorEvent",
+      "slug": "uploaderrorevent",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "error",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "any"
+        }
+      ]
     }
   ],
   "enums": [],
@@ -91,8 +337,12 @@
       "docs": "",
       "types": [
         {
-          "text": "{\n    onProgress: { id: string; progress: number };\n    onComplete: { id: string; response: any };\n    onError: { id: string; error: any };\n}",
-          "complexTypes": []
+          "text": "{\n    onProgress: UploadProgressEvent;\n    onComplete: UploadCompleteEventData;\n    onError: UploadErrorEvent;\n}",
+          "complexTypes": [
+            "UploadProgressEvent",
+            "UploadCompleteEventData",
+            "UploadErrorEvent"
+          ]
         }
       ]
     }

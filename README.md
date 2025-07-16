@@ -14,7 +14,15 @@ npx cap sync
 <docgen-index>
 
 * [`echo(...)`](#echo)
+* [`mediaBuilder(...)`](#mediabuilder)
+* [`getFileUploadRequestById(...)`](#getfileuploadrequestbyid)
+* [`getAllFileUploadRequests(...)`](#getallfileuploadrequests)
+* [`cancelMedia(...)`](#cancelmedia)
+* [`deleteMedia(...)`](#deletemedia)
+* [`pauseMedia(...)`](#pausemedia)
+* [`resumeMedia(...)`](#resumemedia)
 * [`uploadMedia(...)`](#uploadmedia)
+* [`search(...)`](#search)
 * [`addListener(K, ...)`](#addlistenerk-)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -39,17 +47,137 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 --------------------
 
 
+### mediaBuilder(...)
+
+```typescript
+mediaBuilder(options: { filePath: string; tag: string; metaData: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code>{ filePath: string; tag: string; metaData: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### getFileUploadRequestById(...)
+
+```typescript
+getFileUploadRequestById(options: { id: string; }) => Promise<string>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+--------------------
+
+
+### getAllFileUploadRequests(...)
+
+```typescript
+getAllFileUploadRequests(options: { status: string; }) => Promise<string>
+```
+
+| Param         | Type                             |
+| ------------- | -------------------------------- |
+| **`options`** | <code>{ status: string; }</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+--------------------
+
+
+### cancelMedia(...)
+
+```typescript
+cancelMedia(options: { id: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### deleteMedia(...)
+
+```typescript
+deleteMedia(options: { id: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### pauseMedia(...)
+
+```typescript
+pauseMedia(options: { id: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### resumeMedia(...)
+
+```typescript
+resumeMedia(options: { id: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
 ### uploadMedia(...)
 
 ```typescript
-uploadMedia(options: object) => Promise<{}>
+uploadMedia(options: { id: string; }) => Promise<{ value: string; }>
 ```
 
-| Param         | Type                |
-| ------------- | ------------------- |
-| **`options`** | <code>object</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;{}&gt;</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### search(...)
+
+```typescript
+search(options: { tag: string; type: string; page: string; pageSize: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code>{ tag: string; type: string; page: string; pageSize: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
@@ -80,11 +208,42 @@ addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: M
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
+#### UploadProgressEvent
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`id`**       | <code>string</code> |
+| **`progress`** | <code>string</code> |
+
+
+#### UploadCompleteEventData
+
+| Prop                      | Type                |
+| ------------------------- | ------------------- |
+| **`id`**                  | <code>string</code> |
+| **`createdDate`**         | <code>string</code> |
+| **`remoteId`**            | <code>string</code> |
+| **`uploadedFileURL`**     | <code>string</code> |
+| **`metaData`**            | <code>any</code>    |
+| **`tags`**                | <code>any</code>    |
+| **`transcriptionURL`**    | <code>string</code> |
+| **`transcriptionLength`** | <code>number</code> |
+| **`fileType`**            | <code>string</code> |
+
+
+#### UploadErrorEvent
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`id`**    | <code>string</code> |
+| **`error`** | <code>any</code>    |
+
+
 ### Type Aliases
 
 
 #### MediaEventMap
 
-<code>{ onProgress: { id: string; progress: number }; onComplete: { id: string; response: any }; onError: { id: string; error: any }; }</code>
+<code>{ onProgress: <a href="#uploadprogressevent">UploadProgressEvent</a>; onComplete: <a href="#uploadcompleteeventdata">UploadCompleteEventData</a>; onError: <a href="#uploaderrorevent">UploadErrorEvent</a>; }</code>
 
 </docgen-api>

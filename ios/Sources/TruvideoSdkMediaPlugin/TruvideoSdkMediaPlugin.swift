@@ -25,6 +25,57 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         ])
     }
     
+    @objc public func mediaBuilder(_ call: CAPPluginCall) {
+        let filePath = call.getString("filePath") ?? ""
+        let tag = call.getString("tag") ?? ""
+        let metaData = call.getString("metaData") ?? ""
+        
+        guard let fileURL = URL(string: "file://\(filePath)") else {
+            call.reject("INVALID_URL", "The file URL is invalid", nil)
+            return
+        }
+
+        do {
+            let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
+          var request = try builder.build()
+          
+          let mainResponse: [String: String] = [
+            "id": request.id.uuidString, // Generate a unique ID for the event
+            "filePath": request.filePath,
+            "fileType": request.fileType.rawValue,
+            "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+            "remoteId" : request.remoteId ?? "",
+            "remoteURL" : request.remoteURL?.absoluteString ?? "",
+            "transcriptionURL" : request.transcriptionURL ?? "",
+            "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+            "status" : "\(request.status.rawValue)",
+            "progress" : "\(request.uploadProgress)"
+          ]
+          let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
+
+            
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    print("mainResponse as JSON string: \(jsonString)")
+                    //call.resolve(jsonString) // Or wherever you need to use this JSON string
+                let response: [String: String] = [
+                  "response": jsonString,
+                ]
+                if JSONSerialization.isValidJSONObject(response) {
+                    call.resolve(response)
+                } else {
+                    call.reject("JSON_ERROR", "Response is not serializable")
+                }
+            } else {
+                print("Error: Could not convert JSON data to string.")
+                call.reject("UPLOAD_ERROR", "Upload failed")
+                    // Handle error: e.g., reject(error)
+            }
+            //try executeUploadRequest(builder: builder, resolve: resolve, reject: reject)
+        } catch {
+            call.reject("UPLOAD_ERROR", "Upload failed", error)
+        }
+    }
+    
     
     
     @objc public func uploadMedia(_ call: CAPPluginCall) {
@@ -54,22 +105,22 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
         
-        private func createFileUploadRequestBuilder(fileURL: URL, tag: String, metaData: String) throws -> TruvideoSdkMedia.FileUploadRequestBuilder {
-            let builder = TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
-            
-            // Convert tag JSON string to dictionary
-            let tagDict = try convertToDictionary(from: tag)
-            for (key, value) in tagDict {
-                builder.addTag(key, value)
-            }
-            
-            // Convert metadata JSON string to Metadata type
-//            let metadataObj = try convertToDictionary(from: metaData)
-            for (key, value) in tagDict {
-                builder.addMetadata(key, value)
-            }
-            return builder
+    private func createFileUploadRequestBuilder(fileURL: URL, tag: String, metaData: String) throws -> TruvideoSdkMedia.FileUploadRequestBuilder {
+        let builder = TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
+        
+        // Convert tag JSON string to dictionary
+        let tagDict = try convertToDictionary(from: tag)
+        for (key, value) in tagDict {
+            builder.addTag(key, "\(value)")
         }
+      
+        // Convert metadata JSON string to Metadata type
+        let metadataObj = try convertToDictionary(from: metaData)
+        for (key, value) in metadataObj {
+            builder.addMetadata(key, "\(value)")
+        }
+        return builder
+    }
         
         private func executeUploadRequest(builder: TruvideoSdkMedia.FileUploadRequestBuilder,_ call: CAPPluginCall) throws {
             let request = try builder.build()
@@ -232,6 +283,186 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
       //  }
         
         // Function to send events to React Native
+    
+    
+    @objc public func getFileUploadRequestById(_ call : CAPPluginCall){
+        let id = call.getString("id") ?? ""
+      do {
+        let request =  try TruvideoSdkMedia.getFileUploadRequest(withId : id)
+        let mainResponse: [String: String] = [
+          "id": request.id.uuidString, // Generate a unique ID for the event
+          "filePath": request.filePath,
+          "fileType": request.fileType.rawValue,
+          "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+          "remoteId" : request.remoteId ?? "",
+          "remoteURL" : request.remoteURL?.absoluteString ?? "",
+          "transcriptionURL" : request.transcriptionURL ?? "",
+          "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+          "status" : "\(request.status.rawValue)",
+          "progress" : "\(request.uploadProgress)"
+        ]
+        let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
+
+          if let jsonString = String(data: jsonData, encoding: .utf8) {
+                  print("mainResponse as JSON string: \(jsonString)")
+              let response: [String: String] = [
+                "request": jsonString,
+              ]
+              if JSONSerialization.isValidJSONObject(response) {
+                  call.resolve(response)
+              } else {
+                  call.reject("JSON_ERROR", "Response is not serializable")
+              }// Or wherever you need to use this JSON string
+            } else {
+                print("Error: Could not convert JSON data to string.")
+                  // Handle error: e.g., reject(error)
+            }
+          //try executeUploadRequest(builder: builder, resolve: resolve, reject: reject)
+      } catch {
+          let response: [String: String] = [
+            "request": "{}",
+          ]
+          if JSONSerialization.isValidJSONObject(response) {
+              call.resolve(response)
+          } else {
+              call.reject("JSON_ERROR", "Response is not serializable")
+          }
+      }
+      
+      //TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
+    }
+    @objc public func cancelMedia(_ call : CAPPluginCall){
+        let id  = call.getString("id") ?? ""
+      let request = try? TruvideoSdkMedia.getFileUploadRequest(withId : id)
+      try? request?.cancel()
+        let response: [String: String] = [
+          "message": "Cancel Success",
+        ]
+        if JSONSerialization.isValidJSONObject(response) {
+            call.resolve(response)
+        } else {
+            call.reject("JSON_ERROR", "Response is not serializable")
+        }
+    }
+    
+    @objc public func deleteMedia(_ call : CAPPluginCall){
+        let id  = call.getString("id") ?? ""
+      let request = try? TruvideoSdkMedia.getFileUploadRequest(withId : id)
+      try? request?.delete()
+        let response: [String: String] = [
+          "message": "Delete Success",
+        ]
+        if JSONSerialization.isValidJSONObject(response) {
+            call.resolve(response)
+        } else {
+            call.reject("JSON_ERROR", "Response is not serializable")
+        }
+    }
+    
+    @objc public func pauseMedia(_ call : CAPPluginCall){
+        let id  = call.getString("id") ?? ""
+      let request = try? TruvideoSdkMedia.getFileUploadRequest(withId : id)
+      try? request?.pause()
+        let response: [String: String] = [
+          "message": "Pause Success",
+        ]
+        if JSONSerialization.isValidJSONObject(response) {
+            call.resolve(response)
+        } else {
+            call.reject("JSON_ERROR", "Response is not serializable")
+        }
+    }
+    
+    @objc public func resumeMedia(_ call : CAPPluginCall){
+        let id  = call.getString("id") ?? ""
+      let request = try? TruvideoSdkMedia.getFileUploadRequest(withId : id)
+      try? request?.resume()
+        let response: [String: String] = [
+          "message": "Resume Success",
+        ]
+        if JSONSerialization.isValidJSONObject(response) {
+            call.resolve(response)
+        } else {
+            call.reject("JSON_ERROR", "Response is not serializable")
+        }
+    }
+    
+    @objc public func search(_ call : CAPPluginCall){
+        let tag = call.getString("tag") ?? ""
+        let type = call.getString("type") ?? ""
+        let page = call.getString("page") ?? ""
+        let pageSize = call.getString("pageSize") ?? ""
+      let tagDict = try? convertToDictionary(from: tag)
+      var tagBuild = TruvideoSdkMediaTags.builder()
+      for (key, value) in tagDict! {
+        tagBuild.set(key, "\(value)")
+      }
+      Task{
+        let request = try? await TruvideoSdkMedia.search(type: nil, tags: tagBuild.build(), pageNumber: Int(page) ?? 0, size: Int(pageSize) ?? 0)
+        var mediaList: [TruvideoSDKMedia]? = request?.content
+        if(mediaList == nil){
+            let response: [String: String] = [
+              "response": "[]",
+            ]
+            if JSONSerialization.isValidJSONObject(response) {
+                call.resolve(response)
+            } else {
+                call.reject("JSON_ERROR", "Response is not serializable")
+            }
+        }else{
+          var list = [String]()
+          let dateFormatter = ISO8601DateFormatter()
+          for media in mediaList! {
+            let tagJsonData = try JSONSerialization.data(withJSONObject: media.tags.dictionary, options: [])
+            if let tagJsonString = String(data: tagJsonData, encoding: .utf8) {
+              let mediaDict: [String: String] = [
+                "id": media.remoteId,
+                "createdDate":dateFormatter.string(from: media.createdDate),
+                "remoteId": media.remoteId,
+                "uploadedFileURL": media.uploadedFileURL.absoluteString,
+                "metaData": try self.convertToJsonString(from : media.metadata.dictionary),  // must return [String: Any]
+                "tags": tagJsonString,          // must return [String: Any]
+                "transcriptionURL": media.transcriptionURL?.absoluteString ?? "",
+                "transcriptionLength": "\(media.transcriptionLength)",
+                "fileType": media.type.rawValue
+              ]
+              let jsonData = try JSONSerialization.data(withJSONObject: mediaDict, options: [])
+              if let jsonString = String(data: jsonData, encoding: .utf8) {
+                list.append(jsonString)
+              }
+            }
+          }
+          let jsonData = try JSONSerialization.data(withJSONObject: list, options: [])
+          if let jsonString = String(data: jsonData, encoding: .utf8) {
+              let response: [String: String] = [
+                "response": jsonString,
+              ]
+              if JSONSerialization.isValidJSONObject(response) {
+                  call.resolve(response)
+              } else {
+                  call.reject("JSON_ERROR", "Response is not serializable")
+              }
+          }else{
+              call.reject("ERROR","JSON_ERROR",nil)
+          }
+          
+        }
+        
+        
+      }
+      //try? request?.resume()
+    }
+    
+    private func convertToJsonString(from dictionary: [String: Any]) throws -> String {
+        let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+        
+        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+            throw NSError(domain: "Unable to encode JSON string", code: 2, userInfo: nil)
+        }
+        
+        return jsonString
+    }
+    
         private func sendEvent(withName name: String, body: [String: Any]) {
 //            guard let bridge = RCTBridge.current() else { return }
 //            bridge.eventDispatcher().sendAppEvent(withName: name, body: body)
