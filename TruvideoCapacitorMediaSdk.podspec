@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '14.0'
   s.dependency 'Capacitor'
   s.swift_version = '5.1'
-   s.vendored_frameworks = ['Xcframework/TruvideoSdk.xcframework','Xcframework/AWSS3.xcframework', 'Xcframework/AWSCore.xcframework','Xcframework/AWSCognitoIdentityProvider.xcframework', 'Xcframework/AWSCognitoIdentityProviderASF.xcframework']
+  s.dependency 'truvideo-sdk-media'
 end
