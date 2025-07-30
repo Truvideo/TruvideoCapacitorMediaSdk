@@ -1,10 +1,5 @@
-'use strict';
-
-var core = require('@capacitor/core');
-
-const TruvideoSdkMedia = core.registerPlugin('TruvideoSdkMedia');
-
-class MediaBuilder {
+import { TruvideoSdkMedia } from './plugin';
+export class MediaBuilder {
     constructor(filePath) {
         this._metaData = new Map();
         this._tag = new Map();
@@ -122,7 +117,4 @@ class MediaBuilder {
         this.currentUploadId = undefined;
     }
 }
-
-exports.MediaBuilder = MediaBuilder;
-exports.TruvideoSdkMedia = TruvideoSdkMedia;
-//# sourceMappingURL=plugin.cjs.js.map
+//# sourceMappingURL=media-builder.js.map

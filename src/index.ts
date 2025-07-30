@@ -1,8 +1,3 @@
-import { registerPlugin } from '@capacitor/core';
-
-import type { TruvideoSdkMediaPlugin } from './definitions';
-
-const TruvideoSdkMedia = registerPlugin<TruvideoSdkMediaPlugin>('TruvideoSdkMedia');
-
 export * from './definitions';
-export { TruvideoSdkMedia };
+export * from './media-builder';
+export * from './plugin'; // this will export TruvideoSdkMedia

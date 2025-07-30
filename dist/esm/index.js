@@ -1,5 +1,4 @@
-import { registerPlugin } from '@capacitor/core';
-const TruvideoSdkMedia = registerPlugin('TruvideoSdkMedia');
 export * from './definitions';
-export { TruvideoSdkMedia };
+export * from './media-builder';
+export * from './plugin'; // this will export TruvideoSdkMedia
 //# sourceMappingURL=index.js.map
