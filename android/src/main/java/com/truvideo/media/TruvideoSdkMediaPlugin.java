@@ -386,6 +386,10 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("id", request.getId());
         map.put("filePath", request.getFilePath());
         map.put("fileType", request.getType());
+        map.put("createdAt", request.getCreatedAt());
+        map.put("updateAt",request.getUpdatedAt());
+        map.put("tags" , request.getTags());
+        map.put("metadata", request.getMetadata());
         map.put("durationMilliseconds", request.getDurationMilliseconds());
         map.put("remoteId", request.getRemoteId());
         map.put("remoteURL", request.getRemoteUrl());

@@ -46,19 +46,50 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
             var request = try builder.build()
+            let dateFormatter = DateFormatter()
+          var tagString = ""
+          let tagJsonData = try JSONSerialization.data(withJSONObject: request.tags.dictionary, options: [])
+          if let tagJsonString = String(data: tagJsonData, encoding: .utf8) {
+            tagString = tagJsonString
+          }
+          
+          var metadataString = ""
+          let metadataJsonData = try JSONSerialization.data(withJSONObject: request.metadata.dictionary, options: [])
+          if let metadataJsonString = String(data: metadataJsonData, encoding: .utf8) {
+            metadataString = metadataJsonString
+          }
+          
+          dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss 'GMT'Z yyyy"
+          dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+          let mainResponse: [String: String] = [
+            "id": request.id.uuidString, // Generate a unique ID for the event
+            "filePath": request.filePath,
+            "fileType": request.fileType.rawValue,
+            "createdAt" : dateFormatter.string(from: request.createdAt!),
+            "updatedAt" : dateFormatter.string(from: request.updatedAt!),
+            "tags" : tagString,
+            "metadata" : metadataString,
+            "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+            "remoteId" : request.remoteId ?? "",
+            "remoteURL" : request.remoteURL?.absoluteString ?? "",
+            "transcriptionURL" : request.transcriptionURL ?? "",
+            "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+            "status" : "\(request.status.rawValue)",
+            "progress" : "\(request.uploadProgress)"
+          ]
             
-            let mainResponse: [String: String] = [
-                "id": request.id.uuidString, // Generate a unique ID for the event
-                "filePath": request.filePath,
-                "fileType": request.fileType.rawValue,
-                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
-                "remoteId" : request.remoteId ?? "",
-                "remoteURL" : request.remoteURL?.absoluteString ?? "",
-                "transcriptionURL" : request.transcriptionURL ?? "",
-                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
-                "status" : "\(request.status.rawValue)",
-                "progress" : "\(request.uploadProgress)"
-            ]
+//            let mainResponse: [String: String] = [
+//                "id": request.id.uuidString, // Generate a unique ID for the event
+//                "filePath": request.filePath,
+//                "fileType": request.fileType.rawValue,
+//                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+//                "remoteId" : request.remoteId ?? "",
+//                "remoteURL" : request.remoteURL?.absoluteString ?? "",
+//                "transcriptionURL" : request.transcriptionURL ?? "",
+//                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+//                "status" : "\(request.status.rawValue)",
+//                "progress" : "\(request.uploadProgress)"
+//            ]
             let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
             
             
@@ -368,10 +399,29 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         let id = call.getString("id") ?? ""
         do {
             let request =  try TruvideoSdkMedia.getFileUploadRequest(withId : id)
-            let mainResponse: [String: String] = [
+            let dateFormatter = DateFormatter()
+              var tagString = ""
+              let tagJsonData = try JSONSerialization.data(withJSONObject: request.tags.dictionary, options: [])
+              if let tagJsonString = String(data: tagJsonData, encoding: .utf8) {
+                tagString = tagJsonString
+              }
+              
+              var metadataString = ""
+              let metadataJsonData = try JSONSerialization.data(withJSONObject: request.metadata.dictionary, options: [])
+              if let metadataJsonString = String(data: metadataJsonData, encoding: .utf8) {
+                metadataString = metadataJsonString
+              }
+              
+              dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss 'GMT'Z yyyy"
+              dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+              let mainResponse: [String: String] = [
                 "id": request.id.uuidString, // Generate a unique ID for the event
                 "filePath": request.filePath,
                 "fileType": request.fileType.rawValue,
+                "createdAt" : dateFormatter.string(from: request.createdAt!),
+                "updatedAt" : dateFormatter.string(from: request.updatedAt!),
+                "tags" : tagString,
+                "metadata" : metadataString,
                 "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
                 "remoteId" : request.remoteId ?? "",
                 "remoteURL" : request.remoteURL?.absoluteString ?? "",
@@ -379,7 +429,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
                 "status" : "\(request.status.rawValue)",
                 "progress" : "\(request.uploadProgress)"
-            ]
+              ]
             let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
             
             if let jsonString = String(data: jsonData, encoding: .utf8) {
