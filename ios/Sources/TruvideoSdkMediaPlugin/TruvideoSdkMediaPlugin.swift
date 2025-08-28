@@ -137,9 +137,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                         
                         if let jsonString = String(data: jsonData, encoding: .utf8) {
                             print("mainResponse as JSON string: \(jsonString)")
-                            call.resolve(["value" : jsonString]) // Or wherever you need to use this JSON string
-                            
                             self.sendEvent(withName: "onComplete", body: mainResponse)
+                            call.resolve(["value" : jsonString]) // Or wherever you need to use this JSON string
                         } else {
                             
                             print("Error: Could not convert JSON data to string.")

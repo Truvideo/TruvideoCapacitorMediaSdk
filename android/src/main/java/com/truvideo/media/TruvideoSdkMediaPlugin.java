@@ -431,6 +431,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 ret.put("id", id);
                                 ret.put("error", new Gson().toJson(ex));
                                 sendEvent("onError", ret);
+                                call.reject("UPLOAD_FAILED", "Upload failed to start", ex);
                             }
 
                             @Override
@@ -453,9 +454,8 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 ret.put("transcriptionURL", response.getTranscriptionUrl());
                                 ret.put("transcriptionLength", response.getTranscriptionLength());
                                 ret.put("fileType", response.getType().name());
-
-                                call.resolve(ret);
                                 sendEvent("onComplete", ret);
+                                call.resolve(ret);
                             }
                         }
                 );
