@@ -85,7 +85,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         @Override
                         public void onComplete(List<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequests) {
                             JSObject request = new JSObject();
-                            request.put("requests",new Gson().toJson(truvideoSdkMediaFileUploadRequests));
+                            request.put("requests",returnRequests(truvideoSdkMediaFileUploadRequests));
                             call.resolve(request);
                         }
 
@@ -381,6 +381,31 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         }
     }
 
+    public String returnRequests(List<TruvideoSdkMediaFileUploadRequest> requests) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (TruvideoSdkMediaFileUploadRequest request : requests) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", request.getId());
+            map.put("filePath", request.getFilePath());
+            map.put("fileType", request.getType());
+            map.put("createdAt", request.getCreatedAt());
+            map.put("updateAt",request.getUpdatedAt());
+            map.put("tags" , request.getTags());
+            map.put("metadata", request.getMetadata());
+            map.put("durationMilliseconds", request.getDurationMilliseconds());
+            map.put("remoteId", request.getRemoteId());
+            map.put("remoteURL", request.getRemoteUrl());
+            map.put("transcriptionURL", request.getTranscriptionUrl());
+            map.put("transcriptionLength", request.getTranscriptionLength());
+            map.put("status", request.getStatus());
+            map.put("progress", request.getUploadProgress());
+            list.add(map);
+        }
+
+        return new Gson().toJson(list);
+    }
+
     public String returnRequest(TruvideoSdkMediaFileUploadRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", request.getId());
@@ -395,7 +420,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("remoteURL", request.getRemoteUrl());
         map.put("transcriptionURL", request.getTranscriptionUrl());
         map.put("transcriptionLength", request.getTranscriptionLength());
-        map.put("status", request.getStatus());
+        map.put("status", request.getStatus().name().toLowerCase());
         map.put("progress", request.getUploadProgress());
 
         return new Gson().toJson(map);

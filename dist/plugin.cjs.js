@@ -123,6 +123,60 @@ class MediaBuilder {
     }
 }
 
+async function getFileUploadRequestById(id) {
+    var options = { id: id };
+    var response = await TruvideoSdkMedia.getFileUploadRequestById(options);
+    return parsePluginResponse(response);
+}
+exports.UploadRequestStatus = void 0;
+(function (UploadRequestStatus) {
+    UploadRequestStatus["UPLOADING"] = "UPLOADING";
+    UploadRequestStatus["IDLE"] = "IDLE";
+    UploadRequestStatus["ERROR"] = "ERROR";
+    UploadRequestStatus["PAUSED"] = "PAUSED";
+    UploadRequestStatus["COMPLETED"] = "COMPLETED";
+    UploadRequestStatus["CANCELED"] = "CANCELED";
+    UploadRequestStatus["SYNCHRONIZING"] = "SYNCHRONIZING";
+})(exports.UploadRequestStatus || (exports.UploadRequestStatus = {}));
+async function getAllFileUploadRequests(status) {
+    var option = { status: status || "" };
+    var response = await TruvideoSdkMedia.getAllFileUploadRequests(option);
+    return parsePluginResponse(response);
+}
+var MediaType;
+(function (MediaType) {
+    MediaType["IMAGE"] = "Image";
+    MediaType["VIDEO"] = "Video";
+    MediaType["AUDIO"] = "AUDIO";
+    MediaType["PDF"] = "PDF";
+})(MediaType || (MediaType = {}));
+async function search(tag, page, pageSize, type) {
+    var options = {
+        tag: JSON.stringify(tag),
+        type: type || "",
+        page: page.toString(),
+        pageSize: pageSize.toString()
+    };
+    var response = await TruvideoSdkMedia.search(options);
+    return parsePluginResponse(response);
+}
+function parsePluginResponse(response) {
+    if (!response || typeof response !== 'object') {
+        throw new Error("Plugin response is not an object");
+    }
+    if (!response.result || typeof response.result !== 'string') {
+        throw new Error("Plugin response.result is not a valid string");
+    }
+    try {
+        return JSON.parse(response.result);
+    }
+    catch (e) {
+        throw new Error("Failed to parse plugin response.result: " + e);
+    }
+}
+
 exports.MediaBuilder = MediaBuilder;
-exports.TruvideoSdkMedia = TruvideoSdkMedia;
+exports.getAllFileUploadRequests = getAllFileUploadRequests;
+exports.getFileUploadRequestById = getFileUploadRequestById;
+exports.search = search;
 //# sourceMappingURL=plugin.cjs.js.map

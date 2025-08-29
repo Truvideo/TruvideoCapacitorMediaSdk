@@ -1,4 +1,4 @@
-import type { UploadCallbacks } from './definitions';
+import type { UploadCallbacks } from './helper';
 export declare class MediaBuilder {
     private _filePath;
     private _metaData;

@@ -7,7 +7,8 @@ import type {
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
-} from './definitions';
+} from './helper';
+
 
 
 export class MediaBuilder {
