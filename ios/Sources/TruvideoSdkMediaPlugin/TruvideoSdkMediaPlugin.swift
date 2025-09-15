@@ -45,7 +45,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         
         do {
             let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
-            var request = try builder.build()
+            let request = try builder.build()
             let dateFormatter = DateFormatter()
           var tagString = ""
           let tagJsonData = try JSONSerialization.data(withJSONObject: request.tags.dictionary, options: [])
@@ -197,16 +197,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                     "id": id, // Generate a unique ID for the event
                     "progress": String(format: " %.2f %", progress.percentage * 100)
                 ]
-                do{
-                    let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
-                    if let jsonString = String(data: jsonData, encoding: .utf8) {
-                        self.sendEvent(withName: "onProgress", body: mainResponse)
-                    }else{
-                        // self.sendEvent(withName: "onProgress", body: "Unable to Parse JSON")
-                    }
-                }catch{
-                    // self.sendEvent(withName: "onProgress", body: "Unable to Parse JSON")
-                }
+                self.sendEvent(withName: "onProgress", body: mainResponse)
+                
             })
         
         // Store the progress handler in the dispose bag to avoid premature deallocation
@@ -255,8 +247,6 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 // Upon successful upload, retrieve the uploaded file URL
                 let uploadedFileURL = uploadedResult.uploadedFileURL
                 let transcriptionURL = uploadedResult.transcriptionURL
-                let metadataDict = uploadedResult.metadata
-                let tags = uploadedResult.tags
                 let transcriptionLength = uploadedResult.transcriptionLength
                 let id = request.id.uuidString
                 
@@ -507,11 +497,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                       "updatedAt": request.updatedAt != nil ? dateFormatter.string(from: request.updatedAt!) : "",
                       "tags": tagString,
                       "metadata": metadataString,
-                      "durationMilliseconds": "\(request.durationMilliseconds)",
+                      "durationMilliseconds": "\(String(describing: request.durationMilliseconds))",
                       "remoteId": request.remoteId ?? "",
                       "remoteURL": request.remoteURL?.absoluteString ?? "",
                       "transcriptionURL": request.transcriptionURL ?? "",
-                      "transcriptionLength": "\(request.transcriptionLength)",
+                      "transcriptionLength": "\(String(describing: request.transcriptionLength))",
                       "status": "\(request.status.rawValue)",
                       "progress": "\(request.uploadProgress)"
                   ]
