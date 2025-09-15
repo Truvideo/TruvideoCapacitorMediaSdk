@@ -29,6 +29,7 @@ export interface TruvideoSdkMediaPlugin {
     search(options: {
         tag: string;
         type: string;
+        isLibrary: boolean;
         page: string;
         pageSize: string;
     }): Promise<{ value: string }>;

@@ -607,16 +607,26 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc public func search(_ call : CAPPluginCall){
         let tag = call.getString("tag") ?? ""
         let type = call.getString("type") ?? ""
-        let page = call.getString("page") ?? ""
-        let pageSize = call.getString("pageSize") ?? ""
+        let page = call.getString("page") ?? "0"
+        let pageSize = call.getString("pageSize") ?? "0"
+        let isLibrary = call.getBool("isLibrary") ?? false
         let tagDict = try? convertToDictionary(from: tag)
-        var tagBuild = TruvideoSdkMediaTags.builder()
+        let tagBuild = TruvideoSdkMediaTags.builder()
         for (key, value) in tagDict! {
-            tagBuild.set(key, "\(value)")
+            var set = tagBuild.set(key, "\(value)")
+        }
+        let typeVar : TruvideoSdkMedia.TruvideoSdkMediaType = if(type == "Video"){
+            .video
+        }else if(type == "AUDIO") {
+            .audio
+        }else if (type == "Image"){
+            .image
+        }else {
+            .document
         }
         Task{
-            let request = try? await TruvideoSdkMedia.search(type: nil, tags: tagBuild.build(), pageNumber: Int(page) ?? 0, size: Int(pageSize) ?? 0)
-            var mediaList: [TruvideoSDKMedia]? = request?.content
+            let request = try? await TruvideoSdkMedia.search(type: typeVar, tags: tagBuild.build(),isLibrary: isLibrary, pageNumber: Int(page) ?? 0, size: Int(pageSize) ?? 0)
+            let mediaList: [TruvideoSDKMedia]? = request?.content
             if(mediaList == nil){
                 let response: [String: String] = [
                     "response": "[]",

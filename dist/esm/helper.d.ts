@@ -60,5 +60,5 @@ declare enum MediaType {
     AUDIO = "AUDIO",
     PDF = "PDF"
 }
-export declare function search(tag: Map<string, string>, page: number, pageSize: number, type?: MediaType): Promise<MediaData[]>;
+export declare function search(tag: Map<string, string>, page: number, isLibrary: boolean, pageSize: number, type?: MediaType): Promise<MediaData[]>;
 export {};

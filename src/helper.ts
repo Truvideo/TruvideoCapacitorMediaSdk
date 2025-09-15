@@ -85,6 +85,7 @@ enum MediaType {
 export async function search(
         tag: Map<string,string>,
         page: number,
+        isLibrary : boolean,
         pageSize: number, 
         type?: MediaType,
     ) : Promise<MediaData[]>{
@@ -92,6 +93,7 @@ export async function search(
     var options =  { 
         tag: JSON.stringify(tag),
         type: type  || "",
+        isLibrary: isLibrary,
         page: page.toString(),
         pageSize: pageSize.toString() 
     }

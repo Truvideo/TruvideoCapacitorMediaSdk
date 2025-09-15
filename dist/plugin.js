@@ -149,10 +149,11 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
         MediaType["AUDIO"] = "AUDIO";
         MediaType["PDF"] = "PDF";
     })(MediaType || (MediaType = {}));
-    async function search(tag, page, pageSize, type) {
+    async function search(tag, page, isLibrary, pageSize, type) {
         var options = {
             tag: JSON.stringify(tag),
             type: type || "",
+            isLibrary: isLibrary,
             page: page.toString(),
             pageSize: pageSize.toString()
         };
