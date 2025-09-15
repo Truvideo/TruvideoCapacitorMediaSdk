@@ -38,10 +38,22 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         let tag = call.getString("tag") ?? ""
         let metaData = call.getString("metaData") ?? ""
         
-        guard let fileURL = URL(string: "file://\(filePath)") else {
-            call.reject("INVALID_URL", "The file URL is invalid", nil)
-            return
+//        guard let fileURL = URL(string: "file://\(filePath)") else {
+//            call.reject("INVALID_URL", "The file URL is invalid", nil)
+//            return
+//        }
+        
+        let fileURL: URL
+        if filePath.hasPrefix("file://") {
+            guard let url = URL(string: filePath) else {
+                call.reject("INVALID_URL", "The file URL is invalid", nil)
+                return
+            }
+            fileURL = url
+        } else {
+            fileURL = URL(fileURLWithPath: filePath)
         }
+
         
         do {
             let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
