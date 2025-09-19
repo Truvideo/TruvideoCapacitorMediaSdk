@@ -37,6 +37,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         let filePath = call.getString("filePath") ?? ""
         let tag = call.getString("tag") ?? ""
         let metaData = call.getString("metaData") ?? ""
+        let isLibrary = call.getBool("isLibrary") ?? false
         
 //        guard let fileURL = URL(string: "file://\(filePath)") else {
 //            call.reject("INVALID_URL", "The file URL is invalid", nil)
@@ -56,7 +57,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
 
         
         do {
-            let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
+            let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData,isLibrary : isLibrary)
+            
             let request = try builder.build()
             let dateFormatter = DateFormatter()
           var tagString = ""
@@ -219,8 +221,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         try? request?.upload()
     }
     
-    private func createFileUploadRequestBuilder(fileURL: URL, tag: String, metaData: String) throws -> TruvideoSdkMedia.FileUploadRequestBuilder {
-        let builder = TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
+    private func createFileUploadRequestBuilder(fileURL: URL, tag: String, metaData: String,isLibrary : Bool) throws -> TruvideoSdkMedia.FileUploadRequestBuilder {
+        let builder = TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL,isLibrary: isLibrary)
         
         // Convert tag JSON string to dictionary
         let tagDict = try convertToDictionary(from: tag)
@@ -233,6 +235,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         for (key, value) in metadataObj {
             builder.addMetadata(key, "\(value)")
         }
+        
         return builder
     }
     
@@ -615,7 +618,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         let tagDict = try? convertToDictionary(from: tag)
         let tagBuild = TruvideoSdkMediaTags.builder()
         for (key, value) in tagDict! {
-            var set = tagBuild.set(key, "\(value)")
+            var _ = tagBuild.set(key, "\(value)")
         }
         let typeVar : TruvideoSdkMedia.TruvideoSdkMediaType = if(type == "Video"){
             .video

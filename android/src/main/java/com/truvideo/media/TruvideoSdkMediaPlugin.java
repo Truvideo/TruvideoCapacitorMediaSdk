@@ -333,6 +333,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             String filePath = call.getString("filePath");
             String tag = call.getString("tag");
             String metaData = call.getString("metaData");
+            Boolean isLibrary = call.getBoolean("isLibrary",false);
             final TruvideoSdkMediaFileUploadRequestBuilder builder = TruvideoSdkMedia.FileUploadRequestBuilder(filePath);
             JSONObject jsonTag = new JSONObject(tag);
             Iterator<String> keys = jsonTag.keys();
@@ -349,6 +350,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                 String value = jsonMetadata.getString(key); // Can be any type: String, Integer, Boolean, etc.
                 builder.addMetadata(key, value);
             }
+            builder.setIsLibrary(isLibrary);
             // Build the request
             builder.build(new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
                 @Override

@@ -9,10 +9,15 @@ class MediaBuilder {
         this._metaData = new Map();
         this._tag = new Map();
         this.listeners = [];
+        this.isLibrary = false;
         if (!filePath) {
             throw new Error('filePath is required for MediaBuilder.');
         }
         this._filePath = filePath;
+    }
+    setIsLibrary(isLibrary) {
+        this.isLibrary = isLibrary;
+        return this;
     }
     setTag(key, value) {
         this._tag.set(key, value);
@@ -58,6 +63,7 @@ class MediaBuilder {
             filePath: this._filePath,
             tag,
             metaData,
+            isLibrary: this.isLibrary,
         });
         this.mediaDetail = JSON.parse(response.value);
         return this;

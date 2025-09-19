@@ -10,6 +10,7 @@ export interface TruvideoSdkMediaPlugin {
         filePath: string;
         tag: string;
         metaData: string;
+        isLibrary: boolean;
     }): Promise<{ value: string }>;
 
     getFileUploadRequestById(options: { id: string }): Promise<string>;

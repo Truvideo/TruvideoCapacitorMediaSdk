@@ -6,6 +6,8 @@ export declare class MediaBuilder {
     private mediaDetail;
     private listeners;
     private currentUploadId;
+    private isLibrary;
+    setIsLibrary(isLibrary: boolean): MediaBuilder;
     constructor(filePath: string);
     setTag(key: string, value: string): MediaBuilder;
     getTag(): Map<string, string>;

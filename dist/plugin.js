@@ -8,10 +8,15 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
             this._metaData = new Map();
             this._tag = new Map();
             this.listeners = [];
+            this.isLibrary = false;
             if (!filePath) {
                 throw new Error('filePath is required for MediaBuilder.');
             }
             this._filePath = filePath;
+        }
+        setIsLibrary(isLibrary) {
+            this.isLibrary = isLibrary;
+            return this;
         }
         setTag(key, value) {
             this._tag.set(key, value);
@@ -57,6 +62,7 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
                 filePath: this._filePath,
                 tag,
                 metaData,
+                isLibrary: this.isLibrary,
             });
             this.mediaDetail = JSON.parse(response.value);
             return this;
