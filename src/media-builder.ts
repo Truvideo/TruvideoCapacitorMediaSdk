@@ -7,7 +7,8 @@ import type {
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
-} from './definitions';
+} from './helper';
+
 
 
 export class MediaBuilder {
@@ -17,7 +18,12 @@ export class MediaBuilder {
   private mediaDetail: MediaData | undefined;
   private listeners: PluginListenerHandle[] = [];
   private currentUploadId: string | undefined;
+  private isLibrary: boolean = false;
 
+  setIsLibrary(isLibrary: boolean): MediaBuilder { 
+    this.isLibrary = isLibrary; 
+    return this; 
+  }
   constructor(filePath: string) {
     if (!filePath) {
       throw new Error('filePath is required for MediaBuilder.');
@@ -79,6 +85,7 @@ export class MediaBuilder {
       filePath: this._filePath,
       tag,
       metaData,
+      isLibrary : this.isLibrary,
     });
 
     this.mediaDetail = JSON.parse(response.value);

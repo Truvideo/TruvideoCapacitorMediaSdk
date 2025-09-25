@@ -23,12 +23,12 @@
       },
       {
         "name": "mediaBuilder",
-        "signature": "(options: { filePath: string; tag: string; metaData: string; }) => Promise<{ value: string; }>",
+        "signature": "(options: { filePath: string; tag: string; metaData: string; isLibrary: boolean; }) => Promise<{ value: string; }>",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "{ filePath: string; tag: string; metaData: string; }"
+            "type": "{ filePath: string; tag: string; metaData: string; isLibrary: boolean; }"
           }
         ],
         "returns": "Promise<{ value: string; }>",
@@ -151,12 +151,12 @@
       },
       {
         "name": "search",
-        "signature": "(options: { tag: string; type: string; page: string; pageSize: string; }) => Promise<{ value: string; }>",
+        "signature": "(options: { tag: string; type: string; isLibrary: boolean; page: string; pageSize: string; }) => Promise<{ value: string; }>",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "{ tag: string; type: string; page: string; pageSize: string; }"
+            "type": "{ tag: string; type: string; isLibrary: boolean; page: string; pageSize: string; }"
           }
         ],
         "returns": "Promise<{ value: string; }>",

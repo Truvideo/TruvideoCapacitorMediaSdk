@@ -50,12 +50,12 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 ### mediaBuilder(...)
 
 ```typescript
-mediaBuilder(options: { filePath: string; tag: string; metaData: string; }) => Promise<{ value: string; }>
+mediaBuilder(options: { filePath: string; tag: string; metaData: string; isLibrary: boolean; }) => Promise<{ value: string; }>
 ```
 
-| Param         | Type                                                              |
-| ------------- | ----------------------------------------------------------------- |
-| **`options`** | <code>{ filePath: string; tag: string; metaData: string; }</code> |
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ filePath: string; tag: string; metaData: string; isLibrary: boolean; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
@@ -170,12 +170,12 @@ uploadMedia(options: { id: string; }) => Promise<{ value: string; }>
 ### search(...)
 
 ```typescript
-search(options: { tag: string; type: string; page: string; pageSize: string; }) => Promise<{ value: string; }>
+search(options: { tag: string; type: string; isLibrary: boolean; page: string; pageSize: string; }) => Promise<{ value: string; }>
 ```
 
-| Param         | Type                                                                        |
-| ------------- | --------------------------------------------------------------------------- |
-| **`options`** | <code>{ tag: string; type: string; page: string; pageSize: string; }</code> |
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ tag: string; type: string; isLibrary: boolean; page: string; pageSize: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
