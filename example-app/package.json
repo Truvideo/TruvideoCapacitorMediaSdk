@@ -13,14 +13,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@capacitor/android": "7.0.0",
     "@capacitor/core": "latest",
+    "truvideo-capacitor-media-sdk": "file:..",
     "@capacitor/ios": "7.0.0",
-    "truvideo-capacitor-media-sdk": "file:.."
+    "@capacitor/android": "7.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
-    "vite": "^7.1.6"
+    "vite": "^5.4.2"
   },
   "author": "",
   "license": "ISC"
