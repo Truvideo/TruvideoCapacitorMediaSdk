@@ -1,2 +1,3 @@
+export * from './definitions';
 export * from './media-builder';
-export * from './helper';
+export * from './plugin';

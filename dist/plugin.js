@@ -8,15 +8,10 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
             this._metaData = new Map();
             this._tag = new Map();
             this.listeners = [];
-            this.isLibrary = false;
             if (!filePath) {
                 throw new Error('filePath is required for MediaBuilder.');
             }
             this._filePath = filePath;
-        }
-        setIsLibrary(isLibrary) {
-            this.isLibrary = isLibrary;
-            return this;
         }
         setTag(key, value) {
             this._tag.set(key, value);
@@ -62,7 +57,6 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
                 filePath: this._filePath,
                 tag,
                 metaData,
-                isLibrary: this.isLibrary,
             });
             this.mediaDetail = JSON.parse(response.value);
             return this;
@@ -128,63 +122,8 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
         }
     }
 
-    async function getFileUploadRequestById(id) {
-        var options = { id: id };
-        var response = await TruvideoSdkMedia.getFileUploadRequestById(options);
-        return parsePluginResponse(response);
-    }
-    exports.UploadRequestStatus = void 0;
-    (function (UploadRequestStatus) {
-        UploadRequestStatus["UPLOADING"] = "UPLOADING";
-        UploadRequestStatus["IDLE"] = "IDLE";
-        UploadRequestStatus["ERROR"] = "ERROR";
-        UploadRequestStatus["PAUSED"] = "PAUSED";
-        UploadRequestStatus["COMPLETED"] = "COMPLETED";
-        UploadRequestStatus["CANCELED"] = "CANCELED";
-        UploadRequestStatus["SYNCHRONIZING"] = "SYNCHRONIZING";
-    })(exports.UploadRequestStatus || (exports.UploadRequestStatus = {}));
-    async function getAllFileUploadRequests(status) {
-        var option = { status: status || "" };
-        var response = await TruvideoSdkMedia.getAllFileUploadRequests(option);
-        return parsePluginResponse(response);
-    }
-    var MediaType;
-    (function (MediaType) {
-        MediaType["IMAGE"] = "Image";
-        MediaType["VIDEO"] = "Video";
-        MediaType["AUDIO"] = "AUDIO";
-        MediaType["PDF"] = "PDF";
-    })(MediaType || (MediaType = {}));
-    async function search(tag, page, isLibrary, pageSize, type) {
-        var options = {
-            tag: JSON.stringify(tag),
-            type: type || "",
-            isLibrary: isLibrary,
-            page: page.toString(),
-            pageSize: pageSize.toString()
-        };
-        var response = await TruvideoSdkMedia.search(options);
-        return parsePluginResponse(response);
-    }
-    function parsePluginResponse(response) {
-        if (!response || typeof response !== 'object') {
-            throw new Error("Plugin response is not an object");
-        }
-        if (!response.result || typeof response.result !== 'string') {
-            throw new Error("Plugin response.result is not a valid string");
-        }
-        try {
-            return JSON.parse(response.result);
-        }
-        catch (e) {
-            throw new Error("Failed to parse plugin response.result: " + e);
-        }
-    }
-
     exports.MediaBuilder = MediaBuilder;
-    exports.getAllFileUploadRequests = getAllFileUploadRequests;
-    exports.getFileUploadRequestById = getFileUploadRequestById;
-    exports.search = search;
+    exports.TruvideoSdkMedia = TruvideoSdkMedia;
 
     return exports;
 
