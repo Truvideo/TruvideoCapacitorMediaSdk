@@ -65,14 +65,14 @@ mediaBuilder(options: { filePath: string; tag: string; metaData: string; }) => P
 ### getFileUploadRequestById(...)
 
 ```typescript
-getFileUploadRequestById(options: { id: string; }) => Promise<string>
+getFileUploadRequestById(options: { id: string; }) => Promise<{ value: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
@@ -80,14 +80,14 @@ getFileUploadRequestById(options: { id: string; }) => Promise<string>
 ### getAllFileUploadRequests(...)
 
 ```typescript
-getAllFileUploadRequests(options: { status: string; }) => Promise<string>
+getAllFileUploadRequests(options: { status: string; }) => Promise<{ value: string; }>
 ```
 
 | Param         | Type                             |
 | ------------- | -------------------------------- |
 | **`options`** | <code>{ status: string; }</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 

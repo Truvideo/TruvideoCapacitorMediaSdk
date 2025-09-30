@@ -4,6 +4,61 @@ var core = require('@capacitor/core');
 
 const TruvideoSdkMedia = core.registerPlugin('TruvideoSdkMedia');
 
+function parsePluginResponse(response, valueName = "result") {
+    if (!response || typeof response !== "object") {
+        throw new Error("Plugin response is not an object");
+    }
+    const rawValue = response[valueName];
+    if (rawValue === undefined || rawValue === null) {
+        throw new Error(`Plugin response.${valueName} is missing`);
+    }
+    // If it's already an object or boolean/number, return directly
+    if (typeof rawValue === "object" || typeof rawValue === "boolean" || typeof rawValue === "number") {
+        return rawValue;
+    }
+    if (typeof rawValue !== "string") {
+        throw new Error(`Plugin response.${valueName} is not a valid string`);
+    }
+    try {
+        return JSON.parse(rawValue);
+    }
+    catch (_a) {
+        // If parsing fails, return the raw string
+        return rawValue;
+    }
+}
+function addListener(eventName, listenerFunc) {
+    return TruvideoSdkMedia.addListener(eventName, listenerFunc);
+}
+exports.UploadRequestStatus = void 0;
+(function (UploadRequestStatus) {
+    UploadRequestStatus["UPLOADING"] = "UPLOADING";
+    UploadRequestStatus["IDLE"] = "IDLE";
+    UploadRequestStatus["ERROR"] = "ERROR";
+    UploadRequestStatus["PAUSED"] = "PAUSED";
+    UploadRequestStatus["COMPLETED"] = "COMPLETED";
+    UploadRequestStatus["CANCELED"] = "CANCELED";
+    UploadRequestStatus["SYNCHRONIZING"] = "SYNCHRONIZING";
+})(exports.UploadRequestStatus || (exports.UploadRequestStatus = {}));
+exports.MediaType = void 0;
+(function (MediaType) {
+    MediaType["IMAGE"] = "Image";
+    MediaType["VIDEO"] = "Video";
+    MediaType["AUDIO"] = "AUDIO";
+    MediaType["PDF"] = "PDF";
+})(exports.MediaType || (exports.MediaType = {}));
+async function getAllFileUploadRequests(status) {
+    let response = await TruvideoSdkMedia.getAllFileUploadRequests({ status: status || '' });
+    return parsePluginResponse(response, "requests");
+}
+async function getFileUploadRequestById(id) {
+    let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
+    return parsePluginResponse(response, "request");
+}
+async function search(tag, page, pageSize, type) {
+    let response = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
+    return parsePluginResponse(response, "response");
+}
 class MediaBuilder {
     constructor(filePath) {
         this._metaData = new Map();
@@ -125,4 +180,8 @@ class MediaBuilder {
 
 exports.MediaBuilder = MediaBuilder;
 exports.TruvideoSdkMedia = TruvideoSdkMedia;
+exports.addListener = addListener;
+exports.getAllFileUploadRequests = getAllFileUploadRequests;
+exports.getFileUploadRequestById = getFileUploadRequestById;
+exports.search = search;
 //# sourceMappingURL=plugin.cjs.js.map

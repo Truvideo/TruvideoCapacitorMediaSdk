@@ -1,4 +1,59 @@
 import { TruvideoSdkMedia } from './plugin';
+function parsePluginResponse(response, valueName = "result") {
+    if (!response || typeof response !== "object") {
+        throw new Error("Plugin response is not an object");
+    }
+    const rawValue = response[valueName];
+    if (rawValue === undefined || rawValue === null) {
+        throw new Error(`Plugin response.${valueName} is missing`);
+    }
+    // If it's already an object or boolean/number, return directly
+    if (typeof rawValue === "object" || typeof rawValue === "boolean" || typeof rawValue === "number") {
+        return rawValue;
+    }
+    if (typeof rawValue !== "string") {
+        throw new Error(`Plugin response.${valueName} is not a valid string`);
+    }
+    try {
+        return JSON.parse(rawValue);
+    }
+    catch (_a) {
+        // If parsing fails, return the raw string
+        return rawValue;
+    }
+}
+export function addListener(eventName, listenerFunc) {
+    return TruvideoSdkMedia.addListener(eventName, listenerFunc);
+}
+export var UploadRequestStatus;
+(function (UploadRequestStatus) {
+    UploadRequestStatus["UPLOADING"] = "UPLOADING";
+    UploadRequestStatus["IDLE"] = "IDLE";
+    UploadRequestStatus["ERROR"] = "ERROR";
+    UploadRequestStatus["PAUSED"] = "PAUSED";
+    UploadRequestStatus["COMPLETED"] = "COMPLETED";
+    UploadRequestStatus["CANCELED"] = "CANCELED";
+    UploadRequestStatus["SYNCHRONIZING"] = "SYNCHRONIZING";
+})(UploadRequestStatus || (UploadRequestStatus = {}));
+export var MediaType;
+(function (MediaType) {
+    MediaType["IMAGE"] = "Image";
+    MediaType["VIDEO"] = "Video";
+    MediaType["AUDIO"] = "AUDIO";
+    MediaType["PDF"] = "PDF";
+})(MediaType || (MediaType = {}));
+export async function getAllFileUploadRequests(status) {
+    let response = await TruvideoSdkMedia.getAllFileUploadRequests({ status: status || '' });
+    return parsePluginResponse(response, "requests");
+}
+export async function getFileUploadRequestById(id) {
+    let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
+    return parsePluginResponse(response, "request");
+}
+export async function search(tag, page, pageSize, type) {
+    let response = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
+    return parsePluginResponse(response, "response");
+}
 export class MediaBuilder {
     constructor(filePath) {
         this._metaData = new Map();

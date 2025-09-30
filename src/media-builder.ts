@@ -7,7 +7,72 @@ import type {
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
-} from './definitions';
+  MediaEventMap
+} from './index';
+
+function parsePluginResponse<T>(response: any, valueName: string = "result"): T {
+    if (!response || typeof response !== "object") {
+        throw new Error("Plugin response is not an object");
+    }
+
+    const rawValue = response[valueName];
+
+    if (rawValue === undefined || rawValue === null) {
+        throw new Error(`Plugin response.${valueName} is missing`);
+    }
+
+    // If it's already an object or boolean/number, return directly
+    if (typeof rawValue === "object" || typeof rawValue === "boolean" || typeof rawValue === "number") {
+        return rawValue as T;
+    }
+
+    if (typeof rawValue !== "string") {
+        throw new Error(`Plugin response.${valueName} is not a valid string`);
+    }
+
+    try {
+        return JSON.parse(rawValue) as T;
+    } catch {
+        // If parsing fails, return the raw string
+        return rawValue as unknown as T;
+    }
+}
+
+export function addListener<K extends keyof MediaEventMap>( eventName: K,listenerFunc: (event: MediaEventMap[K]) => void): Promise<PluginListenerHandle>{
+  return TruvideoSdkMedia.addListener(eventName, listenerFunc);
+}
+
+
+export enum UploadRequestStatus {
+  UPLOADING ="UPLOADING",
+  IDLE ="IDLE",
+  ERROR ="ERROR",
+  PAUSED ="PAUSED",
+  COMPLETED ="COMPLETED",
+  CANCELED ="CANCELED",
+  SYNCHRONIZING ="SYNCHRONIZING",
+}
+export enum MediaType {
+  IMAGE ="Image",
+  VIDEO ="Video",
+  AUDIO ="AUDIO",
+  PDF ="PDF",
+  
+}
+export async function getAllFileUploadRequests(status?: UploadRequestStatus): Promise<MediaData[]> {
+  let response = await TruvideoSdkMedia.getAllFileUploadRequests({ status : status || ''});
+  return parsePluginResponse<MediaData[]>(response,"requests");
+}
+
+export async function getFileUploadRequestById(id : string): Promise<MediaData> {
+  let response = await TruvideoSdkMedia.getFileUploadRequestById({ id : id || ''});
+  return parsePluginResponse<MediaData>(response,"request");
+}
+
+export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType): Promise<UploadCompleteEventData[]> {
+  let response = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
+  return parsePluginResponse<UploadCompleteEventData[]>(response,"response");
+}
 
 
 export class MediaBuilder {

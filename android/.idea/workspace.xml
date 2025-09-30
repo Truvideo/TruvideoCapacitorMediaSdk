@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="7f1c632d-3bd1-4ed4-8ede-55cbe3609f21" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/truvideo/media/TruvideoSdkMediaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/truvideo/media/TruvideoSdkMediaPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../example-app/src/js/example.js" beforeDir="false" afterPath="$PROJECT_DIR$/../example-app/src/js/example.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/media-builder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/media-builder.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,10 +58,11 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
-    "git-widget-placeholder": "dev-himanshu",
+    "git-widget-placeholder": "version-78",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/TruVideo/TruVideoCapacitorMediaSDK/android"
   }

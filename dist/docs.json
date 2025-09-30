@@ -39,7 +39,7 @@
       },
       {
         "name": "getFileUploadRequestById",
-        "signature": "(options: { id: string; }) => Promise<string>",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -47,7 +47,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<string>",
+        "returns": "Promise<{ value: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -55,7 +55,7 @@
       },
       {
         "name": "getAllFileUploadRequests",
-        "signature": "(options: { status: string; }) => Promise<string>",
+        "signature": "(options: { status: string; }) => Promise<{ value: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -63,7 +63,7 @@
             "type": "{ status: string; }"
           }
         ],
-        "returns": "Promise<string>",
+        "returns": "Promise<{ value: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
