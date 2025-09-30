@@ -45,7 +45,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         
         do {
             let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
-            var request = try builder.build()
+            let request = try builder.build()
             
             let mainResponse: [String: String] = [
                 "id": request.id.uuidString, // Generate a unique ID for the event
@@ -167,16 +167,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                     "id": id, // Generate a unique ID for the event
                     "progress": String(format: " %.2f %", progress.percentage * 100)
                 ]
-                do{
-                    let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
-                    if let jsonString = String(data: jsonData, encoding: .utf8) {
-                        self.sendEvent(withName: "onProgress", body: mainResponse)
-                    }else{
-                        // self.sendEvent(withName: "onProgress", body: "Unable to Parse JSON")
-                    }
-                }catch{
-                    // self.sendEvent(withName: "onProgress", body: "Unable to Parse JSON")
-                }
+                self.sendEvent(withName: "onProgress", body: mainResponse)
             })
         
         // Store the progress handler in the dispose bag to avoid premature deallocation
@@ -225,8 +216,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 // Upon successful upload, retrieve the uploaded file URL
                 let uploadedFileURL = uploadedResult.uploadedFileURL
                 let transcriptionURL = uploadedResult.transcriptionURL
-                let metadataDict = uploadedResult.metadata
-                let tags = uploadedResult.tags
+                
                 let transcriptionLength = uploadedResult.transcriptionLength
                 let id = request.id.uuidString
                 
@@ -472,14 +462,27 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         let type = call.getString("type") ?? ""
         let page = call.getString("page") ?? ""
         let pageSize = call.getString("pageSize") ?? ""
+        let isLibrary = call.getBool("isLibrary") ?? false
         let tagDict = try? convertToDictionary(from: tag)
-        var tagBuild = TruvideoSdkMediaTags.builder()
+        let tagBuild = TruvideoSdkMediaTags.builder()
         for (key, value) in tagDict! {
-            tagBuild.set(key, "\(value)")
+            _ = tagBuild.set(key, "\(value)")
+        }
+        var typeData : TruvideoSdkMediaType?
+        if(type == "Image"){
+          typeData = .image
+        }else if(type == "Video"){
+          typeData = .video
+        }else if(type == "Audio"){
+          typeData = .audio
+        }else if(type == "PDF"){
+          typeData = .document
+        }else{
+          typeData = nil
         }
         Task{
-            let request = try? await TruvideoSdkMedia.search(type: nil, tags: tagBuild.build(), pageNumber: Int(page) ?? 0, size: Int(pageSize) ?? 0)
-            var mediaList: [TruvideoSDKMedia]? = request?.content
+            let request = try? await TruvideoSdkMedia.search(type: typeData,tags: tagBuild.build(), isLibrary: isLibrary, pageNumber: Int(page) ?? 0, size: Int(pageSize) ?? 0)
+            let mediaList: [TruvideoSDKMedia]? = request?.content
             if(mediaList == nil){
                 let response: [String: String] = [
                     "response": "[]",

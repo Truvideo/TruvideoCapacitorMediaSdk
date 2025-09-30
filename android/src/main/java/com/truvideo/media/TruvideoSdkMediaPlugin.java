@@ -270,6 +270,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         String type = call.getString("type");
         String page= call.getString("page");
         String pageSize = call.getString("pageSize");
+        Boolean isLibrary = call.getBoolean("isLibrary",false);
         try {
             TruvideoSdkMediaFileType typeData;
             if ("All".equals(type)) {
@@ -296,6 +297,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             TruvideoSdkMedia.search(
                     new TruvideoSdkMediaTags(map),
                     typeData,
+                    isLibrary,
                     Integer.parseInt(page),
                     Integer.parseInt(pageSize),
                     new TruvideoSdkMediaCallback<TruvideoSdkMediaPaginatedResponse<TruvideoSdkMediaResponse>>() {
@@ -340,6 +342,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             String filePath = call.getString("filePath");
             String tag = call.getString("tag");
             String metaData = call.getString("metaData");
+            Boolean isLibrary = call.getBoolean("isLibrary",false);
             final TruvideoSdkMediaFileUploadRequestBuilder builder = TruvideoSdkMedia.FileUploadRequestBuilder(filePath);
             JSONObject jsonTag = new JSONObject(tag);
             Iterator<String> keys = jsonTag.keys();
@@ -348,6 +351,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                 String value = jsonTag.getString(key); // Can be any type: String, Integer, Boolean, etc.
                 builder.addTag(key, value);
             }
+            builder.setIsLibrary(isLibrary);
 
             JSONObject jsonMetadata = new JSONObject(metaData);
             Iterator<String> metadataKeys = jsonMetadata.keys();
