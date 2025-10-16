@@ -16,7 +16,9 @@ npx cap sync
 * [`echo(...)`](#echo)
 * [`mediaBuilder(...)`](#mediabuilder)
 * [`getFileUploadRequestById(...)`](#getfileuploadrequestbyid)
+* [`streamFileUploadRequestById(...)`](#streamfileuploadrequestbyid)
 * [`getAllFileUploadRequests(...)`](#getallfileuploadrequests)
+* [`streamAllFileUploadRequests(...)`](#streamallfileuploadrequests)
 * [`cancelMedia(...)`](#cancelmedia)
 * [`deleteMedia(...)`](#deletemedia)
 * [`pauseMedia(...)`](#pausemedia)
@@ -77,10 +79,40 @@ getFileUploadRequestById(options: { id: string; }) => Promise<{ value: string; }
 --------------------
 
 
+### streamFileUploadRequestById(...)
+
+```typescript
+streamFileUploadRequestById(options: { id: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
 ### getAllFileUploadRequests(...)
 
 ```typescript
 getAllFileUploadRequests(options: { status: string; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                             |
+| ------------- | -------------------------------- |
+| **`options`** | <code>{ status: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### streamAllFileUploadRequests(...)
+
+```typescript
+streamAllFileUploadRequests(options: { status: string; }) => Promise<{ value: string; }>
 ```
 
 | Param         | Type                             |
@@ -244,6 +276,6 @@ addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: M
 
 #### MediaEventMap
 
-<code>{ onProgress: <a href="#uploadprogressevent">UploadProgressEvent</a>; onComplete: <a href="#uploadcompleteeventdata">UploadCompleteEventData</a>; onError: <a href="#uploaderrorevent">UploadErrorEvent</a>; }</code>
+<code>{ onProgress: <a href="#uploadprogressevent">UploadProgressEvent</a>; onComplete: <a href="#uploadcompleteeventdata">UploadCompleteEventData</a>; onError: <a href="#uploaderrorevent">UploadErrorEvent</a>; stream: string; AllStream: string; }</code>
 
 </docgen-api>

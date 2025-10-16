@@ -1,3 +1,4 @@
+import { MediaRequestClass } from './media-builder';
 export * from './media-builder';
 export * from './plugin';
 export interface MediaData {
@@ -54,8 +55,18 @@ export interface UploadCallbacks {
     onComplete?: (event: UploadCompleteEventData) => void;
     onError?: (event: UploadErrorEvent) => void;
 }
+export interface RequestsCallback {
+    onComplete?: (event: MediaRequestClass[]) => void;
+    onError?: (event: UploadErrorEvent) => void;
+}
+export interface RequestCallback {
+    onComplete?: (event: MediaRequestClass) => void;
+    onError?: (event: UploadErrorEvent) => void;
+}
 export declare type MediaEventMap = {
     onProgress: UploadProgressEvent;
     onComplete: UploadCompleteEventData;
     onError: UploadErrorEvent;
+    stream: string;
+    AllStream: string;
 };

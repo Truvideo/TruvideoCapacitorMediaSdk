@@ -1,14 +1,16 @@
 import { TruvideoSdkMedia } from './plugin';
 
 import { PluginListenerHandle } from '@capacitor/core';
-import type {
+import {
   UploadCallbacks,
   UploadCompleteEventData,
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
   MediaEventMap,
-  SearchData
+  SearchData,
+  RequestsCallback,
+  RequestCallback,
 } from './index';
 
 function parsePluginResponse<T>(response: any, valueName: string = "result"): T {
@@ -64,6 +66,51 @@ export async function getAllFileUploadRequests(status?: UploadRequestStatus): Pr
   let response = await TruvideoSdkMedia.getAllFileUploadRequests({ status : status || ''});
   return parsePluginResponse<MediaData[]>(response,"requests");
 }
+
+const mediaRequest: MediaRequestClass[] = [];
+
+export async function streamAllFileUploadRequests(status?: UploadRequestStatus, callbacks? : RequestsCallback) {
+  mediaRequest.length = 0; // Clear previous requests
+  TruvideoSdkMedia.streamAllFileUploadRequests({ status : status || ''});
+  TruvideoSdkMedia.addListener('AllStream', (data) => {
+    const results = parsePluginResponse<MediaData[]>(data, "requests");
+    if (callbacks && typeof callbacks.onComplete === "function" && Array.isArray(results)) {
+      results.forEach(result => {
+        const requestFound = mediaRequest.find(req => req.id === result.id);
+        if (requestFound) {
+          // Update existing request
+          Object.assign(requestFound, result);
+        } else {
+          // Create new request and add to list
+          const request = new MediaRequestClass(result);
+          mediaRequest.push(request);
+        }
+      });
+      callbacks.onComplete(mediaRequest);
+    }
+  });
+}
+
+export async function streamFileUploadRequestById(id?: string, callbacks? : RequestCallback) {
+  TruvideoSdkMedia.streamFileUploadRequestById({ id : id || ''});
+  mediaRequest.length = 0; // Clear previous requests
+  TruvideoSdkMedia.addListener('stream', (data) => {
+    const result = parsePluginResponse<MediaData>(data,"request");
+    if (callbacks && typeof callbacks.onComplete === 'function') {
+      const requestFound = mediaRequest.find(request => request.id === result.id);
+      if (requestFound) {
+        // Update existing request
+        Object.assign(requestFound, result);
+        callbacks.onComplete(requestFound);
+        return;
+      }else{
+        const request = new MediaRequestClass(result); 
+        mediaRequest.push(request);
+        callbacks.onComplete(request);
+      }
+    }
+  });
+} 
 
 export async function getFileUploadRequestById(id : string): Promise<MediaData> {
   let response = await TruvideoSdkMedia.getFileUploadRequestById({ id : id || ''});
@@ -222,5 +269,112 @@ export class MediaBuilder {
     this.listeners.forEach((listener) => listener.remove());
     this.listeners = [];
     this.currentUploadId = undefined;
+  }
+}
+
+
+export class MediaRequestClass {
+    id: string;
+    filePath: string;
+    fileType: string;
+    durationMilliseconds: number;
+    remoteId: string;
+    remoteURL: string;
+    transcriptionURL: string;
+    transcriptionLength: number;
+    status: string;
+    progress: number;
+    tags : any;
+    metaData : any;
+    createdAt: string;
+    updatedAt: string;
+    errorMessage : string;   
+    constructor(data: MediaData) {
+        this.id = data.id;
+        this.filePath = data.filePath;
+        this.fileType = data.fileType;
+        this.durationMilliseconds = data.durationMilliseconds;
+        this.remoteId = data.remoteId;
+        this.remoteURL = data.remoteURL;
+        this.transcriptionURL = data.transcriptionURL;
+        this.transcriptionLength = data.transcriptionLength;
+        this.status = data.status;
+        this.progress = data.progress;
+        this.tags = data.tags;
+        this.metaData = data.metaData;
+        this.createdAt = data.createdAt;
+        this.updatedAt = data.updatedAt;
+        this.errorMessage = data.errorMessage;
+    }
+  private listeners: PluginListenerHandle[] = [];
+  async cancel(): Promise<string> {
+    if (!this.id) return Promise.reject('mediaDetail is undefined');
+    const res = await TruvideoSdkMedia.cancelMedia({ id: this.id });
+    return res.value;
+  }
+
+  async delete(): Promise<string> {
+    if (!this.id) return Promise.reject('mediaDetail is undefined');
+    const res = await TruvideoSdkMedia.deleteMedia({ id: this.id });
+    return res.value;
+  }
+
+  async pause(): Promise<string> {
+    if (!this.id) return Promise.reject('mediaDetail is undefined');
+    const res = await TruvideoSdkMedia.pauseMedia({ id: this.id });
+    return res.value;
+  }
+
+  async resume(): Promise<string> {
+    if (!this.id) return Promise.reject('mediaDetail is undefined');
+    const res = await TruvideoSdkMedia.resumeMedia({ id: this.id });
+    return res.value;
+  }
+
+  async upload(callbacks: UploadCallbacks): Promise<string> {
+    if (!this.id) return Promise.reject('mediaDetail is undefined');
+
+    this.removeEventListeners();
+  
+    const onProgress = await TruvideoSdkMedia.addListener(
+      'onProgress',
+      (event: UploadProgressEvent) => {
+        if (event.id === this.id && callbacks.onProgress) {
+          callbacks.onProgress(event);
+        }
+      }
+    );
+
+    const onComplete = await TruvideoSdkMedia.addListener(
+      'onComplete',
+      (event: UploadCompleteEventData) => {
+        if (event.id === this.id && callbacks.onComplete) {
+          if (typeof event.metaData === 'string') event.metaData = JSON.parse(event.metaData);
+          if (typeof event.tags === 'string') event.tags = JSON.parse(event.tags);
+          callbacks.onComplete(event);
+        }
+        this.removeEventListeners();
+      }
+    );
+
+    const onError = await TruvideoSdkMedia.addListener(
+      'onError',
+      (event: UploadErrorEvent) => {
+        if (event.id === this.id && callbacks.onError) {
+          callbacks.onError(event);
+        }
+        this.removeEventListeners();
+      }
+    );
+
+    this.listeners.push(onProgress, onComplete, onError);
+
+    const result = await TruvideoSdkMedia.uploadMedia({ id: this.id });
+    return result.value;
+  }
+
+  removeEventListeners(): void {
+    this.listeners.forEach((listener) => listener.remove());
+    this.listeners = [];
   }
 }

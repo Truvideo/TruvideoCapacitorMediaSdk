@@ -54,6 +54,22 @@
         "slug": "getfileuploadrequestbyid"
       },
       {
+        "name": "streamFileUploadRequestById",
+        "signature": "(options: { id: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "streamfileuploadrequestbyid"
+      },
+      {
         "name": "getAllFileUploadRequests",
         "signature": "(options: { status: string; }) => Promise<{ value: string; }>",
         "parameters": [
@@ -68,6 +84,22 @@
         "docs": "",
         "complexTypes": [],
         "slug": "getallfileuploadrequests"
+      },
+      {
+        "name": "streamAllFileUploadRequests",
+        "signature": "(options: { status: string; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ status: string; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "streamallfileuploadrequests"
       },
       {
         "name": "cancelMedia",
@@ -337,7 +369,7 @@
       "docs": "",
       "types": [
         {
-          "text": "{\n    onProgress: UploadProgressEvent;\n    onComplete: UploadCompleteEventData;\n    onError: UploadErrorEvent;\n}",
+          "text": "{\n    onProgress: UploadProgressEvent;\n    onComplete: UploadCompleteEventData;\n    onError: UploadErrorEvent;\n    stream: string;\n    AllStream: string;\n}",
           "complexTypes": [
             "UploadProgressEvent",
             "UploadCompleteEventData",

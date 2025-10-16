@@ -17,6 +17,9 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "mediaBuilder", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "uploadMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getFileUploadRequestById", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getAllFileUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "streamAllFileUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "streamFileUploadRequestById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "cancelMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pauseMedia", returnType: CAPPluginReturnPromise),
@@ -423,8 +426,103 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         //TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
     }
     
-    @objc public func getAllFileRequests(status: String,_ call : CAPPluginCall){
+    
+    @objc public func streamFileUploadRequestById(_ call : CAPPluginCall){
+        let id = call.getString("id") ?? ""
+        do{
+            var cancellables = Set<AnyCancellable>()
+           try TruvideoSdkMedia.streamFileUploadRequest(withId: id)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        
+                    case .failure(let error):
+                       
+                    }
+                } receiveValue: { request in
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: self.returnRequest(request), options: [])
+                        
+                        if let jsonString = String(data: jsonData, encoding: .utf8) {
+                            print("mainResponse as JSON string: \(jsonString)")
+                            let response: [String: String] = [
+                                "request": jsonString,
+                            ]
+                            if JSONSerialization.isValidJSONObject(response) {
+                                self.sendEvent(withName: "stream", body: response)
+                            }
+                        }
+                    }catch{
+                        call.reject(error.localizedDescription)
+                    }
+                }
+                .store(in: &cancellables)
+        }catch{
+            call.reject(error.localizedDescription)
+        }
+    }
+        
+        
+    @objc public func streamAllFileUploadRequests(_ call : CAPPluginCall){
+        let status = call.getString("status") ?? ""
+        var statusData : TruvideoSdkMediaUploadRequest.Status?
+        if status == "COMPLETED" {
+          statusData = .completed
+        } else if status == "CANCELED" {
+          statusData = .cancelled
+        }else if status == "PAUSED" {
+          statusData = .paused
+        }else if status == "SYNCHRONIZING" {
+          statusData = .synchronizing
+        }else if status == "IDLE" {
+          statusData = .idle
+        }else if status == "UPLOADING" {
+          statusData = .processing
+        }else if status == "ERROR" {
+          statusData = .error
+        }else {
+          statusData = nil
+        }
+        
+        var cancellables = Set<AnyCancellable>()
+        TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData) // or provide a status
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    
+                case .failure(let error):
+                    
+                }
+            } receiveValue: { requests in
+                // requests is [TruvideoSdkMediaUploadRequest]
+                print("Received \(requests.count) upload requests")
+                var responseArray: [[String: String]] = []
+                for request in requests {
+                    responseArray.append(self.returnRequest(request))
+                }
+                do{
+                    let jsonData = try JSONSerialization.data(withJSONObject: responseArray, options: [])
+                    if let jsonString = String(data: jsonData, encoding: .utf8) {
+                        print("responseArray as JSON string: \(jsonString)")
+                        let response: [String: String] = [
+                            "requests": jsonString,
+                        ]
+                        if JSONSerialization.isValidJSONObject(response) {
+                            self.sendEvent(withName: "AllStream", body: response)
+                        }
+                    }
+                }catch {
+                    call.reject(error.localizedDescription)
+                }
+                
+            }
+            .store(in: &cancellables)
+        
+    }
+    
+    @objc public func getAllFileUploadRequests(_ call : CAPPluginCall){
         do {
+            let status = call.getString("status") ?? ""
           var statusData : TruvideoSdkMediaUploadRequest.Status?
           if status == "COMPLETED" {
             statusData = .completed

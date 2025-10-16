@@ -1,3 +1,5 @@
+import { MediaRequestClass } from './media-builder';
+
 //export * from './definitions';
 export * from './media-builder';
 export * from './plugin'; // this will export TruvideoSdkMedia
@@ -18,7 +20,7 @@ export interface MediaData {
     metaData : any;
     createdAt: string;
     updatedAt: string;
-    errorMessage : string;
+    errorMessage : string;   
 }
 
 export interface SearchData {
@@ -63,8 +65,20 @@ export interface UploadCallbacks {
     onError?: (event: UploadErrorEvent) => void;
 }
 
+export interface RequestsCallback {
+    onComplete?: (event: MediaRequestClass[]) => void;
+    onError?: (event: UploadErrorEvent) => void;
+}
+
+export interface RequestCallback {
+    onComplete? : (event: MediaRequestClass) => void;
+    onError?: (event: UploadErrorEvent) => void;
+}
+
 export type MediaEventMap = {
     onProgress: UploadProgressEvent;
     onComplete: UploadCompleteEventData;
     onError: UploadErrorEvent;
+    stream: string;
+    AllStream: string;
 };

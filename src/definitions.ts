@@ -15,8 +15,10 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{ value: string }>;
 
     getFileUploadRequestById(options: { id: string }): Promise<{ value: string }>;
+    streamFileUploadRequestById(options: { id: string }): Promise<{ value: string }>;
 
     getAllFileUploadRequests(options: { status: string }): Promise<{ value: string }>;
+    streamAllFileUploadRequests(options: { status: string }): Promise<{ value: string }>;
 
     cancelMedia(options: { id: string }): Promise<{ value: string }>;
 
