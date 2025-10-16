@@ -510,7 +510,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 ret.put("fileType", response.getType().name());
 
                                 call.resolve(ret);
-                                sendEvent("onComplete", returnRequestJSON(response));
+                                sendEvent("onComplete", ret);
                             }
                         }
                 );
