@@ -14,8 +14,8 @@ export interface MediaData {
     transcriptionLength: number;
     status: string;
     progress: number;
-    tags : object;
-    metaData : object;
+    tags : any;
+    metaData : any;
     createdAt: string;
     updatedAt: string;
     errorMessage : string;
@@ -26,8 +26,8 @@ export interface SearchData {
     createdAt: string;
     remoteId: string;
     uploadedFileURL: string;
-    tags : object;
-    metaData : object;
+    tags : any;
+    metaData : any;
     transcriptionURL: string;
     transcriptionLength: number;
     fileType: string;    
