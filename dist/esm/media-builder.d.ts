@@ -1,5 +1,5 @@
 import { PluginListenerHandle } from '@capacitor/core';
-import type { UploadCallbacks, UploadCompleteEventData, MediaData, MediaEventMap } from './index';
+import type { UploadCallbacks, MediaData, MediaEventMap, SearchData } from './index';
 export declare function addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: MediaEventMap[K]) => void): Promise<PluginListenerHandle>;
 export declare enum UploadRequestStatus {
     UPLOADING = "UPLOADING",
@@ -18,7 +18,7 @@ export declare enum MediaType {
 }
 export declare function getAllFileUploadRequests(status?: UploadRequestStatus): Promise<MediaData[]>;
 export declare function getFileUploadRequestById(id: string): Promise<MediaData>;
-export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType): Promise<UploadCompleteEventData[]>;
+export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType): Promise<SearchData[]>;
 export declare class MediaBuilder {
     private _filePath;
     private _metaData;

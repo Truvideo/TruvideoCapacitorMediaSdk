@@ -7,7 +7,8 @@ import type {
   UploadErrorEvent,
   UploadProgressEvent,
   MediaData,
-  MediaEventMap
+  MediaEventMap,
+  SearchData
 } from './index';
 
 function parsePluginResponse<T>(response: any, valueName: string = "result"): T {
@@ -69,9 +70,9 @@ export async function getFileUploadRequestById(id : string): Promise<MediaData> 
   return parsePluginResponse<MediaData>(response,"request");
 }
 
-export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType): Promise<UploadCompleteEventData[]> {
+export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType): Promise<SearchData[]> {
   let response = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
-  return parsePluginResponse<UploadCompleteEventData[]>(response,"response");
+  return parsePluginResponse<SearchData[]>(response,"response");
 }
 
 

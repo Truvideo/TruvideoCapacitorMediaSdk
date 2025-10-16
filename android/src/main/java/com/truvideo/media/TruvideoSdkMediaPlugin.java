@@ -9,6 +9,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.truvideo.sdk.media.builder.TruvideoSdkMediaFileUploadRequestBuilder;
 import com.truvideo.sdk.media.interfaces.TruvideoSdkMediaCallback;
 import com.truvideo.sdk.media.interfaces.TruvideoSdkMediaFileUploadCallback;
@@ -18,6 +19,8 @@ import com.truvideo.sdk.media.model.TruvideoSdkMediaFileUploadStatus;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaPaginatedResponse;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaResponse;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaTags;
+import com.truvideo.sdk.media.util.DateUtilsKt;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -79,7 +82,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         @Override
                         public void onComplete(List<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequests) {
                             JSObject request = new JSObject();
-                            request.put("requests",new Gson().toJson(truvideoSdkMediaFileUploadRequests));
+                            request.put("requests",returnRequestList(truvideoSdkMediaFileUploadRequests));
                             call.resolve(request);
                         }
 
@@ -123,7 +126,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         @Override
                         public void onComplete(List<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequests) {
                             JSObject request = new JSObject();
-                            request.put("requests",new Gson().toJson(truvideoSdkMediaFileUploadRequests));
+                            request.put("requests",returnRequestList(truvideoSdkMediaFileUploadRequests));
                             call.resolve(request);
                         }
                     });
@@ -302,7 +305,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                             for (TruvideoSdkMediaResponse it : response.getData()) {
                                 Map<String, Object> mainResponse = new HashMap<>();
                                 mainResponse.put("id", it.getId());
-                                mainResponse.put("createdDate", it.getCreatedDate());
+                                mainResponse.put("createdDate",DateUtilsKt.toIsoString(it.getCreatedDate()));
                                 mainResponse.put("remoteId", it.getId());
                                 mainResponse.put("uploadedFileURL", it.getUrl());
                                 mainResponse.put("metaData", it.getMetadata().toJson());
@@ -310,6 +313,8 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 mainResponse.put("transcriptionURL", it.getTranscriptionUrl());
                                 mainResponse.put("transcriptionLength", it.getTranscriptionLength());
                                 mainResponse.put("fileType", it.getType().name());
+                                mainResponse.put("thumbnailUrl", it.getThumbnailUrl());
+                                mainResponse.put("previewUrl", it.getPreviewUrl());
                                 list.add(gson.toJson(mainResponse));
                             }
                             JSObject jet = new JSObject();
@@ -379,6 +384,34 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         }
     }
 
+
+    public String returnRequestList(List<TruvideoSdkMediaFileUploadRequest> requests) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (TruvideoSdkMediaFileUploadRequest request : requests) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", request.getId());
+            map.put("filePath", request.getFilePath());
+            map.put("fileType", request.getType());
+            map.put("durationMilliseconds", request.getDurationMilliseconds());
+            map.put("remoteId", request.getRemoteId());
+            map.put("remoteURL", request.getRemoteUrl());
+            map.put("transcriptionURL", request.getTranscriptionUrl());
+            map.put("transcriptionLength", request.getTranscriptionLength());
+            map.put("status", request.getStatus());
+            map.put("progress", request.getUploadProgress());
+            map.put("tags", request.getTags());
+            map.put("metadata", request.getMetadata());
+            map.put("errorMessage", request.getErrorMessage());
+            map.put("createdAt",DateUtilsKt.toIsoString(request.getCreatedAt()));
+            map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
+
+            list.add(map);
+        }
+
+        return new Gson().toJson(list);
+    }
+
     public String returnRequest(TruvideoSdkMediaFileUploadRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", request.getId());
@@ -391,8 +424,32 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("transcriptionLength", request.getTranscriptionLength());
         map.put("status", request.getStatus());
         map.put("progress", request.getUploadProgress());
-
+        map.put("tags",request.getTags());
+        map.put("metadata",request.getMetadata());
+        map.put("errorMessage",request.getErrorMessage());
+        map.put("createdAt",DateUtilsKt.toIsoString(request.getCreatedAt()));
+        map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
         return new Gson().toJson(map);
+    }
+
+    public JSObject returnRequestJSON(TruvideoSdkMediaFileUploadRequest request) {
+        JSObject map = new JSObject();
+        map.put("id", request.getId());
+        map.put("filePath", request.getFilePath());
+        map.put("fileType", request.getType());
+        map.put("durationMilliseconds", request.getDurationMilliseconds());
+        map.put("remoteId", request.getRemoteId());
+        map.put("remoteURL", request.getRemoteUrl());
+        map.put("transcriptionURL", request.getTranscriptionUrl());
+        map.put("transcriptionLength", request.getTranscriptionLength());
+        map.put("status", request.getStatus());
+        map.put("progress", request.getUploadProgress());
+        map.put("tags",request.getTags());
+        map.put("metadata",request.getMetadata());
+        map.put("errorMessage",request.getErrorMessage());
+        map.put("createdAt",DateUtilsKt.toIsoString(request.getCreatedAt()));
+        map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
+        return map;
     }
     @PluginMethod
     public void uploadMedia(PluginCall call) {
@@ -453,7 +510,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 ret.put("fileType", response.getType().name());
 
                                 call.resolve(ret);
-                                sendEvent("onComplete", ret);
+                                sendEvent("onComplete", returnRequestJSON(response));
                             }
                         }
                 );

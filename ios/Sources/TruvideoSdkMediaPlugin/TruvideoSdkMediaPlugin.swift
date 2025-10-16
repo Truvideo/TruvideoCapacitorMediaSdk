@@ -47,19 +47,19 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
             let request = try builder.build()
             
-            let mainResponse: [String: String] = [
-                "id": request.id.uuidString, // Generate a unique ID for the event
-                "filePath": request.filePath,
-                "fileType": request.fileType.rawValue,
-                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
-                "remoteId" : request.remoteId ?? "",
-                "remoteURL" : request.remoteURL?.absoluteString ?? "",
-                "transcriptionURL" : request.transcriptionURL ?? "",
-                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
-                "status" : "\(request.status.rawValue)",
-                "progress" : "\(request.uploadProgress)"
-            ]
-            let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
+//            let mainResponse: [String: String] = [
+//                "id": request.id.uuidString, // Generate a unique ID for the event
+//                "filePath": request.filePath,
+//                "fileType": request.fileType.rawValue,
+//                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+//                "remoteId" : request.remoteId ?? "",
+//                "remoteURL" : request.remoteURL?.absoluteString ?? "",
+//                "transcriptionURL" : request.transcriptionURL ?? "",
+//                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+//                "status" : "\(request.status.rawValue)",
+//                "progress" : "\(request.uploadProgress)"
+//            ]
+            let jsonData = try JSONSerialization.data(withJSONObject: returnRequest(request), options: [])
             
             
             if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -354,24 +354,45 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     
     // Function to send events to React Native
     
+    func returnRequest(_ request : TruvideoSdkMediaUploadRequest) -> [String:String]{
+        let dateFormatter = ISO8601DateFormatter()
+        return [
+            "id": request.id.uuidString, // Generate a unique ID for the event
+            "filePath": request.filePath,
+            "fileType": request.fileType.rawValue,
+            "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+            "remoteId" : request.remoteId ?? "",
+            "remoteURL" : request.remoteURL?.absoluteString ?? "",
+            "transcriptionURL" : request.transcriptionURL ?? "",
+            "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+            "status" : "\(request.status.rawValue)",
+            "progress" : "\(request.uploadProgress)",
+            "tag" : "\(request.tags.dictionary)",
+            "metadata" : "\(request.metadata.dictionary)",
+            "createdAt" : request.createdAt != nil ? dateFormatter.string(from: request.createdAt!) : "",
+            "updatedAt" : request.updatedAt != nil ? dateFormatter.string(from: request.updatedAt!) : "",
+            "errorMessage" : request.errorMessage ?? ""
+        ]
+    }
+    
     
     @objc public func getFileUploadRequestById(_ call : CAPPluginCall){
         let id = call.getString("id") ?? ""
         do {
             let request =  try TruvideoSdkMedia.getFileUploadRequest(withId : id)
-            let mainResponse: [String: String] = [
-                "id": request.id.uuidString, // Generate a unique ID for the event
-                "filePath": request.filePath,
-                "fileType": request.fileType.rawValue,
-                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
-                "remoteId" : request.remoteId ?? "",
-                "remoteURL" : request.remoteURL?.absoluteString ?? "",
-                "transcriptionURL" : request.transcriptionURL ?? "",
-                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
-                "status" : "\(request.status.rawValue)",
-                "progress" : "\(request.uploadProgress)"
-            ]
-            let jsonData = try JSONSerialization.data(withJSONObject: mainResponse, options: [])
+//            let mainResponse: [String: String] = [
+//                "id": request.id.uuidString, // Generate a unique ID for the event
+//                "filePath": request.filePath,
+//                "fileType": request.fileType.rawValue,
+//                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
+//                "remoteId" : request.remoteId ?? "",
+//                "remoteURL" : request.remoteURL?.absoluteString ?? "",
+//                "transcriptionURL" : request.transcriptionURL ?? "",
+//                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
+//                "status" : "\(request.status.rawValue)",
+//                "progress" : "\(request.uploadProgress)"
+//            ]
+            let jsonData = try JSONSerialization.data(withJSONObject: returnRequest(request), options: [])
             
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 print("mainResponse as JSON string: \(jsonString)")
@@ -424,40 +445,40 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
           }
           let requests =  try TruvideoSdkMedia.getFileUploadRequests(byStatus: statusData)
           //let dateFormatter = DateFormatter()
-          let dateFormatter = ISO8601DateFormatter()
+          //let dateFormatter = ISO8601DateFormatter()
           var responseArray: [[String: String]] = []
 
               for request in requests {
-                  var tagString = ""
-                  let tagJsonData = try JSONSerialization.data(withJSONObject: request.tags.dictionary, options: [])
-                  if let tagJsonString = String(data: tagJsonData, encoding: .utf8) {
-                    tagString = tagJsonString
-                  }
+                  //var tagString = ""
+                  //let tagJsonData = try JSONSerialization.data(withJSONObject: request.tags.dictionary, options: [])
+//                  if let tagJsonString = String(data: tagJsonData, encoding: .utf8) {
+//                    tagString = tagJsonString
+//                  }
 
-                  var metadataString = ""
-                  let metadataJsonData = try JSONSerialization.data(withJSONObject: request.metadata.dictionary, options: [])
-                  if let metadataJsonString = String(data: metadataJsonData, encoding: .utf8) {
-                    metadataString = metadataJsonString
-                  }
+                  //var metadataString = ""
+                  //let metadataJsonData = try JSONSerialization.data(withJSONObject: request.metadata.dictionary, options: [])
+//                  if let metadataJsonString = String(data: metadataJsonData, encoding: .utf8) {
+//                    metadataString = metadataJsonString
+//                  }
 
-                  let mainResponse: [String: String] = [
-                      "id": request.id.uuidString,
-                      "filePath": request.filePath,
-                      "fileType": request.fileType.rawValue,
-                      "createdAt": request.createdAt != nil ? dateFormatter.string(from: request.createdAt!) : "",
-                      "updatedAt": request.updatedAt != nil ? dateFormatter.string(from: request.updatedAt!) : "",
-                      "tags": tagString,
-                      "metadata": metadataString,
-                      "durationMilliseconds": "\(String(describing: request.durationMilliseconds))",
-                      "remoteId": request.remoteId ?? "",
-                      "remoteURL": request.remoteURL?.absoluteString ?? "",
-                      "transcriptionURL": request.transcriptionURL ?? "",
-                      "transcriptionLength": "\(String(describing: request.transcriptionLength))",
-                      "status": "\(request.status.rawValue)",
-                      "progress": "\(request.uploadProgress)"
-                  ]
+//                  let mainResponse: [String: String] = [
+//                      "id": request.id.uuidString,
+//                      "filePath": request.filePath,
+//                      "fileType": request.fileType.rawValue,
+//                      "createdAt": request.createdAt != nil ? dateFormatter.string(from: request.createdAt!) : "",
+//                      "updatedAt": request.updatedAt != nil ? dateFormatter.string(from: request.updatedAt!) : "",
+//                      "tags": tagString,
+//                      "metadata": metadataString,
+//                      "durationMilliseconds": "\(String(describing: request.durationMilliseconds))",
+//                      "remoteId": request.remoteId ?? "",
+//                      "remoteURL": request.remoteURL?.absoluteString ?? "",
+//                      "transcriptionURL": request.transcriptionURL ?? "",
+//                      "transcriptionLength": "\(String(describing: request.transcriptionLength))",
+//                      "status": "\(request.status.rawValue)",
+//                      "progress": "\(request.uploadProgress)"
+//                  ]
 
-                  responseArray.append(mainResponse)
+                  responseArray.append(returnRequest(request))
               }
 
               let jsonData = try JSONSerialization.data(withJSONObject: responseArray, options: [])
@@ -596,7 +617,10 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                             "tags": tagJsonString,          // must return [String: Any]
                             "transcriptionURL": media.transcriptionURL?.absoluteString ?? "",
                             "transcriptionLength": "\(media.transcriptionLength)",
-                            "fileType": media.type.rawValue
+                            "fileType": media.type.rawValue,
+                            "thumbnailUrl" : media.thumbnailUrl?.absoluteString ?? "",
+                            "previewUrl" : media.previewUrl?.absoluteString ?? "",
+
                         ]
                         let jsonData = try JSONSerialization.data(withJSONObject: mediaDict, options: [])
                         if let jsonString = String(data: jsonData, encoding: .utf8) {

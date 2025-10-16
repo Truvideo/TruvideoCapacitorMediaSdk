@@ -11,6 +11,24 @@ export interface MediaData {
     transcriptionLength: number;
     status: string;
     progress: number;
+    tags: object;
+    metaData: object;
+    createdAt: string;
+    updatedAt: string;
+    errorMessage: string;
+}
+export interface SearchData {
+    id: string;
+    createdAt: string;
+    remoteId: string;
+    uploadedFileURL: string;
+    tags: object;
+    metaData: object;
+    transcriptionURL: string;
+    transcriptionLength: number;
+    fileType: string;
+    thumbnailUrl: string;
+    previewUrl: string;
 }
 export interface UploadProgressEvent {
     id: string;
