@@ -500,7 +500,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                             public void onComplete(@NonNull String id, @NonNull TruvideoSdkMediaFileUploadRequest response) {
                                 JSObject ret = new JSObject();
                                 ret.put("id", id);
-                                ret.put("createdDate", response.getCreatedAt());
+                                ret.put("createdDate", DateUtilsKt.toIsoString(response.getCreatedAt()));
                                 ret.put("remoteId", response.getRemoteId());
                                 ret.put("uploadedFileURL", response.getRemoteUrl());
                                 ret.put("metaData", response.getMetadata().toJson());
