@@ -3,7 +3,6 @@ package com.truvideo.media;
 import static com.truvideo.sdk.media.TruvideoSdkMedia.TruvideoSdkMedia;
 import android.content.Context;
 import androidx.annotation.NonNull;
-import android.util.Log;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -16,23 +15,18 @@ import com.truvideo.sdk.media.interfaces.TruvideoSdkMediaFileUploadCallback;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaFileType;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaFileUploadRequest;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaFileUploadStatus;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaMetadata;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaPaginatedResponse;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaResponse;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaTags;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import kotlin.Unit;
 import kotlinx.coroutines.CoroutineScope;
-import kotlinx.coroutines.Dispatchers;
 import kotlinx.coroutines.GlobalScope;
 import truvideo.sdk.common.exceptions.TruvideoSdkException;
 

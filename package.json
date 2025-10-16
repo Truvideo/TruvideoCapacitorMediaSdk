@@ -1,6 +1,6 @@
 {
-  "name": "truvideo-capacitor-media-sdk",
-  "version": "0.0.1",
+  "name": "@trunpm/truvideo-capacitor-media-sdk",
+  "version": "0.0.3",
   "description": "Native media Plugin using capacitor js",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -13,8 +13,16 @@
     "ios/Sources",
     "ios/Tests",
     "Package.swift",
-    "TruvideoCapacitorMediaSdk.podspec"
+    "TruvideoCapacitorMediaSdk.podspec",
+    "TrunpmTruvideoCapacitorMediaSdk.podspec"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "restricted"
+  },
+  "ios": {
+    "podspec": "TruvideoCapacitorMediaSdk.podspec"
+  },
   "author": "Himanshu Rathore",
   "license": "MIT",
   "repository": {
@@ -76,5 +84,9 @@
     "android": {
       "src": "android"
     }
-  }
+  },
+  "dependencies": {
+    
+  },
+  "homepage": "https://github.com/Truvideo/TruVideoCapacitorMediaSdk.git#readme"
 }
