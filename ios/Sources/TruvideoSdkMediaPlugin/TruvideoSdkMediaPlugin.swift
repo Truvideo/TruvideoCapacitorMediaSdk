@@ -435,9 +435,9 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 .sink { completion in
                     switch completion {
                     case .finished:
-                        
+                        print("Upload finished")
                     case .failure(let error):
-                       
+                        call.reject(error.localizedDescription)
                     }
                 } receiveValue: { request in
                     do {

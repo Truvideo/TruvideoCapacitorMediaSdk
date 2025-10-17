@@ -15,7 +15,7 @@ PODS:
     - AWSCognitoIdentityProviderASF
     - AWSCore
     - AWSS3
-  - TruvideoCapacitorMediaSdk (0.0.1):
+  - TruvideoCapacitorMediaSdk (0.0.3):
     - Capacitor
     - truvideo-sdk-media
 
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   Capacitor: fcbee427ff437f414bbb3bc2d39364ad9bd2b8a5
   CapacitorCordova: 345f93b7edd121db98e4ec20ac94d6d7bcaf7e48
   truvideo-sdk-media: 792e9c4436e43af45e09fd392038a19aaa04f7a1
-  TruvideoCapacitorMediaSdk: afe87beacbe61f0fb4d2072e18015ab2df1a0e78
+  TruvideoCapacitorMediaSdk: 6506a8cfe327ede6bad4a6fb1c0bb4838f08dd6d
 
 PODFILE CHECKSUM: 9b5d03972ab1685132673a97ef68dba244fb1034
 
