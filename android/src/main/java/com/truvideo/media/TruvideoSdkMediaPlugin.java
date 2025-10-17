@@ -154,6 +154,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
 
     }
 
+    @PluginMethod
     public void streamFileUploadRequestById(PluginCall call){
         String id = call.getString("id");
         if(id == null){
