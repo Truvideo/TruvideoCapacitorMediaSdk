@@ -117,8 +117,8 @@ export async function getFileUploadRequestById(id : string): Promise<MediaData> 
   return parsePluginResponse<MediaData>(response,"request");
 }
 
-export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType): Promise<SearchData[]> {
-  let response = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
+export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType,isLibrary : boolean): Promise<SearchData[]> {
+  let response = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(),isLibrary : isLibrary });
   return parsePluginResponse<SearchData[]>(response,"response");
 }
 
@@ -130,6 +130,7 @@ export class MediaBuilder {
   private mediaDetail: MediaData | undefined;
   private listeners: PluginListenerHandle[] = [];
   private currentUploadId: string | undefined;
+  private isLibrary: boolean = false;
 
   constructor(filePath: string) {
     if (!filePath) {
@@ -175,6 +176,10 @@ export class MediaBuilder {
     this._metaData.clear();
     return this;
   }
+  setIsLibrary(isLibrary: boolean): MediaBuilder {
+    this.isLibrary = isLibrary;
+    return this;
+  }
 
   private mapToJsonObject(map: Map<string, string>): { [key: string]: string } {
     const obj: { [key: string]: string } = {};
@@ -192,7 +197,8 @@ export class MediaBuilder {
       filePath: this._filePath,
       tag,
       metaData,
-    });
+      isLibrary: this.isLibrary,
+    }); 
 
     this.mediaDetail = JSON.parse(response.value);
     return this;

@@ -20,7 +20,7 @@ export declare function getAllFileUploadRequests(status?: UploadRequestStatus): 
 export declare function streamAllFileUploadRequests(status?: UploadRequestStatus, callbacks?: RequestsCallback): Promise<void>;
 export declare function streamFileUploadRequestById(id?: string, callbacks?: RequestCallback): Promise<void>;
 export declare function getFileUploadRequestById(id: string): Promise<MediaData>;
-export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType): Promise<SearchData[]>;
+export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType, isLibrary: boolean): Promise<SearchData[]>;
 export declare class MediaBuilder {
     private _filePath;
     private _metaData;
@@ -28,6 +28,7 @@ export declare class MediaBuilder {
     private mediaDetail;
     private listeners;
     private currentUploadId;
+    private isLibrary;
     constructor(filePath: string);
     setTag(key: string, value: string): MediaBuilder;
     getTag(): Map<string, string>;
@@ -37,6 +38,7 @@ export declare class MediaBuilder {
     deleteTag(key: string): MediaBuilder;
     deleteMetaData(key: string): MediaBuilder;
     clearMetaDatas(): MediaBuilder;
+    setIsLibrary(isLibrary: boolean): MediaBuilder;
     private mapToJsonObject;
     build(): Promise<MediaBuilder>;
     cancel(): Promise<string>;

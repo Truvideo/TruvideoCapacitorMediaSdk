@@ -98,8 +98,8 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
         let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
         return parsePluginResponse(response, "request");
     }
-    async function search(tag, page, pageSize, type) {
-        let response = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString() });
+    async function search(tag, page, pageSize, type, isLibrary) {
+        let response = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
         return parsePluginResponse(response, "response");
     }
     class MediaBuilder {
@@ -107,6 +107,7 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
             this._metaData = new Map();
             this._tag = new Map();
             this.listeners = [];
+            this.isLibrary = false;
             if (!filePath) {
                 throw new Error('filePath is required for MediaBuilder.');
             }
@@ -142,6 +143,10 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
             this._metaData.clear();
             return this;
         }
+        setIsLibrary(isLibrary) {
+            this.isLibrary = isLibrary;
+            return this;
+        }
         mapToJsonObject(map) {
             const obj = {};
             map.forEach((value, key) => {
@@ -156,6 +161,7 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
                 filePath: this._filePath,
                 tag,
                 metaData,
+                isLibrary: this.isLibrary,
             });
             this.mediaDetail = JSON.parse(response.value);
             return this;

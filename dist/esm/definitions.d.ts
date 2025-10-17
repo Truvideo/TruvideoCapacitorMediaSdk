@@ -10,6 +10,7 @@ export interface TruvideoSdkMediaPlugin {
         filePath: string;
         tag: string;
         metaData: string;
+        isLibrary: boolean;
     }): Promise<{
         value: string;
     }>;
@@ -63,6 +64,7 @@ export interface TruvideoSdkMediaPlugin {
         type: string;
         page: string;
         pageSize: string;
+        isLibrary: boolean;
     }): Promise<{
         value: string;
     }>;

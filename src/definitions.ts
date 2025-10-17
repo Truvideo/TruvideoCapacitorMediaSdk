@@ -12,6 +12,7 @@ export interface TruvideoSdkMediaPlugin {
         filePath: string;
         tag: string;
         metaData: string;
+        isLibrary: boolean;
     }): Promise<{ value: string }>;
 
     getFileUploadRequestById(options: { id: string }): Promise<{ value: string }>;
@@ -35,6 +36,7 @@ export interface TruvideoSdkMediaPlugin {
         type: string;
         page: string;
         pageSize: string;
+        isLibrary: boolean;
     }): Promise<{ value: string }>;
 
     // Event Listeners
