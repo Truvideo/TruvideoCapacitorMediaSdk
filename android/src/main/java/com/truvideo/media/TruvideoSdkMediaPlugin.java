@@ -612,7 +612,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 ret.put("remoteId", response.getRemoteId());
                                 ret.put("uploadedFileURL", response.getRemoteUrl());
                                 ret.put("metaData", response.getMetadata().toJson());
-                                ret.put("tags", response.getTags().toJson());
+                                ret.put("tags", request.getTags().toJson());
                                 ret.put("transcriptionURL", response.getTranscriptionUrl());
                                 ret.put("transcriptionLength", response.getTranscriptionLength());
                                 ret.put("fileType", response.getType().name());
