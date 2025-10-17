@@ -25,7 +25,7 @@ export declare class MediaBuilder {
     private _filePath;
     private _metaData;
     private _tag;
-    private mediaDetail;
+    mediaDetail: MediaData | undefined;
     private listeners;
     private currentUploadId;
     private isLibrary;

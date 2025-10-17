@@ -127,7 +127,7 @@ export class MediaBuilder {
   private _filePath: string;
   private _metaData: Map<string, string> = new Map();
   private _tag: Map<string, string> = new Map();
-  private mediaDetail: MediaData | undefined;
+  mediaDetail: MediaData | undefined;
   private listeners: PluginListenerHandle[] = [];
   private currentUploadId: string | undefined;
   private isLibrary: boolean = false;
