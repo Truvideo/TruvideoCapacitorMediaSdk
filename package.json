@@ -1,6 +1,6 @@
 {
   "name": "@trunpm/truvideo-capacitor-media-sdk",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Native media Plugin using capacitor js",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
