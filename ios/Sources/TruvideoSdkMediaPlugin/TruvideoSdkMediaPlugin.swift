@@ -397,8 +397,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             "progress" : "\(request.uploadProgress)",
             "tag" : "\(request.tags.dictionary)",
             "metadata" : "\(request.metadata.dictionary)",
-            "createdAt" : dateFormatter.string(from: request.createdAt!),
-            "updatedAt" : dateFormatter.string(from: request.updatedAt!),
+            "createdAt" : request.createdAt != nil ? dateFormatter.string(from: request.createdAt!) : "",
+            "updatedAt" : request.updatedAt != nil ? dateFormatter.string(from: request.updatedAt!) : "",
             "errorMessage" : request.errorMessage ?? ""
         ]
     }
