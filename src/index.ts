@@ -39,13 +39,11 @@ export interface SearchData {
 
 export interface SearchPaginationData {
     data : SearchData[];
-    page : number;
-    pageSize : number;
     totalPages : number;
     totalElements : number;
     numberOfElements : number;
     size : number;
-    pageNumber : number;
+    number : number;
     first : boolean;
     empty : boolean;
     last : boolean;

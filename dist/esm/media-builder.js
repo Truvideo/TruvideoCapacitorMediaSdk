@@ -97,20 +97,25 @@ export async function getFileUploadRequestById(id) {
 export async function search(tag, page, pageSize, type, isLibrary) {
     let raw = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
     //let searchData = parsePluginResponse<SearchData[]>(response,"response");
-    const response = JSON.parse(raw.value);
     const data = parsePluginResponse(raw, "response");
+    const totalPages = parsePluginResponse(raw, "totalPages");
+    const totalElements = parsePluginResponse(raw, "totalElements");
+    const numberOfElements = parsePluginResponse(raw, "numberOfElements");
+    const size = parsePluginResponse(raw, "size");
+    const number = parsePluginResponse(raw, "number");
+    const first = parsePluginResponse(raw, "first");
+    const empty = parsePluginResponse(raw, "empty");
+    const last = parsePluginResponse(raw, "last");
     return {
         data: data,
-        page: response.page,
-        pageSize: response.pageSize,
-        totalPages: response.totalPages,
-        totalElements: response.totalElements,
-        numberOfElements: response.numberOfElements,
-        size: response.size,
-        pageNumber: response.pageNumber,
-        first: response.first,
-        empty: response.empty,
-        last: response.last
+        totalPages: totalPages,
+        totalElements: totalElements,
+        numberOfElements: numberOfElements,
+        size: size,
+        number: number,
+        first: first,
+        empty: empty,
+        last: last
     };
 }
 export class MediaBuilder {

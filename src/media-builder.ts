@@ -121,21 +121,25 @@ export async function getFileUploadRequestById(id : string): Promise<MediaData> 
 export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType,isLibrary : boolean): Promise<SearchPaginationData> {
   let raw = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(),isLibrary : isLibrary });
   //let searchData = parsePluginResponse<SearchData[]>(response,"response");
-  const response = JSON.parse(raw.value);
   const data = parsePluginResponse<SearchData[]>(raw, "response");
-
+  const totalPages = parsePluginResponse<number>(raw, "totalPages");
+  const totalElements = parsePluginResponse<number>(raw, "totalElements");
+  const numberOfElements = parsePluginResponse<number>(raw, "numberOfElements");
+  const size = parsePluginResponse<number>(raw, "size");
+  const number = parsePluginResponse<number>(raw, "number");
+  const first = parsePluginResponse<boolean>(raw, "first");
+  const empty = parsePluginResponse<boolean>(raw, "empty");
+  const last = parsePluginResponse<boolean>(raw, "last");
   return {
     data : data,
-    page: response.page,
-    pageSize: response.pageSize,
-    totalPages: response.totalPages,
-    totalElements: response.totalElements,
-    numberOfElements: response.numberOfElements,
-    size: response.size,
-    pageNumber: response.pageNumber,
-    first: response.first,
-    empty: response.empty,
-    last: response.last
+    totalPages: totalPages,
+    totalElements: totalElements,
+    numberOfElements: numberOfElements,
+    size: size,
+    number: number,
+    first: first,
+    empty: empty,
+    last: last
   };
 }
 
