@@ -428,6 +428,17 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                             }
                             JSObject jet = new JSObject();
                             jet.put("response",gson.toJson(list));
+                            jet.put("totalPages",response.getTotalPages());
+                            jet.put("totalElements",response.getTotalElements());
+                            jet.put("numberOfElements",response.getNumberOfElements());
+                            jet.put("size",response.getSize());
+                            jet.put("number",response.getNumber());
+                            jet.put("first",response.getFirst());
+                            jet.put("empty",response.getEmpty());
+                            jet.put("last",response.getLast());
+                            // prod 
+//                            api-key - EPhPPsbv7e
+//                            secret-key - 9lHCnkfeLl
                             call.resolve(jet);
                         }
 

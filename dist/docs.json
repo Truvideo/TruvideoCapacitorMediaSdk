@@ -284,21 +284,21 @@
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string | undefined"
+          "type": "string"
         },
         {
           "name": "remoteId",
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string | undefined"
+          "type": "string"
         },
         {
           "name": "uploadedFileURL",
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string | undefined"
+          "type": "string"
         },
         {
           "name": "metaData",
@@ -319,21 +319,21 @@
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string | undefined"
+          "type": "string"
         },
         {
           "name": "transcriptionLength",
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "number | undefined"
+          "type": "number"
         },
         {
           "name": "fileType",
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string | undefined"
+          "type": "string"
         }
       ]
     },

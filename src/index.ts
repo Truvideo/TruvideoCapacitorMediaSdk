@@ -37,6 +37,20 @@ export interface SearchData {
     previewUrl : string;
 }
 
+export interface SearchPaginationData {
+    data : SearchData[];
+    page : number;
+    pageSize : number;
+    totalPages : number;
+    totalElements : number;
+    numberOfElements : number;
+    size : number;
+    pageNumber : number;
+    first : boolean;
+    empty : boolean;
+    last : boolean;
+}
+
 export interface UploadProgressEvent {
     id: string;
     progress: string;

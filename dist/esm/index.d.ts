@@ -31,6 +31,19 @@ export interface SearchData {
     thumbnailUrl: string;
     previewUrl: string;
 }
+export interface SearchPaginationData {
+    data: SearchData[];
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalElements: number;
+    numberOfElements: number;
+    size: number;
+    pageNumber: number;
+    first: boolean;
+    empty: boolean;
+    last: boolean;
+}
 export interface UploadProgressEvent {
     id: string;
     progress: string;
@@ -63,7 +76,7 @@ export interface RequestCallback {
     onComplete?: (event: MediaRequestClass) => void;
     onError?: (event: UploadErrorEvent) => void;
 }
-export declare type MediaEventMap = {
+export type MediaEventMap = {
     onProgress: UploadProgressEvent;
     onComplete: UploadCompleteEventData;
     onError: UploadErrorEvent;

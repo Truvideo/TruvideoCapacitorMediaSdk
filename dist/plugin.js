@@ -99,8 +99,23 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
         return parsePluginResponse(response, "request");
     }
     async function search(tag, page, pageSize, type, isLibrary) {
-        let response = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
-        return parsePluginResponse(response, "response");
+        let raw = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
+        //let searchData = parsePluginResponse<SearchData[]>(response,"response");
+        const response = JSON.parse(raw.value);
+        const data = parsePluginResponse(raw, "response");
+        return {
+            data: data,
+            page: response.page,
+            pageSize: response.pageSize,
+            totalPages: response.totalPages,
+            totalElements: response.totalElements,
+            numberOfElements: response.numberOfElements,
+            size: response.size,
+            pageNumber: response.pageNumber,
+            first: response.first,
+            empty: response.empty,
+            last: response.last
+        };
     }
     class MediaBuilder {
         constructor(filePath) {

@@ -11,6 +11,7 @@ import {
   SearchData,
   RequestsCallback,
   RequestCallback,
+  SearchPaginationData
 } from './index';
 
 function parsePluginResponse<T>(response: any, valueName: string = "result"): T {
@@ -117,9 +118,25 @@ export async function getFileUploadRequestById(id : string): Promise<MediaData> 
   return parsePluginResponse<MediaData>(response,"request");
 }
 
-export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType,isLibrary : boolean): Promise<SearchData[]> {
-  let response = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(),isLibrary : isLibrary });
-  return parsePluginResponse<SearchData[]>(response,"response");
+export async function search(tag : Map<string,string>,page : Number, pageSize : Number ,type : MediaType,isLibrary : boolean): Promise<SearchPaginationData> {
+  let raw = await TruvideoSdkMedia.search({ tag : JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(),isLibrary : isLibrary });
+  //let searchData = parsePluginResponse<SearchData[]>(response,"response");
+  const response = JSON.parse(raw.value);
+  const data = parsePluginResponse<SearchData[]>(raw, "response");
+
+  return {
+    data : data,
+    page: response.page,
+    pageSize: response.pageSize,
+    totalPages: response.totalPages,
+    totalElements: response.totalElements,
+    numberOfElements: response.numberOfElements,
+    size: response.size,
+    pageNumber: response.pageNumber,
+    first: response.first,
+    empty: response.empty,
+    last: response.last
+  };
 }
 
 
