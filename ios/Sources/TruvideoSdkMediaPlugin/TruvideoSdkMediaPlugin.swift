@@ -50,7 +50,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             Task{
                 let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
                 let request = try builder.build()
-                
+
     //            let mainResponse: [String: String] = [
     //                "id": request.id.uuidString, // Generate a unique ID for the event
     //                "filePath": request.filePath,
@@ -64,8 +64,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     //                "progress" : "\(request.uploadProgress)"
     //            ]
                 let jsonData = try JSONSerialization.data(withJSONObject: await returnRequest(request), options: [])
-                
-                
+
+
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     print("mainResponse as JSON string: \(jsonString)")
                     //call.resolve(jsonString) // Or wherever you need to use this JSON string
@@ -84,7 +84,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 }
                 //try executeUploadRequest(builder: builder, resolve: resolve, reject: reject)
             }
-        
+
         } catch {
             call.reject("UPLOAD_ERROR", "Upload failed", error)
         }
@@ -382,7 +382,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         @unknown default:
             statusString = "\(request.status.rawValue)"
         }
-        
+
         return [
             "id": request.id.uuidString,
             "filePath": request.filePath,
@@ -422,7 +422,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     //                "progress" : "\(request.uploadProgress)"
     //            ]
                 let jsonData = try JSONSerialization.data(withJSONObject: await returnRequest(request), options: [])
-                
+
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     print("mainResponse as JSON string: \(jsonString)")
                     let response: [String: String] = [
@@ -457,7 +457,6 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc public func streamFileUploadRequestById(_ call : CAPPluginCall){
         let id = call.getString("id") ?? ""
         do{
-        
             var cancellables = Set<AnyCancellable>()
            try TruvideoSdkMedia.streamFileUploadRequest(withId: id)
                 .sink { completion in
@@ -471,7 +470,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                     Task{
                         do {
                             let jsonData = try JSONSerialization.data(withJSONObject: await self.returnRequest(request), options: [])
-                            
+
                             if let jsonString = String(data: jsonData, encoding: .utf8) {
                                 print("mainResponse as JSON string: \(jsonString)")
                                 let response: [String: String] = [
@@ -487,7 +486,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                     }
                 }
                 .store(in: &cancellables)
-        
+
         }catch{
             call.reject(error.localizedDescription)
         }
@@ -580,16 +579,16 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             }else{
                 try TruvideoSdkMedia.getFileUploadRequests(byStatus: statusData)
             }
-            
+
           //let dateFormatter = DateFormatter()
           //let dateFormatter = ISO8601DateFormatter()
           var responseArray: [[String: String]] = []
             Task{
                 for request in requests {
-                
+
                     responseArray.append(await returnRequest(request))
                 }
-                
+
                 let jsonData = try JSONSerialization.data(withJSONObject: responseArray, options: [])
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     print("responseArray as JSON string: \(jsonString)")
