@@ -10,14 +10,14 @@ PODS:
   - Capacitor (7.0.0):
     - CapacitorCordova
   - CapacitorCordova (7.0.0)
-  - truvideo-sdk-media (78.1.3):
+  - truvideo-sdk-media (78.1.4):
     - AWSCognitoIdentityProvider
     - AWSCognitoIdentityProviderASF
     - AWSCore
     - AWSS3
-  - TruvideoCapacitorMediaSdk (0.0.5):
+  - TruvideoCapacitorMediaSdk (1.0.1-beta.1):
     - Capacitor
-    - truvideo-sdk-media (= 78.1.3)
+    - truvideo-sdk-media (= 78.1.4)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -45,10 +45,10 @@ SPEC CHECKSUMS:
   AWSCognitoIdentityProviderASF: d26fedd80485c2f0f308741e02c4a9093921ad22
   AWSCore: ee7594bda3132cde8666328bf9a09d8770c1c100
   AWSS3: 50da7408a26c1c2886d02968807f2a0b6bf936ca
-  Capacitor: fcbee427ff437f414bbb3bc2d39364ad9bd2b8a5
+  Capacitor: 82d1f3b4480d66b5996814f74500dcbc0908558c
   CapacitorCordova: 345f93b7edd121db98e4ec20ac94d6d7bcaf7e48
-  truvideo-sdk-media: 6b1f0c0c0008889a9b26d21a7bd3b0f3bcef3248
-  TruvideoCapacitorMediaSdk: 695fa9b482e8657ed05bd98a8ca8c3af5ca7a636
+  truvideo-sdk-media: 648c8e5052326714fffd2105ac06955962094783
+  TruvideoCapacitorMediaSdk: d0b48a9cc1fc79cf97ff15fca8d67556ad3c55c9
 
 PODFILE CHECKSUM: 9b5d03972ab1685132673a97ef68dba244fb1034
 
