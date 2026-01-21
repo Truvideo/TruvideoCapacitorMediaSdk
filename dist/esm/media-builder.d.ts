@@ -18,6 +18,8 @@ export declare enum MediaType {
 }
 export declare function getAllFileUploadRequests(status?: UploadRequestStatus): Promise<MediaData[]>;
 export declare function streamAllFileUploadRequests(status?: UploadRequestStatus, callbacks?: RequestsCallback): Promise<void>;
+export declare function stopAllFileUploadRequests(): Promise<void>;
+export declare function stopFileUploadRequestById(): Promise<void>;
 export declare function streamFileUploadRequestById(id?: string, callbacks?: RequestCallback): Promise<void>;
 export declare function getFileUploadRequestById(id: string): Promise<MediaData>;
 export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType, isLibrary: boolean): Promise<SearchPaginationData>;

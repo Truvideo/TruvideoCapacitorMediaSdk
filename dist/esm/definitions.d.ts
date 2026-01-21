@@ -24,6 +24,7 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{
         value: string;
     }>;
+    stopFileUploadRequestById(): Promise<void>;
     getAllFileUploadRequests(options: {
         status: string;
     }): Promise<{
@@ -34,6 +35,7 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{
         value: string;
     }>;
+    stopAllFileUploadRequests(): Promise<void>;
     cancelMedia(options: {
         id: string;
     }): Promise<{

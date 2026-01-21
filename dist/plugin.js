@@ -51,27 +51,46 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
         return parsePluginResponse(response, "requests");
     }
     const mediaRequest = [];
+    let allStreamListenerHandle = null;
+    let currentCallbacks = undefined;
     async function streamAllFileUploadRequests(status, callbacks) {
         mediaRequest.length = 0; // Clear previous requests
         TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
-        TruvideoSdkMedia.addListener('AllStream', (data) => {
-            const results = parsePluginResponse(data, "requests");
-            if (callbacks && typeof callbacks.onComplete === "function" && Array.isArray(results)) {
-                results.forEach(result => {
-                    const requestFound = mediaRequest.find(req => req.id === result.id);
-                    if (requestFound) {
-                        // Update existing request
-                        Object.assign(requestFound, result);
-                    }
-                    else {
-                        // Create new request and add to list
-                        const request = new MediaRequestClass(result);
-                        mediaRequest.push(request);
-                    }
-                });
-                callbacks.onComplete(mediaRequest);
-            }
-        });
+        // Update callbacks if provided
+        if (callbacks) {
+            currentCallbacks = callbacks;
+        }
+        // Only add listener if it doesn't already exist
+        if (!allStreamListenerHandle) {
+            allStreamListenerHandle = await TruvideoSdkMedia.addListener('AllStream', (data) => {
+                const results = parsePluginResponse(data, "requests");
+                if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
+                    results.forEach(result => {
+                        const requestFound = mediaRequest.find(req => req.id === result.id);
+                        if (requestFound) {
+                            // Update existing request
+                            Object.assign(requestFound, result);
+                        }
+                        else {
+                            // Create new request and add to list
+                            const request = new MediaRequestClass(result);
+                            mediaRequest.push(request);
+                        }
+                    });
+                    currentCallbacks.onComplete(mediaRequest);
+                }
+            });
+        }
+    }
+    async function stopAllFileUploadRequests() {
+        if (allStreamListenerHandle) {
+            allStreamListenerHandle.remove();
+            allStreamListenerHandle = null;
+            currentCallbacks = undefined;
+        }
+    }
+    async function stopFileUploadRequestById() {
+        TruvideoSdkMedia.stopFileUploadRequestById();
     }
     async function streamFileUploadRequestById(id, callbacks) {
         TruvideoSdkMedia.streamFileUploadRequestById({ id: id || '' });
@@ -331,6 +350,8 @@ var capacitorTruvideoSdkMedia = (function (exports, core) {
     exports.getAllFileUploadRequests = getAllFileUploadRequests;
     exports.getFileUploadRequestById = getFileUploadRequestById;
     exports.search = search;
+    exports.stopAllFileUploadRequests = stopAllFileUploadRequests;
+    exports.stopFileUploadRequestById = stopFileUploadRequestById;
     exports.streamAllFileUploadRequests = streamAllFileUploadRequests;
     exports.streamFileUploadRequestById = streamFileUploadRequestById;
 

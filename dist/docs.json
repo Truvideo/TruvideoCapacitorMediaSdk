@@ -70,6 +70,16 @@
         "slug": "streamfileuploadrequestbyid"
       },
       {
+        "name": "stopFileUploadRequestById",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "stopfileuploadrequestbyid"
+      },
+      {
         "name": "getAllFileUploadRequests",
         "signature": "(options: { status: string; }) => Promise<{ value: string; }>",
         "parameters": [
@@ -100,6 +110,16 @@
         "docs": "",
         "complexTypes": [],
         "slug": "streamallfileuploadrequests"
+      },
+      {
+        "name": "stopAllFileUploadRequests",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "stopallfileuploadrequests"
       },
       {
         "name": "cancelMedia",

@@ -17,8 +17,10 @@ npx cap sync
 * [`mediaBuilder(...)`](#mediabuilder)
 * [`getFileUploadRequestById(...)`](#getfileuploadrequestbyid)
 * [`streamFileUploadRequestById(...)`](#streamfileuploadrequestbyid)
+* [`stopFileUploadRequestById()`](#stopfileuploadrequestbyid)
 * [`getAllFileUploadRequests(...)`](#getallfileuploadrequests)
 * [`streamAllFileUploadRequests(...)`](#streamallfileuploadrequests)
+* [`stopAllFileUploadRequests()`](#stopallfileuploadrequests)
 * [`cancelMedia(...)`](#cancelmedia)
 * [`deleteMedia(...)`](#deletemedia)
 * [`pauseMedia(...)`](#pausemedia)
@@ -94,6 +96,15 @@ streamFileUploadRequestById(options: { id: string; }) => Promise<{ value: string
 --------------------
 
 
+### stopFileUploadRequestById()
+
+```typescript
+stopFileUploadRequestById() => Promise<void>
+```
+
+--------------------
+
+
 ### getAllFileUploadRequests(...)
 
 ```typescript
@@ -120,6 +131,15 @@ streamAllFileUploadRequests(options: { status: string; }) => Promise<{ value: st
 | **`options`** | <code>{ status: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### stopAllFileUploadRequests()
+
+```typescript
+stopAllFileUploadRequests() => Promise<void>
+```
 
 --------------------
 
