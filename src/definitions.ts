@@ -1,7 +1,7 @@
 import { PluginListenerHandle } from '@capacitor/core';
 
 import type {
-  MediaEventMap
+    MediaEventMap
 } from './index';
 
 export interface TruvideoSdkMediaPlugin {
@@ -17,10 +17,10 @@ export interface TruvideoSdkMediaPlugin {
 
     getFileUploadRequestById(options: { id: string }): Promise<{ value: string }>;
     streamFileUploadRequestById(options: { id: string }): Promise<{ value: string }>;
-
+    stopFileUploadRequestById(): Promise<void>;
     getAllFileUploadRequests(options: { status: string }): Promise<{ value: string }>;
     streamAllFileUploadRequests(options: { status: string }): Promise<{ value: string }>;
-
+    stopAllFileUploadRequests(): Promise<void>;
     cancelMedia(options: { id: string }): Promise<{ value: string }>;
 
     deleteMedia(options: { id: string }): Promise<{ value: string }>;

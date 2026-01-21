@@ -76,15 +76,20 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         });
     }
 
+    LiveData<List<TruvideoSdkMediaFileUploadRequest>> allData = null;
     @PluginMethod
     public void streamAllFileUploadRequests(PluginCall call){
         String status = call.getString("status");
+        if(allData != null){
+            return;
+        }
         try {
             if (status == null || status.isEmpty()) {
                 TruvideoSdkMedia.streamAllFileUploadRequests(null, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
                     @Override
                     public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
-                        listLiveData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
+                        allData = listLiveData;
+                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
                             @Override
                             public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
                                 if (requests != null) {
@@ -94,6 +99,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 }
                             }
                         });
+
                     }
 
                     @Override
@@ -130,7 +136,8 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                 TruvideoSdkMedia.streamAllFileUploadRequests(mainStatus, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
                     @Override
                     public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
-                        listLiveData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
+                        allData = listLiveData;
+                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
                             @Override
                             public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
                                 if (requests != null) {
@@ -153,17 +160,40 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         }
 
     }
+    @PluginMethod
+    public void stopAllFileUploadRequests(){
+        if(allData == null){
+            return;
+        }
+        allData.removeObservers(getActivity());
+        allData = null;
+    }
 
+    LiveData<TruvideoSdkMediaFileUploadRequest> singleData = null;
+
+    @PluginMethod
+    public void stopFileUploadRequestById(){
+        if(singleData == null){
+            return;
+        }
+        singleData.removeObservers(getActivity());
+        singleData = null;
+    }
     @PluginMethod
     public void streamFileUploadRequestById(PluginCall call){
         String id = call.getString("id");
+        if(singleData != null){
+            singleData.removeObservers(getActivity());
+            singleData = null;
+        }
         if(id == null){
             return;
         }
         TruvideoSdkMedia.streamFileUploadRequestById(id, new TruvideoSdkMediaCallback<LiveData<TruvideoSdkMediaFileUploadRequest>>() {
             @Override
             public void onComplete(LiveData<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequestLiveData) {
-                truvideoSdkMediaFileUploadRequestLiveData.observe(getActivity(), new Observer<TruvideoSdkMediaFileUploadRequest>() {
+                singleData = truvideoSdkMediaFileUploadRequestLiveData;
+                singleData.observe(getActivity(), new Observer<TruvideoSdkMediaFileUploadRequest>() {
                     @Override
                     public void onChanged(TruvideoSdkMediaFileUploadRequest request) {
                         var mainResponse = returnRequest(request);
