@@ -17,6 +17,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "mediaBuilder", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "uploadMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getFileUploadRequestById", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopAllFileUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopFileUploadRequestById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getAllFileUploadRequests", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "streamAllFileUploadRequests", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "streamFileUploadRequestById", returnType: CAPPluginReturnPromise),
@@ -453,13 +455,13 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         //TruvideoSdkMedia.FileUploadRequestBuilder(fileURL: fileURL)
     }
     
+    private var uploadRequestsCancellableById: AnyCancellable? = nil
+    
     
     @objc public func streamFileUploadRequestById(_ call : CAPPluginCall){
         let id = call.getString("id") ?? ""
         do{
-        
-            var cancellables = Set<AnyCancellable>()
-           try TruvideoSdkMedia.streamFileUploadRequest(withId: id)
+            uploadRequestsCancellableById = try TruvideoSdkMedia.streamFileUploadRequest(withId: id)
                 .sink { completion in
                     switch completion {
                     case .finished:
@@ -486,13 +488,13 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                         }
                     }
                 }
-                .store(in: &cancellables)
         
         }catch{
             call.reject(error.localizedDescription)
         }
     }
-        
+     
+    private var uploadRequestsCancellable: AnyCancellable? = nil
         
     @objc public func streamAllFileUploadRequests(_ call : CAPPluginCall){
         let status = call.getString("status") ?? ""
@@ -515,8 +517,8 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
           statusData = nil
         }
         
-        var cancellables = Set<AnyCancellable>()
-        TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData) // or provide a status
+//        var cancellables = Set<AnyCancellable>()
+        uploadRequestsCancellable = TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData) // or provide a status
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -549,8 +551,24 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 }
                 
             }
-            .store(in: &cancellables)
+            //.store(in: &cancellables)
         
+    }
+    
+    @objc public func stopAllFileUploadRequests(_ call : CAPPluginCall){
+        if(uploadRequestsCancellable == nil){
+            return
+        }
+        uploadRequestsCancellable.cancel()
+        uploadRequestsCancellable = nil
+    }
+    
+    @objc public func stopFileUploadRequestById(_ call : CAPPluginCall){
+        if(uploadRequestsCancellableById == nil){
+            return
+        }
+        uploadRequestsCancellableById.cancel()
+        uploadRequestsCancellableById = nil
     }
     
     @objc public func getAllFileUploadRequests(_ call : CAPPluginCall){

@@ -24,6 +24,7 @@ import com.truvideo.sdk.media.model.TruvideoSdkMediaResponse;
 import com.truvideo.sdk.media.model.TruvideoSdkMediaTags;
 import com.truvideo.sdk.media.util.DateUtilsKt;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -85,28 +86,38 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         }
         try {
             if (status == null || status.isEmpty()) {
-                TruvideoSdkMedia.streamAllFileUploadRequests(null, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
+                KotlinBridgeKt.streamRequest(getActivity(), null, new ReturnData() {
                     @Override
-                    public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
-                        allData = listLiveData;
-                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
-                            @Override
-                            public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
-                                if (requests != null) {
+                    public void returnData(@NotNull List<@NotNull TruvideoSdkMediaFileUploadRequest> data) {
+                        if (data != null) {
                                     JSObject request = new JSObject();
-                                    request.put("requests",returnRequestList(requests));
+                                    request.put("requests",returnRequestList(data));
                                     sendEvent("AllStream",request);
                                 }
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onError(@NonNull TruvideoSdkException e) {
-                        call.reject("SDK Exception","TruvideoSdkException",e);
                     }
                 });
+//                TruvideoSdkMedia.streamAllFileUploadRequests(null, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
+//                    @Override
+//                    public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
+//                        allData = listLiveData;
+//                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
+//                            @Override
+//                            public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
+//                                if (requests != null) {
+//                                    JSObject request = new JSObject();
+//                                    request.put("requests",returnRequestList(requests));
+//                                    sendEvent("AllStream",request);
+//                                }
+//                            }
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull TruvideoSdkException e) {
+//                        call.reject("SDK Exception","TruvideoSdkException",e);
+//                    }
+//                });
             } else {
                 TruvideoSdkMediaFileUploadStatus mainStatus = null;
                 switch (status) {
@@ -132,28 +143,38 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         mainStatus = TruvideoSdkMediaFileUploadStatus.SYNCHRONIZING;
                         break;
                 }
-
-                TruvideoSdkMedia.streamAllFileUploadRequests(mainStatus, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
+                KotlinBridgeKt.streamRequest(getActivity(), mainStatus, new ReturnData() {
                     @Override
-                    public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
-                        allData = listLiveData;
-                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
-                            @Override
-                            public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
-                                if (requests != null) {
-                                    JSObject request = new JSObject();
-                                    request.put("requests",returnRequestList(requests));
-                                    sendEvent("AllStream",request);
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(@NonNull TruvideoSdkException e) {
-                        call.reject("SDK Exception","TruvideoSdkException",e);
+                    public void returnData(@NotNull List<@NotNull TruvideoSdkMediaFileUploadRequest> data) {
+                        if (data != null) {
+                            JSObject request = new JSObject();
+                            request.put("requests",returnRequestList(data));
+                            sendEvent("AllStream",request);
+                        }
                     }
                 });
+
+//                TruvideoSdkMedia.streamAllFileUploadRequests(mainStatus, new TruvideoSdkMediaCallback<LiveData<List<TruvideoSdkMediaFileUploadRequest>>>() {
+//                    @Override
+//                    public void onComplete(LiveData<List<TruvideoSdkMediaFileUploadRequest>> listLiveData) {
+//                        allData = listLiveData;
+//                        allData.observe(getActivity(), new Observer<List<TruvideoSdkMediaFileUploadRequest>>() {
+//                            @Override
+//                            public void onChanged(List<TruvideoSdkMediaFileUploadRequest> requests) {
+//                                if (requests != null) {
+//                                    JSObject request = new JSObject();
+//                                    request.put("requests",returnRequestList(requests));
+//                                    sendEvent("AllStream",request);
+//                                }
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull TruvideoSdkException e) {
+//                        call.reject("SDK Exception","TruvideoSdkException",e);
+//                    }
+//                });
             }
         } catch (Exception e) {
             call.reject("GET_REQUESTS_ERROR", e);
