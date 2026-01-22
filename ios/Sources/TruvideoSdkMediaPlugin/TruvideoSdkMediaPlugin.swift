@@ -559,7 +559,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         if(uploadRequestsCancellable == nil){
             return
         }
-        uploadRequestsCancellable.cancel()
+        uploadRequestsCancellable?.cancel()
         uploadRequestsCancellable = nil
     }
     
@@ -567,7 +567,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         if(uploadRequestsCancellableById == nil){
             return
         }
-        uploadRequestsCancellableById.cancel()
+        uploadRequestsCancellableById?.cancel()
         uploadRequestsCancellableById = nil
     }
     
