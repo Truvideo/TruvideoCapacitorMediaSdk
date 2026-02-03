@@ -1,0 +1,3 @@
+module TruvideoSdkMediaPlugin {
+    header "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/include/TruvideoSdkMediaPlugin-Swift.h"
+}

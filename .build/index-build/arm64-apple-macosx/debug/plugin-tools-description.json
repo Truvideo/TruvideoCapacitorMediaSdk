@@ -1,0 +1,635 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.xctest/Contents/MacOS/TruvideoCapacitorMediaSdkPackageTests",
+      "packagePath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk",
+      "productName" : "TruvideoCapacitorMediaSdkPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.TruvideoCapacitorMediaSdkPackageTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/sources",
+      "importPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPluginTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TruvideoCapacitorMediaSdkPackageTests",
+      "moduleOutputPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoCapacitorMediaSdkPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/include/TruvideoCapacitorMediaSdkPackageTests-Swift.h",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "truvideocapacitormediasdk"
+      ],
+      "outputFileMapPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoCapacitorMediaSdkPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.TruvideoSdkMediaPlugin-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/sources",
+      "importPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Sources/TruvideoSdkMediaPlugin/TruvideoSdkMediaPlugin.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TruvideoSdkMediaPlugin",
+      "moduleOutputPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPlugin.swiftmodule",
+      "objects" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/TruvideoSdkMediaPlugin.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/include/TruvideoSdkMediaPlugin-Swift.h",
+        "-swift-version",
+        "5",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "truvideocapacitormediasdk"
+      ],
+      "outputFileMapPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPlugin.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Sources/TruvideoSdkMediaPlugin/TruvideoSdkMediaPlugin.swift"
+      ],
+      "tempsPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.TruvideoSdkMediaPluginTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/sources",
+      "importPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Tests/TruvideoSdkMediaPluginTests/TruvideoSdkMediaPluginTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPlugin.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TruvideoSdkMediaPluginTests",
+      "moduleOutputPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPluginTests.swiftmodule",
+      "objects" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/TruvideoSdkMediaPluginTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "truvideocapacitormediasdk"
+      ],
+      "outputFileMapPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules/TruvideoSdkMediaPluginTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Tests/TruvideoSdkMediaPluginTests/TruvideoSdkMediaPluginTests.swift"
+      ],
+      "tempsPath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "TruvideoCapacitorMediaSdkPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TruvideoCapacitorMediaSdkPackageTests",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-c",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/include/TruvideoCapacitorMediaSdkPackageTests-Swift.h",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "TruvideoSdkMediaPlugin" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TruvideoSdkMediaPlugin",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-c",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Sources/TruvideoSdkMediaPlugin/TruvideoSdkMediaPlugin.swift",
+      "-I",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/include/TruvideoSdkMediaPlugin-Swift.h",
+      "-swift-version",
+      "5",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "TruvideoSdkMediaPluginTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TruvideoSdkMediaPluginTests",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-c",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Tests/TruvideoSdkMediaPluginTests/TruvideoSdkMediaPluginTests.swift",
+      "-I",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "truvideocapacitormediasdk",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "TruvideoCapacitorMediaSdkPackageTests" : [
+      "TruvideoSdkMediaPluginTests",
+      "TruvideoSdkMediaPlugin",
+      "Cordova",
+      "Capacitor"
+    ],
+    "TruvideoSdkMediaPlugin" : [
+      "Cordova",
+      "Capacitor"
+    ],
+    "TruvideoSdkMediaPluginTests" : [
+      "TruvideoSdkMediaPlugin",
+      "Cordova",
+      "Capacitor"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/sources"
+    },
+    "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Sources/TruvideoSdkMediaPlugin/TruvideoSdkMediaPlugin.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPlugin.build/sources"
+    },
+    "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/ios/Tests/TruvideoSdkMediaPluginTests/TruvideoSdkMediaPluginTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoSdkMediaPluginTests.build/sources"
+    },
+    "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

@@ -1,0 +1,189 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/runner/Library/Developer/Xcode/DerivedData/Capacitor-dcunztwheydsxkafwgnpymefglnr/Build/Intermediates.noindex/ArchiveIntermediates/Capacitor/InstallationBuildProductsLocation/Library/Frameworks/Cordova.framework/Cordova'
+relocations:
+  - { offset: 0x85900, size: 0x8, addend: 0x0, symName: _CordovaVersionString, symObjAddr: 0x0, symBinAddr: 0x76B8, symSize: 0x0 }
+  - { offset: 0x85935, size: 0x8, addend: 0x0, symName: _CordovaVersionNumber, symObjAddr: 0x38, symBinAddr: 0x76F0, symSize: 0x0 }
+  - { offset: 0x85972, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager initWithParser:viewController:webView:]', symObjAddr: 0x0, symBinAddr: 0xD48, symSize: 0x2B4 }
+  - { offset: 0x85A65, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager initWithParser:viewController:webView:]', symObjAddr: 0x0, symBinAddr: 0xD48, symSize: 0x2B4 }
+  - { offset: 0x85ACB, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager getCommandInstance:]', symObjAddr: 0x2B4, symBinAddr: 0xFFC, symSize: 0x368 }
+  - { offset: 0x85B47, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager registerPlugin:withClassName:]', symObjAddr: 0x61C, symBinAddr: 0x1364, symSize: 0x15C }
+  - { offset: 0x85B9A, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager onAppDidEnterBackground:]', symObjAddr: 0x778, symBinAddr: 0x14C0, symSize: 0x84 }
+  - { offset: 0x85BDE, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager onAppWillEnterForeground:]', symObjAddr: 0x7FC, symBinAddr: 0x1544, symSize: 0x84 }
+  - { offset: 0x85C22, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager pluginsMap]', symObjAddr: 0x880, symBinAddr: 0x15C8, symSize: 0x1C }
+  - { offset: 0x85C5B, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setPluginsMap:]', symObjAddr: 0x89C, symBinAddr: 0x15E4, symSize: 0x34 }
+  - { offset: 0x85C9D, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager pluginObjects]', symObjAddr: 0x8D0, symBinAddr: 0x1618, symSize: 0x1C }
+  - { offset: 0x85CD6, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setPluginObjects:]', symObjAddr: 0x8EC, symBinAddr: 0x1634, symSize: 0x34 }
+  - { offset: 0x85D18, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager settings]', symObjAddr: 0x920, symBinAddr: 0x1668, symSize: 0x1C }
+  - { offset: 0x85D51, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setSettings:]', symObjAddr: 0x93C, symBinAddr: 0x1684, symSize: 0x34 }
+  - { offset: 0x85D93, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager viewController]', symObjAddr: 0x970, symBinAddr: 0x16B8, symSize: 0x2C }
+  - { offset: 0x85DCC, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setViewController:]', symObjAddr: 0x99C, symBinAddr: 0x16E4, symSize: 0x34 }
+  - { offset: 0x85E0E, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager webView]', symObjAddr: 0x9D0, symBinAddr: 0x1718, symSize: 0x2C }
+  - { offset: 0x85E47, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setWebView:]', symObjAddr: 0x9FC, symBinAddr: 0x1744, symSize: 0x34 }
+  - { offset: 0x85E89, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager commandDelegate]', symObjAddr: 0xA30, symBinAddr: 0x1778, symSize: 0x1C }
+  - { offset: 0x85EC2, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager setCommandDelegate:]', symObjAddr: 0xA4C, symBinAddr: 0x1794, symSize: 0x34 }
+  - { offset: 0x85F04, size: 0x8, addend: 0x0, symName: '-[CDVPluginManager .cxx_destruct]', symObjAddr: 0xA80, symBinAddr: 0x17C8, symSize: 0x80 }
+  - { offset: 0x86052, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl initWithWebView:pluginManager:]', symObjAddr: 0x0, symBinAddr: 0x1848, symSize: 0x1A8 }
+  - { offset: 0x861FC, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl initWithWebView:pluginManager:]', symObjAddr: 0x0, symBinAddr: 0x1848, symSize: 0x1A8 }
+  - { offset: 0x86269, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl pathForResource:]', symObjAddr: 0x1A8, symBinAddr: 0x19F0, symSize: 0x264 }
+  - { offset: 0x8630C, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl flushCommandQueueWithDelayedJs]', symObjAddr: 0x40C, symBinAddr: 0x1C54, symSize: 0x28 }
+  - { offset: 0x8634F, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl evalJsHelper2:]', symObjAddr: 0x434, symBinAddr: 0x1C7C, symSize: 0x118 }
+  - { offset: 0x863A8, size: 0x8, addend: 0x0, symName: '___40-[CDVCommandDelegateImpl evalJsHelper2:]_block_invoke', symObjAddr: 0x54C, symBinAddr: 0x1D94, symSize: 0x64 }
+  - { offset: 0x863FA, size: 0x8, addend: 0x0, symName: '___40-[CDVCommandDelegateImpl evalJsHelper2:]_block_invoke_2', symObjAddr: 0x5B0, symBinAddr: 0x1DF8, symSize: 0xD8 }
+  - { offset: 0x86458, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x688, symBinAddr: 0x1ED0, symSize: 0x58 }
+  - { offset: 0x8647F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x6E0, symBinAddr: 0x1F28, symSize: 0x44 }
+  - { offset: 0x864CF, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl isValidCallbackId:]', symObjAddr: 0x724, symBinAddr: 0x1F6C, symSize: 0x1B0 }
+  - { offset: 0x86548, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl sendPluginResult:callbackId:]', symObjAddr: 0x8D4, symBinAddr: 0x211C, symSize: 0x200 }
+  - { offset: 0x865E7, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl evalJs:]', symObjAddr: 0xAD4, symBinAddr: 0x231C, symSize: 0x64 }
+  - { offset: 0x8662B, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl evalJs:scheduledOnRunLoop:]', symObjAddr: 0xB38, symBinAddr: 0x2380, symSize: 0xAC }
+  - { offset: 0x8667E, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl getCommandInstance:]', symObjAddr: 0xBE4, symBinAddr: 0x242C, symSize: 0x8C }
+  - { offset: 0x866C6, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl runInBackground:]', symObjAddr: 0xC70, symBinAddr: 0x24B8, symSize: 0x7C }
+  - { offset: 0x8670A, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl settings]', symObjAddr: 0xCEC, symBinAddr: 0x2534, symSize: 0x5C }
+  - { offset: 0x86743, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl urlTransformer]', symObjAddr: 0xD48, symBinAddr: 0x2590, symSize: 0x1C }
+  - { offset: 0x8677C, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl setUrlTransformer:]', symObjAddr: 0xD64, symBinAddr: 0x25AC, symSize: 0x38 }
+  - { offset: 0x867BE, size: 0x8, addend: 0x0, symName: '-[CDVCommandDelegateImpl .cxx_destruct]', symObjAddr: 0xD9C, symBinAddr: 0x25E4, symSize: 0x6C }
+  - { offset: 0x86A27, size: 0x8, addend: 0x0, symName: _messageFromArrayBuffer, symObjAddr: 0x0, symBinAddr: 0x2650, symSize: 0x104 }
+  - { offset: 0x86A41, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_NO_RESULT, symObjAddr: 0x11F8, symBinAddr: 0x76F8, symSize: 0x0 }
+  - { offset: 0x86AB8, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_OK, symObjAddr: 0x1200, symBinAddr: 0x7700, symSize: 0x0 }
+  - { offset: 0x86ACE, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_CLASS_NOT_FOUND_EXCEPTION, symObjAddr: 0x1208, symBinAddr: 0x7708, symSize: 0x0 }
+  - { offset: 0x86AE4, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_ILLEGAL_ACCESS_EXCEPTION, symObjAddr: 0x1210, symBinAddr: 0x7710, symSize: 0x0 }
+  - { offset: 0x86AFA, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_INSTANTIATION_EXCEPTION, symObjAddr: 0x1218, symBinAddr: 0x7718, symSize: 0x0 }
+  - { offset: 0x86B10, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_MALFORMED_URL_EXCEPTION, symObjAddr: 0x1220, symBinAddr: 0x7720, symSize: 0x0 }
+  - { offset: 0x86B26, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_IO_EXCEPTION, symObjAddr: 0x1228, symBinAddr: 0x7728, symSize: 0x0 }
+  - { offset: 0x86B3C, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_INVALID_ACTION, symObjAddr: 0x1230, symBinAddr: 0x7730, symSize: 0x0 }
+  - { offset: 0x86B52, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_JSON_EXCEPTION, symObjAddr: 0x1238, symBinAddr: 0x7738, symSize: 0x0 }
+  - { offset: 0x86B68, size: 0x8, addend: 0x0, symName: _SWIFT_CDVCommandStatus_ERROR, symObjAddr: 0x1240, symBinAddr: 0x7740, symSize: 0x0 }
+  - { offset: 0x86B7E, size: 0x8, addend: 0x0, symName: _org_apache_cordova_CommandStatusMsgs, symObjAddr: 0x5230, symBinAddr: 0x11D40, symSize: 0x0 }
+  - { offset: 0x86B99, size: 0x8, addend: 0x0, symName: _gIsVerbose, symObjAddr: 0x5238, symBinAddr: 0x11D48, symSize: 0x0 }
+  - { offset: 0x86C51, size: 0x8, addend: 0x0, symName: _messageFromArrayBuffer, symObjAddr: 0x0, symBinAddr: 0x2650, symSize: 0x104 }
+  - { offset: 0x86C7B, size: 0x8, addend: 0x0, symName: _massageMessage, symObjAddr: 0x104, symBinAddr: 0x2754, symSize: 0xA0 }
+  - { offset: 0x86CA5, size: 0x8, addend: 0x0, symName: _messageFromMultipart, symObjAddr: 0x1A4, symBinAddr: 0x27F4, symSize: 0x1A8 }
+  - { offset: 0x86CFC, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult initialize]', symObjAddr: 0x34C, symBinAddr: 0x299C, symSize: 0xCC }
+  - { offset: 0x86D31, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult init]', symObjAddr: 0x418, symBinAddr: 0x2A68, symSize: 0x70 }
+  - { offset: 0x86D6A, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult initWithStatus:message:]', symObjAddr: 0x488, symBinAddr: 0x2AD8, symSize: 0x150 }
+  - { offset: 0x86DC1, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:]', symObjAddr: 0x5D8, symBinAddr: 0x2C28, symSize: 0x3C }
+  - { offset: 0x86E09, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsString:]', symObjAddr: 0x614, symBinAddr: 0x2C64, symSize: 0x74 }
+  - { offset: 0x86E60, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsArray:]', symObjAddr: 0x688, symBinAddr: 0x2CD8, symSize: 0x74 }
+  - { offset: 0x86EB7, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsInt:]', symObjAddr: 0x6FC, symBinAddr: 0x2D4C, symSize: 0x8C }
+  - { offset: 0x86F0E, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsNSInteger:]', symObjAddr: 0x788, symBinAddr: 0x2DD8, symSize: 0x8C }
+  - { offset: 0x86F65, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsNSUInteger:]', symObjAddr: 0x814, symBinAddr: 0x2E64, symSize: 0x8C }
+  - { offset: 0x86FBC, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsDouble:]', symObjAddr: 0x8A0, symBinAddr: 0x2EF0, symSize: 0x8C }
+  - { offset: 0x87013, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsBool:]', symObjAddr: 0x92C, symBinAddr: 0x2F7C, symSize: 0x90 }
+  - { offset: 0x8706A, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsDictionary:]', symObjAddr: 0x9BC, symBinAddr: 0x300C, symSize: 0x74 }
+  - { offset: 0x870C1, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsArrayBuffer:]', symObjAddr: 0xA30, symBinAddr: 0x3080, symSize: 0xA8 }
+  - { offset: 0x87118, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageAsMultipart:]', symObjAddr: 0xAD8, symBinAddr: 0x3128, symSize: 0xA8 }
+  - { offset: 0x8716F, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult resultWithStatus:messageToErrorObject:]', symObjAddr: 0xB80, symBinAddr: 0x31D0, symSize: 0x104 }
+  - { offset: 0x871D5, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult setKeepCallbackAsBool:]', symObjAddr: 0xC84, symBinAddr: 0x32D4, symSize: 0x70 }
+  - { offset: 0x8724B, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult argumentsAsJSON]', symObjAddr: 0xCF4, symBinAddr: 0x3344, symSize: 0x244 }
+  - { offset: 0x872E4, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult setVerbose:]', symObjAddr: 0xF38, symBinAddr: 0x3588, symSize: 0x28 }
+  - { offset: 0x87328, size: 0x8, addend: 0x0, symName: '+[CDVPluginResult isVerbose]', symObjAddr: 0xF60, symBinAddr: 0x35B0, symSize: 0x20 }
+  - { offset: 0x87361, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult JSONStringFromArray:]', symObjAddr: 0xF80, symBinAddr: 0x35D0, symSize: 0x138 }
+  - { offset: 0x873C7, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult status]', symObjAddr: 0x10B8, symBinAddr: 0x3708, symSize: 0x1C }
+  - { offset: 0x87400, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult message]', symObjAddr: 0x10D4, symBinAddr: 0x3724, symSize: 0x1C }
+  - { offset: 0x87439, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult keepCallback]', symObjAddr: 0x10F0, symBinAddr: 0x3740, symSize: 0x1C }
+  - { offset: 0x87472, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult setKeepCallback:]', symObjAddr: 0x110C, symBinAddr: 0x375C, symSize: 0x34 }
+  - { offset: 0x874B4, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult associatedObject]', symObjAddr: 0x1140, symBinAddr: 0x3790, symSize: 0x1C }
+  - { offset: 0x874ED, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult setAssociatedObject:]', symObjAddr: 0x115C, symBinAddr: 0x37AC, symSize: 0x34 }
+  - { offset: 0x8752F, size: 0x8, addend: 0x0, symName: '-[CDVPluginResult .cxx_destruct]', symObjAddr: 0x1190, symBinAddr: 0x37E0, symSize: 0x68 }
+  - { offset: 0x875EB, size: 0x8, addend: 0x0, symName: '-[NSDictionary(CordovaPreferences) cordovaSettingForKey:]', symObjAddr: 0x0, symBinAddr: 0x3848, symSize: 0xA0 }
+  - { offset: 0x875F9, size: 0x8, addend: 0x0, symName: '-[NSDictionary(CordovaPreferences) cordovaSettingForKey:]', symObjAddr: 0x0, symBinAddr: 0x3848, symSize: 0xA0 }
+  - { offset: 0x87641, size: 0x8, addend: 0x0, symName: '-[NSDictionary(CordovaPreferences) cordovaBoolSettingForKey:defaultValue:]', symObjAddr: 0xA0, symBinAddr: 0x38E8, symSize: 0xB4 }
+  - { offset: 0x876B6, size: 0x8, addend: 0x0, symName: '-[NSDictionary(CordovaPreferences) cordovaFloatSettingForKey:defaultValue:]', symObjAddr: 0x154, symBinAddr: 0x399C, symSize: 0xB0 }
+  - { offset: 0x8772B, size: 0x8, addend: 0x0, symName: '-[NSMutableDictionary(CordovaPreferences) setCordovaSetting:forKey:]', symObjAddr: 0x204, symBinAddr: 0x3A4C, symSize: 0xBC }
+  - { offset: 0x87816, size: 0x8, addend: 0x0, symName: '+[CDVWebViewProcessPoolFactory sharedFactory]', symObjAddr: 0x0, symBinAddr: 0x3B08, symSize: 0x7C }
+  - { offset: 0x87830, size: 0x8, addend: 0x0, symName: _factory, symObjAddr: 0x2198, symBinAddr: 0x11D50, symSize: 0x0 }
+  - { offset: 0x8786F, size: 0x8, addend: 0x0, symName: '+[CDVWebViewProcessPoolFactory sharedFactory]', symObjAddr: 0x0, symBinAddr: 0x3B08, symSize: 0x7C }
+  - { offset: 0x87899, size: 0x8, addend: 0x0, symName: _sharedFactory.onceToken, symObjAddr: 0x21A0, symBinAddr: 0x11D58, symSize: 0x0 }
+  - { offset: 0x87929, size: 0x8, addend: 0x0, symName: '___45+[CDVWebViewProcessPoolFactory sharedFactory]_block_invoke', symObjAddr: 0x7C, symBinAddr: 0x3B84, symSize: 0x4C }
+  - { offset: 0x87953, size: 0x8, addend: 0x0, symName: '-[CDVWebViewProcessPoolFactory init]', symObjAddr: 0xC8, symBinAddr: 0x3BD0, symSize: 0xCC }
+  - { offset: 0x8798C, size: 0x8, addend: 0x0, symName: '-[CDVWebViewProcessPoolFactory sharedProcessPool]', symObjAddr: 0x194, symBinAddr: 0x3C9C, symSize: 0x1C }
+  - { offset: 0x879C5, size: 0x8, addend: 0x0, symName: '-[CDVWebViewProcessPoolFactory sharedPool]', symObjAddr: 0x1B0, symBinAddr: 0x3CB8, symSize: 0x1C }
+  - { offset: 0x879FE, size: 0x8, addend: 0x0, symName: '-[CDVWebViewProcessPoolFactory setSharedPool:]', symObjAddr: 0x1CC, symBinAddr: 0x3CD4, symSize: 0x34 }
+  - { offset: 0x87A40, size: 0x8, addend: 0x0, symName: '-[CDVWebViewProcessPoolFactory .cxx_destruct]', symObjAddr: 0x200, symBinAddr: 0x3D08, symSize: 0x30 }
+  - { offset: 0x87B6C, size: 0x8, addend: 0x0, symName: '-[UIView(org_apache_cordova_UIView_Extension) scrollView]', symObjAddr: 0x0, symBinAddr: 0x3D38, symSize: 0x6C }
+  - { offset: 0x87B86, size: 0x8, addend: 0x0, symName: _CDVPageDidLoadNotification, symObjAddr: 0x1228, symBinAddr: 0xC108, symSize: 0x0 }
+  - { offset: 0x87BA6, size: 0x8, addend: 0x0, symName: _CDVPluginHandleOpenURLNotification, symObjAddr: 0x1230, symBinAddr: 0xC110, symSize: 0x0 }
+  - { offset: 0x87BBC, size: 0x8, addend: 0x0, symName: _CDVPluginHandleOpenURLWithAppSourceAndAnnotationNotification, symObjAddr: 0x1238, symBinAddr: 0xC118, symSize: 0x0 }
+  - { offset: 0x87BD2, size: 0x8, addend: 0x0, symName: _CDVPluginResetNotification, symObjAddr: 0x1240, symBinAddr: 0xC120, symSize: 0x0 }
+  - { offset: 0x87BE8, size: 0x8, addend: 0x0, symName: _CDVLocalNotification, symObjAddr: 0x1248, symBinAddr: 0xC128, symSize: 0x0 }
+  - { offset: 0x87BFE, size: 0x8, addend: 0x0, symName: _CDVRemoteNotification, symObjAddr: 0x1250, symBinAddr: 0xC130, symSize: 0x0 }
+  - { offset: 0x87C14, size: 0x8, addend: 0x0, symName: _CDVRemoteNotificationError, symObjAddr: 0x1258, symBinAddr: 0xC138, symSize: 0x0 }
+  - { offset: 0x87C2A, size: 0x8, addend: 0x0, symName: _CDVViewWillAppearNotification, symObjAddr: 0x1260, symBinAddr: 0xC140, symSize: 0x0 }
+  - { offset: 0x87C40, size: 0x8, addend: 0x0, symName: _CDVViewDidAppearNotification, symObjAddr: 0x1268, symBinAddr: 0xC148, symSize: 0x0 }
+  - { offset: 0x87C56, size: 0x8, addend: 0x0, symName: _CDVViewWillDisappearNotification, symObjAddr: 0x1270, symBinAddr: 0xC150, symSize: 0x0 }
+  - { offset: 0x87C6C, size: 0x8, addend: 0x0, symName: _CDVViewDidDisappearNotification, symObjAddr: 0x1278, symBinAddr: 0xC158, symSize: 0x0 }
+  - { offset: 0x87C82, size: 0x8, addend: 0x0, symName: _CDVViewWillLayoutSubviewsNotification, symObjAddr: 0x1280, symBinAddr: 0xC160, symSize: 0x0 }
+  - { offset: 0x87C98, size: 0x8, addend: 0x0, symName: _CDVViewDidLayoutSubviewsNotification, symObjAddr: 0x1288, symBinAddr: 0xC168, symSize: 0x0 }
+  - { offset: 0x87CAE, size: 0x8, addend: 0x0, symName: _CDVViewWillTransitionToSizeNotification, symObjAddr: 0x1290, symBinAddr: 0xC170, symSize: 0x0 }
+  - { offset: 0x87DB8, size: 0x8, addend: 0x0, symName: '-[UIView(org_apache_cordova_UIView_Extension) scrollView]', symObjAddr: 0x0, symBinAddr: 0x3D38, symSize: 0x6C }
+  - { offset: 0x87E00, size: 0x8, addend: 0x0, symName: '-[CDVPlugin initWithWebViewEngine:]', symObjAddr: 0x6C, symBinAddr: 0x3DA4, symSize: 0xD4 }
+  - { offset: 0x87E48, size: 0x8, addend: 0x0, symName: '-[CDVPlugin pluginInitialize]', symObjAddr: 0x140, symBinAddr: 0x3E78, symSize: 0x114 }
+  - { offset: 0x87E7D, size: 0x8, addend: 0x0, symName: '-[CDVPlugin dispose]', symObjAddr: 0x254, symBinAddr: 0x3F8C, symSize: 0x44 }
+  - { offset: 0x87EB2, size: 0x8, addend: 0x0, symName: '-[CDVPlugin handleOpenURL:]', symObjAddr: 0x298, symBinAddr: 0x3FD0, symSize: 0x94 }
+  - { offset: 0x87F05, size: 0x8, addend: 0x0, symName: '-[CDVPlugin onAppTerminate]', symObjAddr: 0x32C, symBinAddr: 0x4064, symSize: 0x14 }
+  - { offset: 0x87F3A, size: 0x8, addend: 0x0, symName: '-[CDVPlugin onMemoryWarning]', symObjAddr: 0x340, symBinAddr: 0x4078, symSize: 0x14 }
+  - { offset: 0x87F6F, size: 0x8, addend: 0x0, symName: '-[CDVPlugin onReset]', symObjAddr: 0x354, symBinAddr: 0x408C, symSize: 0x14 }
+  - { offset: 0x87FA4, size: 0x8, addend: 0x0, symName: '-[CDVPlugin dealloc]', symObjAddr: 0x368, symBinAddr: 0x40A0, symSize: 0x7C }
+  - { offset: 0x87FD9, size: 0x8, addend: 0x0, symName: '-[CDVPlugin appDelegate]', symObjAddr: 0x3E4, symBinAddr: 0x411C, symSize: 0x68 }
+  - { offset: 0x88012, size: 0x8, addend: 0x0, symName: '-[CDVPlugin webViewEngine]', symObjAddr: 0x44C, symBinAddr: 0x4184, symSize: 0x2C }
+  - { offset: 0x8804B, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setWebViewEngine:]', symObjAddr: 0x478, symBinAddr: 0x41B0, symSize: 0x34 }
+  - { offset: 0x8808D, size: 0x8, addend: 0x0, symName: '-[CDVPlugin viewController]', symObjAddr: 0x4AC, symBinAddr: 0x41E4, symSize: 0x2C }
+  - { offset: 0x880C6, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setViewController:]', symObjAddr: 0x4D8, symBinAddr: 0x4210, symSize: 0x34 }
+  - { offset: 0x88108, size: 0x8, addend: 0x0, symName: '-[CDVPlugin commandDelegate]', symObjAddr: 0x50C, symBinAddr: 0x4244, symSize: 0x2C }
+  - { offset: 0x88141, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setCommandDelegate:]', symObjAddr: 0x538, symBinAddr: 0x4270, symSize: 0x34 }
+  - { offset: 0x88183, size: 0x8, addend: 0x0, symName: '-[CDVPlugin hasPendingOperation]', symObjAddr: 0x56C, symBinAddr: 0x42A4, symSize: 0x20 }
+  - { offset: 0x881BC, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setHasPendingOperation:]', symObjAddr: 0x58C, symBinAddr: 0x42C4, symSize: 0x24 }
+  - { offset: 0x881FE, size: 0x8, addend: 0x0, symName: '-[CDVPlugin webView]', symObjAddr: 0x5B0, symBinAddr: 0x42E8, symSize: 0x2C }
+  - { offset: 0x88237, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setWebView:]', symObjAddr: 0x5DC, symBinAddr: 0x4314, symSize: 0x34 }
+  - { offset: 0x88279, size: 0x8, addend: 0x0, symName: '-[CDVPlugin className]', symObjAddr: 0x610, symBinAddr: 0x4348, symSize: 0x1C }
+  - { offset: 0x882B2, size: 0x8, addend: 0x0, symName: '-[CDVPlugin setClassName:]', symObjAddr: 0x62C, symBinAddr: 0x4364, symSize: 0x34 }
+  - { offset: 0x882F4, size: 0x8, addend: 0x0, symName: '-[CDVPlugin .cxx_destruct]', symObjAddr: 0x660, symBinAddr: 0x4398, symSize: 0x64 }
+  - { offset: 0x8838A, size: 0x8, addend: 0x0, symName: '-[CDVPlugin(CDVPluginResources) pluginLocalizedString:]', symObjAddr: 0x0, symBinAddr: 0x43FC, symSize: 0x13C }
+  - { offset: 0x88398, size: 0x8, addend: 0x0, symName: '-[CDVPlugin(CDVPluginResources) pluginLocalizedString:]', symObjAddr: 0x0, symBinAddr: 0x43FC, symSize: 0x13C }
+  - { offset: 0x883EF, size: 0x8, addend: 0x0, symName: '-[CDVPlugin(CDVPluginResources) pluginImageResource:]', symObjAddr: 0x13C, symBinAddr: 0x4538, symSize: 0xF4 }
+  - { offset: 0x88537, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser init]', symObjAddr: 0x0, symBinAddr: 0x462C, symSize: 0x170 }
+  - { offset: 0x885E1, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser init]', symObjAddr: 0x0, symBinAddr: 0x462C, symSize: 0x170 }
+  - { offset: 0x8861A, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser parser:didStartElement:namespaceURI:qualifiedName:attributes:]', symObjAddr: 0x170, symBinAddr: 0x479C, symSize: 0x47C }
+  - { offset: 0x886E0, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser parser:didEndElement:namespaceURI:qualifiedName:]', symObjAddr: 0x5EC, symBinAddr: 0x4C18, symSize: 0xD4 }
+  - { offset: 0x88751, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser parser:parseErrorOccurred:]', symObjAddr: 0x6C0, symBinAddr: 0x4CEC, symSize: 0x104 }
+  - { offset: 0x887A4, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser pluginsDict]', symObjAddr: 0x7C4, symBinAddr: 0x4DF0, symSize: 0x1C }
+  - { offset: 0x887DD, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser setPluginsDict:]', symObjAddr: 0x7E0, symBinAddr: 0x4E0C, symSize: 0x34 }
+  - { offset: 0x8881F, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser settings]', symObjAddr: 0x814, symBinAddr: 0x4E40, symSize: 0x1C }
+  - { offset: 0x88858, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser setSettings:]', symObjAddr: 0x830, symBinAddr: 0x4E5C, symSize: 0x34 }
+  - { offset: 0x8889A, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser startPage]', symObjAddr: 0x864, symBinAddr: 0x4E90, symSize: 0x1C }
+  - { offset: 0x888D3, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser setStartPage:]', symObjAddr: 0x880, symBinAddr: 0x4EAC, symSize: 0x34 }
+  - { offset: 0x88915, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser startupPluginNames]', symObjAddr: 0x8B4, symBinAddr: 0x4EE0, symSize: 0x1C }
+  - { offset: 0x8894E, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser setStartupPluginNames:]', symObjAddr: 0x8D0, symBinAddr: 0x4EFC, symSize: 0x34 }
+  - { offset: 0x88990, size: 0x8, addend: 0x0, symName: '-[CDVConfigParser .cxx_destruct]', symObjAddr: 0x904, symBinAddr: 0x4F30, symSize: 0x78 }
+  - { offset: 0x88A4F, size: 0x8, addend: 0x0, symName: '-[CDVViewController pluginObjects]', symObjAddr: 0x0, symBinAddr: 0x4FA8, symSize: 0x24 }
+  - { offset: 0x88AC6, size: 0x8, addend: 0x0, symName: '-[CDVViewController pluginObjects]', symObjAddr: 0x0, symBinAddr: 0x4FA8, symSize: 0x24 }
+  - { offset: 0x88AFF, size: 0x8, addend: 0x0, symName: '-[CDVViewController setPluginObjects:]', symObjAddr: 0x24, symBinAddr: 0x4FCC, symSize: 0x3C }
+  - { offset: 0x88B41, size: 0x8, addend: 0x0, symName: '-[CDVViewController settings]', symObjAddr: 0x60, symBinAddr: 0x5008, symSize: 0x24 }
+  - { offset: 0x88B7A, size: 0x8, addend: 0x0, symName: '-[CDVViewController webView]', symObjAddr: 0x84, symBinAddr: 0x502C, symSize: 0x34 }
+  - { offset: 0x88BB3, size: 0x8, addend: 0x0, symName: '-[CDVViewController .cxx_destruct]', symObjAddr: 0xB8, symBinAddr: 0x5060, symSize: 0x6C }
+  - { offset: 0x88C33, size: 0x8, addend: 0x0, symName: '+[CDVInvokedUrlCommand commandFromJson:]', symObjAddr: 0x0, symBinAddr: 0x50CC, symSize: 0x70 }
+  - { offset: 0x88CC4, size: 0x8, addend: 0x0, symName: '+[CDVInvokedUrlCommand commandFromJson:]', symObjAddr: 0x0, symBinAddr: 0x50CC, symSize: 0x70 }
+  - { offset: 0x88D0C, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand initFromJson:]', symObjAddr: 0x70, symBinAddr: 0x513C, symSize: 0x1E4 }
+  - { offset: 0x88D9F, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand initWithArguments:callbackId:className:methodName:]', symObjAddr: 0x254, symBinAddr: 0x5320, symSize: 0x170 }
+  - { offset: 0x88E14, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand massageArguments]', symObjAddr: 0x3C4, symBinAddr: 0x5490, symSize: 0x268 }
+  - { offset: 0x88EC9, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand argumentAtIndex:]', symObjAddr: 0x62C, symBinAddr: 0x56F8, symSize: 0x38 }
+  - { offset: 0x88F11, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand argumentAtIndex:withDefault:]', symObjAddr: 0x664, symBinAddr: 0x5730, symSize: 0x7C }
+  - { offset: 0x88F68, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand argumentAtIndex:withDefault:andClass:]', symObjAddr: 0x6E0, symBinAddr: 0x57AC, symSize: 0x178 }
+  - { offset: 0x88FDD, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand arguments]', symObjAddr: 0x858, symBinAddr: 0x5924, symSize: 0x1C }
+  - { offset: 0x89016, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand callbackId]', symObjAddr: 0x874, symBinAddr: 0x5940, symSize: 0x1C }
+  - { offset: 0x8904F, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand className]', symObjAddr: 0x890, symBinAddr: 0x595C, symSize: 0x1C }
+  - { offset: 0x89088, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand methodName]', symObjAddr: 0x8AC, symBinAddr: 0x5978, symSize: 0x1C }
+  - { offset: 0x890C1, size: 0x8, addend: 0x0, symName: '-[CDVInvokedUrlCommand .cxx_destruct]', symObjAddr: 0x8C8, symBinAddr: 0x5994, symSize: 0x68 }
+  - { offset: 0x89189, size: 0x8, addend: 0x0, symName: '-[AppDelegate viewController]', symObjAddr: 0x0, symBinAddr: 0x59FC, symSize: 0x1C }
+  - { offset: 0x89208, size: 0x8, addend: 0x0, symName: '-[AppDelegate viewController]', symObjAddr: 0x0, symBinAddr: 0x59FC, symSize: 0x1C }
+  - { offset: 0x89241, size: 0x8, addend: 0x0, symName: '-[AppDelegate setViewController:]', symObjAddr: 0x1C, symBinAddr: 0x5A18, symSize: 0x34 }
+  - { offset: 0x89283, size: 0x8, addend: 0x0, symName: '-[AppDelegate .cxx_destruct]', symObjAddr: 0x50, symBinAddr: 0x5A4C, symSize: 0x30 }
+  - { offset: 0x8930A, size: 0x8, addend: 0x0, symName: '+[CDVURLProtocol canInitWithRequest:]', symObjAddr: 0x0, symBinAddr: 0x5A7C, symSize: 0x54 }
+  - { offset: 0x89324, size: 0x8, addend: 0x0, symName: _kCDVAssetsLibraryPrefixes, symObjAddr: 0x468, symBinAddr: 0xC178, symSize: 0x0 }
+  - { offset: 0x89349, size: 0x8, addend: 0x0, symName: '+[CDVURLProtocol canInitWithRequest:]', symObjAddr: 0x0, symBinAddr: 0x5A7C, symSize: 0x54 }
+  - { offset: 0x89391, size: 0x8, addend: 0x0, symName: '+[CDVURLProtocol canonicalRequestForRequest:]', symObjAddr: 0x54, symBinAddr: 0x5AD0, symSize: 0x68 }
+  - { offset: 0x893D9, size: 0x8, addend: 0x0, symName: '-[CDVURLProtocol startLoading]', symObjAddr: 0xBC, symBinAddr: 0x5B38, symSize: 0x14 }
+  - { offset: 0x8940E, size: 0x8, addend: 0x0, symName: '-[CDVURLProtocol stopLoading]', symObjAddr: 0xD0, symBinAddr: 0x5B4C, symSize: 0x14 }
+  - { offset: 0x89443, size: 0x8, addend: 0x0, symName: '+[CDVURLProtocol requestIsCacheEquivalent:toRequest:]', symObjAddr: 0xE4, symBinAddr: 0x5B60, symSize: 0x78 }
+  - { offset: 0x8949A, size: 0x8, addend: 0x0, symName: '-[CDVURLProtocol sendResponseWithResponseCode:data:mimeType:]', symObjAddr: 0x15C, symBinAddr: 0x5BD8, symSize: 0x254 }
+...

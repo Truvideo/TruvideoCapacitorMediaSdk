@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/master.swiftdeps"
+  },
+  "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner.d",
+    "object": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/khush/Desktop/SDK's/TruVideoCapacitorMediaSdk/.build/index-build/arm64-apple-macosx/debug/TruvideoCapacitorMediaSdkPackageTests.build/runner.dia"
+  }
+}
