@@ -22,6 +22,8 @@ import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileType;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequest;
 //import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadStatus;
 //import com.truvideo.sdk.media.model.external.TruvideoSdkMediaPaginatedResponse;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequestStatus;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaPagedResult;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaResponse;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaTags;
 import com.truvideo.sdk.media.util.DateUtilsKt;
@@ -40,8 +42,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
+import kotlinx.coroutines.BuildersKt;
 import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.CoroutineScopeKt;
+import kotlinx.coroutines.CoroutineStart;
+import kotlinx.coroutines.Dispatchers;
 import kotlinx.coroutines.GlobalScope;
+import kotlinx.coroutines.Job;
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.FlowKt;
 import truvideo.sdk.common.exceptions.TruvideoSdkException;
 
 @CapacitorPlugin(name = "TruvideoSdkMedia")
@@ -100,28 +109,28 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                     }
                 });
             } else {
-                TruvideoSdkMediaFileUploadStatus mainStatus = null;
+                TruvideoSdkMediaFileUploadRequestStatus mainStatus = null;
                 switch (status) {
                     case "UPLOADING":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.UPLOADING;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.UPLOADING;
                         break;
                     case "IDLE":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.IDLE;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.IDLE;
                         break;
                     case "ERROR":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.ERROR;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.ERROR;
                         break;
                     case "PAUSED":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.PAUSED;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.PAUSED;
                         break;
                     case "COMPLETED":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.COMPLETED;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.COMPLETED;
                         break;
                     case "CANCELED":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.CANCELED;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.CANCELED;
                         break;
                     case "SYNCHRONIZING":
-                        mainStatus = TruvideoSdkMediaFileUploadStatus.SYNCHRONIZING;
+                        mainStatus = TruvideoSdkMediaFileUploadRequestStatus.SYNCHRONIZING;
                         break;
                 }
                 KotlinBridgeKt.streamRequest(mainStatus, new ReturnData() {
@@ -160,6 +169,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         singleData.removeObservers(getActivity());
         singleData = null;
     }
+    private Job singleJob;
     @PluginMethod
     public void streamFileUploadRequestById(PluginCall call){
         String id = call.getString("id");
@@ -170,19 +180,34 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.streamFileUploadRequestById(id, new TruvideoSdkMediaCallback<LiveData<TruvideoSdkMediaFileUploadRequest>>() {
+        TruvideoSdkMedia.getInstance().streamFileUploadRequestById(id, new TruvideoSdkMediaCallback<Flow<TruvideoSdkMediaFileUploadRequest>>() {
             @Override
-            public void onComplete(LiveData<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequestLiveData) {
-                singleData = truvideoSdkMediaFileUploadRequestLiveData;
-                singleData.observe(getActivity(), new Observer<TruvideoSdkMediaFileUploadRequest>() {
-                    @Override
-                    public void onChanged(TruvideoSdkMediaFileUploadRequest request) {
-                        var mainResponse = returnRequest(request);
-                        // Upload the file
-                        JSObject ret = new JSObject();
-                        ret.put("request",mainResponse);
-                        sendEvent("stream",ret);
-                    }
+            public void onComplete(Flow<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequestFlow) {
+//                singleData = truvideoSdkMediaFileUploadRequestLiveData;
+//                singleData.observe(getActivity(), new Observer<TruvideoSdkMediaFileUploadRequest>() {
+//                    @Override
+//                    public void onChanged(TruvideoSdkMediaFileUploadRequest request) {
+//                        var mainResponse = returnRequest(request);
+//                        // Upload the file
+//                        JSObject ret = new JSObject();
+//                        ret.put("request",mainResponse);
+//                        sendEvent("stream",ret);
+//                    }
+//                });
+
+                // Cancel previous listener
+                if (singleJob != null) {
+                    singleJob.cancel(null);
+                }
+
+                singleJob = KotlinBridgeKt.collectUploadFlow(truvideoSdkMediaFileUploadRequestFlow, request -> {
+                    Object mainResponse = returnRequest(request);
+
+                    JSObject ret = new JSObject();
+                    ret.put("request", mainResponse);
+
+                    sendEvent("stream", ret);
+                    return kotlin.Unit.INSTANCE;
                 });
             }
 
@@ -198,7 +223,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         String status = call.getString("status");
             try {
                 if (status == null || status.isEmpty()) {
-                    TruvideoSdkMedia.getAllFileUploadRequests(null, new TruvideoSdkMediaCallback<List<TruvideoSdkMediaFileUploadRequest>>() {
+                    TruvideoSdkMedia.getInstance().getAllFileUploadRequests(null, new TruvideoSdkMediaCallback<List<TruvideoSdkMediaFileUploadRequest>>() {
                         @Override
                         public void onComplete(List<TruvideoSdkMediaFileUploadRequest> truvideoSdkMediaFileUploadRequests) {
                             JSObject request = new JSObject();
@@ -212,32 +237,32 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         }
                     });
                 } else {
-                    TruvideoSdkMediaFileUploadStatus mainStatus = null;
+                    TruvideoSdkMediaFileUploadRequestStatus mainStatus = null;
                     switch (status) {
                         case "UPLOADING":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.UPLOADING;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.UPLOADING;
                             break;
                         case "IDLE":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.IDLE;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.IDLE;
                             break;
                         case "ERROR":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.ERROR;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.ERROR;
                             break;
                         case "PAUSED":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.PAUSED;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.PAUSED;
                             break;
                         case "COMPLETED":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.COMPLETED;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.COMPLETED;
                             break;
                         case "CANCELED":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.CANCELED;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.CANCELED;
                             break;
                         case "SYNCHRONIZING":
-                            mainStatus = TruvideoSdkMediaFileUploadStatus.SYNCHRONIZING;
+                            mainStatus = TruvideoSdkMediaFileUploadRequestStatus.SYNCHRONIZING;
                             break;
                     }
 
-                    TruvideoSdkMedia.getAllFileUploadRequests(mainStatus, new TruvideoSdkMediaCallback<List<TruvideoSdkMediaFileUploadRequest>>()  {
+                    TruvideoSdkMedia.getInstance().getAllFileUploadRequests(mainStatus, new TruvideoSdkMediaCallback<List<TruvideoSdkMediaFileUploadRequest>>()  {
                         @Override
                         public void onError(@NonNull TruvideoSdkException e) {
                             call.reject("SDK Exception","TruvideoSdkException",e);
@@ -263,7 +288,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
                 request.cancel(new TruvideoSdkMediaCallback<Unit>() {
@@ -294,7 +319,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
                 request.delete(new TruvideoSdkMediaCallback<Unit>() {
@@ -325,7 +350,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
                 request.pause(new TruvideoSdkMediaCallback<Unit>() {
@@ -356,7 +381,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
                 request.resume(new TruvideoSdkMediaCallback<Unit>() {
@@ -391,45 +416,47 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         try {
             TruvideoSdkMediaFileType typeData;
             if ("All".equals(type)) {
-                typeData = TruvideoSdkMediaFileType.All;
+                typeData = null;
             } else if ("Video".equals(type)) {
-                typeData = TruvideoSdkMediaFileType.Video;
+                typeData = TruvideoSdkMediaFileType.VIDEO;
             } else if ("AUDIO".equals(type)) {
                 typeData = TruvideoSdkMediaFileType.AUDIO;
             } else if ("PDF".equals(type)) {
-                typeData = TruvideoSdkMediaFileType.PDF;
+                typeData = TruvideoSdkMediaFileType.DOCUMENT;
             } else {
-                typeData = TruvideoSdkMediaFileType.Picture;
+                typeData = TruvideoSdkMediaFileType.IMAGE;
             }
 
             JSONObject jsonTag = new JSONObject(tag);
-            Map<String, String> map = new HashMap<>();
+            ArrayList<TruvideoSdkMediaTags.Entry> entriesList = new ArrayList<>();
             Iterator<String> keys = jsonTag.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
                 String value = jsonTag.getString(key);
-                map.put(key, value);
+                entriesList.add(new TruvideoSdkMediaTags.Entry(key,value));
             }
 
-            TruvideoSdkMedia.search(
-                    new TruvideoSdkMediaTags(map),
+            TruvideoSdkMedia.getInstance().search(
+                    new TruvideoSdkMediaTags(entriesList),
                     typeData,
                     isLibrary,
                     Integer.parseInt(page),
                     Integer.parseInt(pageSize),
-                    new TruvideoSdkMediaCallback<TruvideoSdkMediaPaginatedResponse<TruvideoSdkMediaResponse>>() {
+                    new TruvideoSdkMediaCallback<TruvideoSdkMediaResponse<TruvideoSdkMediaPagedResult>>() {
                         @Override
-                        public void onComplete(TruvideoSdkMediaPaginatedResponse<TruvideoSdkMediaResponse> response) {
+                        public void onComplete(TruvideoSdkMediaResponse<TruvideoSdkMediaPagedResult> truvideoSdkMediaPagedResultTruvideoSdkMediaResponse) {
                             Gson gson = new Gson();
                             ArrayList<String> list = new ArrayList<>();
-                            for (TruvideoSdkMediaResponse it : response.getData()) {
+                            TruvideoSdkMediaPagedResult response = truvideoSdkMediaPagedResultTruvideoSdkMediaResponse.getData();
+
+                            for (TruvideoSdkMediaModel it : response.getItems()) {
                                 Map<String, Object> mainResponse = new HashMap<>();
                                 mainResponse.put("id", it.getId());
-                                mainResponse.put("createdDate",DateUtilsKt.toIsoString(it.getCreatedDate()));
+                                mainResponse.put("createdDate",DateUtilsKt.toIsoString(it.getCreatedAt()));
                                 mainResponse.put("remoteId", it.getId());
                                 mainResponse.put("uploadedFileURL", it.getUrl());
-                                mainResponse.put("metaData", it.getMetadata().toJson());
-                                mainResponse.put("tags", it.getTags().toJson());
+                                mainResponse.put("metaData", it.getMetadata().toJsonObject().toString());
+                                mainResponse.put("tags", it.getTags().toJsonObject().toString());
                                 mainResponse.put("transcriptionURL", it.getTranscriptionUrl());
                                 mainResponse.put("transcriptionLength", it.getTranscriptionLength());
                                 mainResponse.put("fileType", it.getType().name());
@@ -441,9 +468,9 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                             jet.put("response",gson.toJson(list));
                             jet.put("totalPages",response.getTotalPages());
                             jet.put("totalElements",response.getTotalElements());
-                            jet.put("numberOfElements",response.getNumberOfElements());
-                            jet.put("size",response.getSize());
-                            jet.put("number",response.getNumber());
+                            jet.put("numberOfElements","0");
+                            jet.put("size",response.getPageSize());
+                            jet.put("number","0");
                             jet.put("first",response.getFirst());
                             jet.put("empty",response.getEmpty());
                             jet.put("last",response.getLast());
@@ -473,7 +500,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             String tag = call.getString("tag");
             String metaData = call.getString("metaData");
             Boolean isLibrary = call.getBoolean("isLibrary",false);
-            final TruvideoSdkMediaFileUploadRequestBuilder builder = TruvideoSdkMedia.FileUploadRequestBuilder(filePath);
+            final TruvideoSdkMediaFileUploadRequestBuilder builder = TruvideoSdkMedia.getInstance().FileUploadRequestBuilder(filePath);
             JSONObject jsonTag = new JSONObject(tag);
             Iterator<String> keys = jsonTag.keys();
             while (keys.hasNext()) {
@@ -523,12 +550,12 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             Map<String, Object> map = new HashMap<>();
             map.put("id", request.getId());
             map.put("filePath", request.getFilePath());
-            map.put("fileType", request.getType());
+            map.put("fileType", request.getFileType());
             map.put("durationMilliseconds", request.getDurationMilliseconds());
-            map.put("remoteId", request.getRemoteId());
-            map.put("remoteURL", request.getRemoteUrl());
+            map.put("remoteId", request.getMediaId());
+            map.put("remoteURL", request.getMediaUrl());
             map.put("transcriptionURL", request.getTranscriptionUrl());
-            map.put("transcriptionLength", request.getTranscriptionLength());
+            map.put("transcriptionLength", "0");
             map.put("status", request.getStatus());
             map.put("progress", request.getUploadProgress());
             map.put("tags", request.getTags());
@@ -547,12 +574,12 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         Map<String, Object> map = new HashMap<>();
         map.put("id", request.getId());
         map.put("filePath", request.getFilePath());
-        map.put("fileType", request.getType());
+        map.put("fileType", request.getFileType());
         map.put("durationMilliseconds", request.getDurationMilliseconds());
-        map.put("remoteId", request.getRemoteId());
-        map.put("remoteURL", request.getRemoteUrl());
+        map.put("remoteId", request.getMediaId());
+        map.put("remoteURL", request.getMediaUrl());
         map.put("transcriptionURL", request.getTranscriptionUrl());
-        map.put("transcriptionLength", request.getTranscriptionLength());
+        map.put("transcriptionLength", "0");
         map.put("status", request.getStatus());
         map.put("progress", request.getUploadProgress());
         map.put("tags",request.getTags());
@@ -567,12 +594,12 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         JSObject map = new JSObject();
         map.put("id", request.getId());
         map.put("filePath", request.getFilePath());
-        map.put("fileType", request.getType());
+        map.put("fileType", request.getFileType());
         map.put("durationMilliseconds", request.getDurationMilliseconds());
-        map.put("remoteId", request.getRemoteId());
-        map.put("remoteURL", request.getRemoteUrl());
+        map.put("remoteId", request.getMediaId());
+        map.put("remoteURL", request.getMediaUrl());
         map.put("transcriptionURL", request.getTranscriptionUrl());
-        map.put("transcriptionLength", request.getTranscriptionLength());
+        map.put("transcriptionLength", "0");
         map.put("status", request.getStatus());
         map.put("progress", request.getUploadProgress());
         map.put("tags",request.getTags());
@@ -595,7 +622,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             return;
         }
 
-        TruvideoSdkMedia.getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id, new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>() {
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest request) {
                 request.upload(
@@ -632,13 +659,13 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                                 JSObject ret = new JSObject();
                                 ret.put("id", id);
                                 ret.put("createdDate", DateUtilsKt.toIsoString(response.getCreatedAt()));
-                                ret.put("remoteId", response.getRemoteId());
-                                ret.put("uploadedFileURL", response.getRemoteUrl());
-                                ret.put("metaData", response.getMetadata().toJson());
-                                ret.put("tags", request.getTags().toJson());
+                                ret.put("remoteId", response.getMediaId());
+                                ret.put("uploadedFileURL", response.getMediaUrl());
+                                ret.put("metaData", response.getMetadata().toJsonObject().toString());
+                                ret.put("tags", request.getTags().toJsonObject().toString());
                                 ret.put("transcriptionURL", response.getTranscriptionUrl());
-                                ret.put("transcriptionLength", response.getTranscriptionLength());
-                                ret.put("fileType", response.getType().name());
+                                ret.put("transcriptionLength", "0");
+                                ret.put("fileType", response.getFileType().name());
 
                                 call.resolve(ret);
                                 sendEvent("onComplete", ret);
