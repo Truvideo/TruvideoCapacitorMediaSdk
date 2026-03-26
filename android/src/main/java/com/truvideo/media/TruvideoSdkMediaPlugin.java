@@ -1,6 +1,6 @@
 package com.truvideo.media;
 
-import static com.truvideo.sdk.media.TruvideoSdkMedia.TruvideoSdkMedia;
+import com.truvideo.sdk.media.TruvideoSdkMedia;
 import android.content.Context;
 import android.util.Log;
 
@@ -18,13 +18,18 @@ import com.google.gson.JsonArray;
 import com.truvideo.sdk.media.builder.TruvideoSdkMediaFileUploadRequestBuilder;
 import com.truvideo.sdk.media.interfaces.TruvideoSdkMediaCallback;
 import com.truvideo.sdk.media.interfaces.TruvideoSdkMediaFileUploadCallback;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaFileType;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaFileUploadRequest;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaFileUploadStatus;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaPaginatedResponse;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaResponse;
-import com.truvideo.sdk.media.model.TruvideoSdkMediaTags;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileType;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequest;
+//import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadStatus;
+//import com.truvideo.sdk.media.model.external.TruvideoSdkMediaPaginatedResponse;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaResponse;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaTags;
 import com.truvideo.sdk.media.util.DateUtilsKt;
+
+
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaModel;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaUploadRequest;
+
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -62,7 +67,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         if(id == null){
             return;
         }
-        TruvideoSdkMedia.getFileUploadRequestById(id,new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>(){
+        TruvideoSdkMedia.getInstance().getFileUploadRequestById(id,new TruvideoSdkMediaCallback<TruvideoSdkMediaFileUploadRequest>(){
             @Override
             public void onComplete(TruvideoSdkMediaFileUploadRequest truvideoSdkMediaFileUploadRequest) {
                 var mainResponse = returnRequest(truvideoSdkMediaFileUploadRequest);
