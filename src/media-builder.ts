@@ -141,6 +141,55 @@ export async function getFileUploadRequestById(id: string): Promise<MediaData> {
   return parsePluginResponse<MediaData>(response, "request");
 }
 
+export async function getAllStreamUploadRequests(): Promise<MediaData[]> {
+  const response = await TruvideoSdkMedia.getAllStreamUploadRequests();
+  return parsePluginResponse<MediaData[]>(response, "requests");
+}
+
+export async function getStreamUploadRequestById(id: string): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.getStreamUploadRequestById(id || '');
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
+export async function uploadStreamUploadRequest(
+  id: string,
+  title: string,
+  tags: string,
+  metadata: string,
+  includeInReport: boolean,
+  isLibrary: boolean
+): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.uploadStreamUploadRequest(
+    id || '',
+    title || '',
+    tags || '',
+    metadata || '',
+    includeInReport,
+    isLibrary
+  );
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
+export async function pauseStreamUploadRequest(id: string): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.pauseStreamUploadRequest(id || '');
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
+export async function resumeStreamUploadRequest(id: string): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.resumeStreamUploadRequest(id || '');
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
+export async function retryStreamUploadRequest(id: string): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.retryStreamUploadRequest(id || '');
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
+export async function deleteStreamUploadRequest(id: string): Promise<MediaData> {
+  const response = await TruvideoSdkMedia.deleteStreamUploadRequest(id || '');
+  return parsePluginResponse<MediaData>(response, "request");
+}
+
 export async function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType, isLibrary: boolean): Promise<SearchPaginationData> {
   let raw = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
   //let searchData = parsePluginResponse<SearchData[]>(response,"response");

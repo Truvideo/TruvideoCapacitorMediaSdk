@@ -31,6 +31,21 @@ export interface TruvideoSdkMediaPlugin {
 
     uploadMedia(options: { id: string }): Promise<{ value: string }>;
 
+    getAllStreamUploadRequests(): Promise<any>;
+    getStreamUploadRequestById(id: string): Promise<any>;
+    uploadStreamUploadRequest(
+        id: string,
+        title: string,
+        tags: string,
+        metadata: string,
+        includeInReport: boolean,
+        isLibrary: boolean
+    ): Promise<any>;
+    pauseStreamUploadRequest(id: string): Promise<any>;
+    resumeStreamUploadRequest(id: string): Promise<any>;
+    retryStreamUploadRequest(id: string): Promise<any>;
+    deleteStreamUploadRequest(id: string): Promise<any>;
+
     search(options: {
         tag: string;
         type: string;

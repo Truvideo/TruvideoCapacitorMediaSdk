@@ -202,6 +202,137 @@
         "slug": "uploadmedia"
       },
       {
+        "name": "getAllStreamUploadRequests",
+        "signature": "() => Promise<any>",
+        "parameters": [],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "getallstreamuploadrequests"
+      },
+      {
+        "name": "getStreamUploadRequestById",
+        "signature": "(id: string) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "getstreamuploadrequestbyid"
+      },
+      {
+        "name": "uploadStreamUploadRequest",
+        "signature": "(id: string, title: string, tags: string, metadata: string, includeInReport: boolean, isLibrary: boolean) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "docs": "",
+            "type": "string"
+          },
+          {
+            "name": "tags",
+            "docs": "",
+            "type": "string"
+          },
+          {
+            "name": "metadata",
+            "docs": "",
+            "type": "string"
+          },
+          {
+            "name": "includeInReport",
+            "docs": "",
+            "type": "boolean"
+          },
+          {
+            "name": "isLibrary",
+            "docs": "",
+            "type": "boolean"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "uploadstreamuploadrequest"
+      },
+      {
+        "name": "pauseStreamUploadRequest",
+        "signature": "(id: string) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "pausestreamuploadrequest"
+      },
+      {
+        "name": "resumeStreamUploadRequest",
+        "signature": "(id: string) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "resumestreamuploadrequest"
+      },
+      {
+        "name": "retryStreamUploadRequest",
+        "signature": "(id: string) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "retrystreamuploadrequest"
+      },
+      {
+        "name": "deleteStreamUploadRequest",
+        "signature": "(id: string) => Promise<any>",
+        "parameters": [
+          {
+            "name": "id",
+            "docs": "",
+            "type": "string"
+          }
+        ],
+        "returns": "Promise<any>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "deletestreamuploadrequest"
+      },
+      {
         "name": "search",
         "signature": "(options: { tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }) => Promise<{ value: string; }>",
         "parameters": [

@@ -26,6 +26,13 @@ npx cap sync
 * [`pauseMedia(...)`](#pausemedia)
 * [`resumeMedia(...)`](#resumemedia)
 * [`uploadMedia(...)`](#uploadmedia)
+* [`getAllStreamUploadRequests()`](#getallstreamuploadrequests)
+* [`getStreamUploadRequestById(...)`](#getstreamuploadrequestbyid)
+* [`uploadStreamUploadRequest(...)`](#uploadstreamuploadrequest)
+* [`pauseStreamUploadRequest(...)`](#pausestreamuploadrequest)
+* [`resumeStreamUploadRequest(...)`](#resumestreamuploadrequest)
+* [`retryStreamUploadRequest(...)`](#retrystreamuploadrequest)
+* [`deleteStreamUploadRequest(...)`](#deletestreamuploadrequest)
 * [`search(...)`](#search)
 * [`addListener(K, ...)`](#addlistenerk-)
 * [Interfaces](#interfaces)
@@ -215,6 +222,112 @@ uploadMedia(options: { id: string; }) => Promise<{ value: string; }>
 | **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### getAllStreamUploadRequests()
+
+```typescript
+getAllStreamUploadRequests() => Promise<any>
+```
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### getStreamUploadRequestById(...)
+
+```typescript
+getStreamUploadRequestById(id: string) => Promise<any>
+```
+
+| Param    | Type                |
+| -------- | ------------------- |
+| **`id`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### uploadStreamUploadRequest(...)
+
+```typescript
+uploadStreamUploadRequest(id: string, title: string, tags: string, metadata: string, includeInReport: boolean, isLibrary: boolean) => Promise<any>
+```
+
+| Param                 | Type                 |
+| --------------------- | -------------------- |
+| **`id`**              | <code>string</code>  |
+| **`title`**           | <code>string</code>  |
+| **`tags`**            | <code>string</code>  |
+| **`metadata`**        | <code>string</code>  |
+| **`includeInReport`** | <code>boolean</code> |
+| **`isLibrary`**       | <code>boolean</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### pauseStreamUploadRequest(...)
+
+```typescript
+pauseStreamUploadRequest(id: string) => Promise<any>
+```
+
+| Param    | Type                |
+| -------- | ------------------- |
+| **`id`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### resumeStreamUploadRequest(...)
+
+```typescript
+resumeStreamUploadRequest(id: string) => Promise<any>
+```
+
+| Param    | Type                |
+| -------- | ------------------- |
+| **`id`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### retryStreamUploadRequest(...)
+
+```typescript
+retryStreamUploadRequest(id: string) => Promise<any>
+```
+
+| Param    | Type                |
+| -------- | ------------------- |
+| **`id`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### deleteStreamUploadRequest(...)
+
+```typescript
+deleteStreamUploadRequest(id: string) => Promise<any>
+```
+
+| Param    | Type                |
+| -------- | ------------------- |
+| **`id`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
 
 --------------------
 

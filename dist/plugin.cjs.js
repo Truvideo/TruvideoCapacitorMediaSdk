@@ -118,6 +118,34 @@ async function getFileUploadRequestById(id) {
     let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
+async function getAllStreamUploadRequests() {
+    const response = await TruvideoSdkMedia.getAllStreamUploadRequests();
+    return parsePluginResponse(response, "requests");
+}
+async function getStreamUploadRequestById(id) {
+    const response = await TruvideoSdkMedia.getStreamUploadRequestById(id || '');
+    return parsePluginResponse(response, "request");
+}
+async function uploadStreamUploadRequest(id, title, tags, metadata, includeInReport, isLibrary) {
+    const response = await TruvideoSdkMedia.uploadStreamUploadRequest(id || '', title || '', tags || '', metadata || '', includeInReport, isLibrary);
+    return parsePluginResponse(response, "request");
+}
+async function pauseStreamUploadRequest(id) {
+    const response = await TruvideoSdkMedia.pauseStreamUploadRequest(id || '');
+    return parsePluginResponse(response, "request");
+}
+async function resumeStreamUploadRequest(id) {
+    const response = await TruvideoSdkMedia.resumeStreamUploadRequest(id || '');
+    return parsePluginResponse(response, "request");
+}
+async function retryStreamUploadRequest(id) {
+    const response = await TruvideoSdkMedia.retryStreamUploadRequest(id || '');
+    return parsePluginResponse(response, "request");
+}
+async function deleteStreamUploadRequest(id) {
+    const response = await TruvideoSdkMedia.deleteStreamUploadRequest(id || '');
+    return parsePluginResponse(response, "request");
+}
 async function search(tag, page, pageSize, type, isLibrary) {
     let raw = await TruvideoSdkMedia.search({ tag: JSON.stringify(tag) || '', type: type, page: page.toString(), pageSize: pageSize.toString(), isLibrary: isLibrary });
     //let searchData = parsePluginResponse<SearchData[]>(response,"response");
@@ -348,11 +376,18 @@ exports.MediaBuilder = MediaBuilder;
 exports.MediaRequestClass = MediaRequestClass;
 exports.TruvideoSdkMedia = TruvideoSdkMedia;
 exports.addListener = addListener;
+exports.deleteStreamUploadRequest = deleteStreamUploadRequest;
 exports.getAllFileUploadRequests = getAllFileUploadRequests;
+exports.getAllStreamUploadRequests = getAllStreamUploadRequests;
 exports.getFileUploadRequestById = getFileUploadRequestById;
+exports.getStreamUploadRequestById = getStreamUploadRequestById;
+exports.pauseStreamUploadRequest = pauseStreamUploadRequest;
+exports.resumeStreamUploadRequest = resumeStreamUploadRequest;
+exports.retryStreamUploadRequest = retryStreamUploadRequest;
 exports.search = search;
 exports.stopAllFileUploadRequests = stopAllFileUploadRequests;
 exports.stopFileUploadRequestById = stopFileUploadRequestById;
 exports.streamAllFileUploadRequests = streamAllFileUploadRequests;
 exports.streamFileUploadRequestById = streamFileUploadRequestById;
+exports.uploadStreamUploadRequest = uploadStreamUploadRequest;
 //# sourceMappingURL=plugin.cjs.js.map

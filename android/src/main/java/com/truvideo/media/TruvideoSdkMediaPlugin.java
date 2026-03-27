@@ -25,6 +25,7 @@ import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequest;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequestStatus;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaPagedResult;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaResponse;
+import com.truvideo.sdk.media.model.external.TruvideoSdkMediaMetadata;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaTags;
 import com.truvideo.sdk.media.util.DateUtilsKt;
 
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Method;
 import kotlin.Unit;
 import kotlinx.coroutines.BuildersKt;
 import kotlinx.coroutines.CoroutineScope;
@@ -407,6 +409,118 @@ public class TruvideoSdkMediaPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void createStreamUploadRequest(PluginCall call) {
+        call.reject(
+                "Stream upload requests are created by the recording SDK, not by this method. Use getAllStreamUploadRequests() to list pending requests after recording.",
+                "NOT_SUPPORTED"
+        );
+    }
+
+    @PluginMethod
+    public void getAllStreamUploadRequests(PluginCall call) {
+        try {
+            TruvideoSdkMedia.getInstance().getAllUploadRequests(new TruvideoSdkMediaCallback<List<TruvideoSdkMediaUploadRequest>>() {
+                @Override
+                public void onComplete(List<TruvideoSdkMediaUploadRequest> requests) {
+                    JSObject ret = new JSObject();
+                    ret.put("requests", new Gson().toJson(requests != null ? requests : new ArrayList<>()));
+                    call.resolve(ret);
+                }
+
+                @Override
+                public void onError(@NonNull TruvideoSdkException e) {
+                    call.reject("TruvideoSdkException", e.getMessage(), e);
+                }
+            });
+        } catch (Exception e) {
+            call.reject("Exception", e.getMessage(), e);
+        }
+    }
+
+    @PluginMethod
+    public void getStreamUploadRequestById(PluginCall call) {
+        String id = call.getString("id");
+        Long longId = id != null ? safeLong(id) : null;
+        if (longId == null) {
+            call.reject("Stream upload request ID must be a valid numeric (Long) value", "INVALID_ID");
+            return;
+        }
+
+        getUploadRequestById(longId, new TruvideoSdkMediaCallback<TruvideoSdkMediaUploadRequest>() {
+            @Override
+            public void onComplete(TruvideoSdkMediaUploadRequest request) {
+                JSObject ret = new JSObject();
+                ret.put("request", request == null ? "{}" : new Gson().toJson(request));
+                call.resolve(ret);
+            }
+
+            @Override
+            public void onError(@NonNull TruvideoSdkException e) {
+                call.reject("TruvideoSdkException", e.getMessage(), e);
+            }
+        }, call);
+    }
+
+    @PluginMethod
+    public void uploadStreamUploadRequest(PluginCall call) {
+        String id = call.getString("id");
+        Long longId = id != null ? safeLong(id) : null;
+        if (longId == null) {
+            call.reject("Stream upload request ID must be a valid numeric (Long) value", "INVALID_ID");
+            return;
+        }
+
+        String title = call.getString("title", "");
+        String tags = call.getString("tags", "{}");
+        String metadata = call.getString("metadata", "{}");
+        boolean includeInReport = call.getBoolean("includeInReport", false);
+        boolean isLibrary = call.getBoolean("isLibrary", false);
+
+        getUploadRequestById(longId, new TruvideoSdkMediaCallback<TruvideoSdkMediaUploadRequest>() {
+            @Override
+            public void onComplete(TruvideoSdkMediaUploadRequest request) {
+                if (request == null) {
+                    call.reject("Stream upload request not found for id: " + id, "NOT_FOUND");
+                    return;
+                }
+                try {
+                    invokeUpload(request, title, tags, metadata, includeInReport, isLibrary);
+                    JSObject ret = new JSObject();
+                    ret.put("request", new Gson().toJson(request));
+                    call.resolve(ret);
+                } catch (Exception e) {
+                    call.reject("Exception", e.getMessage(), e);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull TruvideoSdkException e) {
+                call.reject("TruvideoSdkException", e.getMessage(), e);
+            }
+        }, call);
+    }
+
+    @PluginMethod
+    public void pauseStreamUploadRequest(PluginCall call) {
+        handleStreamAction(call, "pause");
+    }
+
+    @PluginMethod
+    public void resumeStreamUploadRequest(PluginCall call) {
+        handleStreamAction(call, "resume");
+    }
+
+    @PluginMethod
+    public void retryStreamUploadRequest(PluginCall call) {
+        handleStreamAction(call, "retry");
+    }
+
+    @PluginMethod
+    public void deleteStreamUploadRequest(PluginCall call) {
+        handleStreamAction(call, "delete");
+    }
+
+    @PluginMethod
     public void search(PluginCall call) {
         String tag = call.getString("tag");
         String type = call.getString("type");
@@ -491,6 +605,125 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             call.reject("SEARCH_ERROR", e);
         }
 
+    }
+
+    private void handleStreamAction(PluginCall call, String action) {
+        String id = call.getString("id");
+        Long longId = id != null ? safeLong(id) : null;
+        if (longId == null) {
+            call.reject("Stream upload request ID must be a valid numeric (Long) value", "INVALID_ID");
+            return;
+        }
+
+        getUploadRequestById(longId, new TruvideoSdkMediaCallback<TruvideoSdkMediaUploadRequest>() {
+            @Override
+            public void onComplete(TruvideoSdkMediaUploadRequest request) {
+                if (request == null) {
+                    call.reject("Stream upload request not found for id: " + id, "NOT_FOUND");
+                    return;
+                }
+                try {
+                    invokeNoArgAction(request, action);
+                    JSObject ret = new JSObject();
+                    ret.put("request", new Gson().toJson(request));
+                    call.resolve(ret);
+                } catch (Exception e) {
+                    call.reject("Exception", e.getMessage(), e);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull TruvideoSdkException e) {
+                call.reject("TruvideoSdkException", e.getMessage(), e);
+            }
+        }, call);
+    }
+
+    private void getUploadRequestById(
+            long id,
+            TruvideoSdkMediaCallback<TruvideoSdkMediaUploadRequest> callback,
+            PluginCall call
+    ) {
+        try {
+            TruvideoSdkMedia.getInstance().getUploadRequestById(id, callback);
+        } catch (Exception e) {
+            call.reject("Exception", e.getMessage(), e);
+        }
+    }
+
+    private Long safeLong(String value) {
+        try {
+            return Long.parseLong(value);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private void invokeNoArgAction(TruvideoSdkMediaUploadRequest request, String action) throws Exception {
+        Method method = request.getClass().getMethod(action);
+        method.invoke(request);
+    }
+
+    private void invokeUpload(
+            TruvideoSdkMediaUploadRequest request,
+            String title,
+            String tags,
+            String metadata,
+            boolean includeInReport,
+            boolean isLibrary
+    ) throws Exception {
+        TruvideoSdkMediaTags tagsObj = buildTagsFromJson(tags);
+        TruvideoSdkMediaMetadata metadataObj = buildMetadataFromJson(metadata);
+
+        Method[] methods = request.getClass().getMethods();
+        for (Method method : methods) {
+            if (!"upload".equals(method.getName())) continue;
+            Class<?>[] types = method.getParameterTypes();
+            if (types.length != 5) continue;
+
+            Object[] args = new Object[5];
+            int boolIndex = 0;
+            for (int i = 0; i < types.length; i++) {
+                Class<?> type = types[i];
+                if (type == String.class) {
+                    args[i] = title;
+                } else if (type.getName().equals(TruvideoSdkMediaTags.class.getName())) {
+                    args[i] = tagsObj;
+                } else if (type.getName().equals(TruvideoSdkMediaMetadata.class.getName())) {
+                    args[i] = metadataObj;
+                } else if (type == boolean.class || type == Boolean.class) {
+                    args[i] = (boolIndex++ == 0) ? includeInReport : isLibrary;
+                } else {
+                    args[i] = null;
+                }
+            }
+            method.invoke(request, args);
+            return;
+        }
+
+        throw new NoSuchMethodException("upload method signature not found on TruvideoSdkMediaUploadRequest");
+    }
+
+    private TruvideoSdkMediaTags buildTagsFromJson(String tags) throws JSONException {
+        JSONObject jsonTag = new JSONObject(tags == null || tags.isEmpty() ? "{}" : tags);
+        ArrayList<TruvideoSdkMediaTags.Entry> entries = new ArrayList<>();
+        Iterator<String> keys = jsonTag.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            entries.add(new TruvideoSdkMediaTags.Entry(key, jsonTag.optString(key, "")));
+        }
+        return new TruvideoSdkMediaTags(entries);
+    }
+
+    private TruvideoSdkMediaMetadata buildMetadataFromJson(String metadata) throws JSONException {
+        JSONObject jsonMetadata = new JSONObject(metadata == null || metadata.isEmpty() ? "{}" : metadata);
+        ArrayList<TruvideoSdkMediaMetadata.Entry> entries = new ArrayList<>();
+        Iterator<String> keys = jsonMetadata.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            entries.add(new TruvideoSdkMediaMetadata.Entry.StringEntry(key, jsonMetadata.optString(key, "")));
+        }
+        return new TruvideoSdkMediaMetadata(entries);
     }
 
     public void builder(Context context,PluginCall call){

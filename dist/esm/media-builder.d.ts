@@ -22,6 +22,13 @@ export declare function stopAllFileUploadRequests(): Promise<void>;
 export declare function stopFileUploadRequestById(): Promise<void>;
 export declare function streamFileUploadRequestById(id?: string, callbacks?: RequestCallback): Promise<void>;
 export declare function getFileUploadRequestById(id: string): Promise<MediaData>;
+export declare function getAllStreamUploadRequests(): Promise<MediaData[]>;
+export declare function getStreamUploadRequestById(id: string): Promise<MediaData>;
+export declare function uploadStreamUploadRequest(id: string, title: string, tags: string, metadata: string, includeInReport: boolean, isLibrary: boolean): Promise<MediaData>;
+export declare function pauseStreamUploadRequest(id: string): Promise<MediaData>;
+export declare function resumeStreamUploadRequest(id: string): Promise<MediaData>;
+export declare function retryStreamUploadRequest(id: string): Promise<MediaData>;
+export declare function deleteStreamUploadRequest(id: string): Promise<MediaData>;
 export declare function search(tag: Map<string, string>, page: Number, pageSize: Number, type: MediaType, isLibrary: boolean): Promise<SearchPaginationData>;
 export declare class MediaBuilder {
     private _filePath;
