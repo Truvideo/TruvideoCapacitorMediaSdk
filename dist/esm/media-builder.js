@@ -49,34 +49,48 @@ export async function getAllFileUploadRequests(status) {
 const mediaRequest = [];
 let allStreamListenerHandle = null;
 let currentCallbacks = undefined;
+let byIdStreamListenerHandle = null;
+let byIdCurrentCallbacks = undefined;
 export async function streamAllFileUploadRequests(status, callbacks) {
     mediaRequest.length = 0; // Clear previous requests
-    TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
     // Update callbacks if provided
     if (callbacks) {
         currentCallbacks = callbacks;
     }
-    // Only add listener if it doesn't already exist
+    // Attach listener first so we don't miss early native emissions.
     if (!allStreamListenerHandle) {
         allStreamListenerHandle = await TruvideoSdkMedia.addListener('AllStream', (data) => {
-            const results = parsePluginResponse(data, "requests");
-            if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
-                results.forEach(result => {
-                    const requestFound = mediaRequest.find(req => req.id === result.id);
-                    if (requestFound) {
-                        // Update existing request
-                        Object.assign(requestFound, result);
-                    }
-                    else {
-                        // Create new request and add to list
-                        const request = new MediaRequestClass(result);
-                        mediaRequest.push(request);
-                    }
-                });
-                currentCallbacks.onComplete(mediaRequest);
+            try {
+                const results = parsePluginResponse(data, "requests");
+                if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
+                    results.forEach(result => {
+                        const requestFound = mediaRequest.find(req => req.id === result.id);
+                        if (requestFound) {
+                            // Update existing request
+                            Object.assign(requestFound, result);
+                        }
+                        else {
+                            // Create new request and add to list
+                            const request = new MediaRequestClass(result);
+                            mediaRequest.push(request);
+                        }
+                    });
+                    currentCallbacks.onComplete(mediaRequest);
+                }
+            }
+            catch (error) {
+                if (currentCallbacks && typeof currentCallbacks.onError === "function") {
+                    const streamError = {
+                        id: "",
+                        error
+                    };
+                    currentCallbacks.onError(streamError);
+                }
             }
         });
     }
+    // Start or restart the native stream for the requested status.
+    await TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
 }
 export async function stopAllFileUploadRequests() {
     if (allStreamListenerHandle) {
@@ -87,27 +101,38 @@ export async function stopAllFileUploadRequests() {
 }
 export async function stopFileUploadRequestById() {
     TruvideoSdkMedia.stopFileUploadRequestById();
+    if (byIdStreamListenerHandle) {
+        byIdStreamListenerHandle.remove();
+        byIdStreamListenerHandle = null;
+        byIdCurrentCallbacks = undefined;
+    }
 }
 export async function streamFileUploadRequestById(id, callbacks) {
     TruvideoSdkMedia.streamFileUploadRequestById({ id: id || '' });
     mediaRequest.length = 0; // Clear previous requests
-    TruvideoSdkMedia.addListener('stream', (data) => {
-        const result = parsePluginResponse(data, "request");
-        if (callbacks && typeof callbacks.onComplete === 'function') {
-            const requestFound = mediaRequest.find(request => request.id === result.id);
-            if (requestFound) {
-                // Update existing request
-                Object.assign(requestFound, result);
-                callbacks.onComplete(requestFound);
-                return;
+    if (callbacks) {
+        byIdCurrentCallbacks = callbacks;
+    }
+    // Keep a single active listener for the by-id stream.
+    if (!byIdStreamListenerHandle) {
+        byIdStreamListenerHandle = await TruvideoSdkMedia.addListener('stream', (data) => {
+            const result = parsePluginResponse(data, "request");
+            if (byIdCurrentCallbacks && typeof byIdCurrentCallbacks.onComplete === 'function') {
+                const requestFound = mediaRequest.find(request => request.id === result.id);
+                if (requestFound) {
+                    // Update existing request
+                    Object.assign(requestFound, result);
+                    byIdCurrentCallbacks.onComplete(requestFound);
+                    return;
+                }
+                else {
+                    const request = new MediaRequestClass(result);
+                    mediaRequest.push(request);
+                    byIdCurrentCallbacks.onComplete(request);
+                }
             }
-            else {
-                const request = new MediaRequestClass(result);
-                mediaRequest.push(request);
-                callbacks.onComplete(request);
-            }
-        }
-    });
+        });
+    }
 }
 export async function getFileUploadRequestById(id) {
     let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
@@ -117,7 +142,10 @@ export async function getAllStreamUploadRequests() {
     const response = await TruvideoSdkMedia.getAllStreamUploadRequests();
     return parsePluginResponse(response, "requests");
 }
-export async function getStreamUploadRequestById(id) {
+export async function getStreamUploadRequestById(id, callbacks) {
+    if (callbacks) {
+        await streamFileUploadRequestById(id, callbacks);
+    }
     const response = await TruvideoSdkMedia.getStreamUploadRequestById({ id: id || '' });
     return parsePluginResponse(response, "request");
 }

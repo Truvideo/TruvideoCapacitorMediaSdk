@@ -601,6 +601,10 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
           statusData = nil
         }
         
+        // Cancel any previous stream before starting a new one.
+        uploadRequestsCancellable?.cancel()
+        uploadRequestsCancellable = nil
+
 //        var cancellables = Set<AnyCancellable>()
         uploadRequestsCancellable = TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData) // or provide a status
             .sink { completion in
@@ -608,7 +612,10 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 case .finished:
                     print("Upload finished")
                 case .failure(let error):
-                    call.reject(error.localizedDescription)
+                    self.sendEvent(withName: "onError", body: [
+                        "id": "",
+                        "error": error.localizedDescription
+                    ])
                 }
             } receiveValue: { requests in
                 // requests is [TruvideoSdkMediaUploadRequest]
@@ -630,13 +637,18 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                             }
                         }
                     }catch {
-                        call.reject(error.localizedDescription)
+                        self.sendEvent(withName: "onError", body: [
+                            "id": "",
+                            "error": error.localizedDescription
+                        ])
                     }
                 }
                 
             }
             //.store(in: &cancellables)
-        
+
+        // Resolve immediately; updates are delivered through "AllStream" events.
+        call.resolve(["message": "All stream subscription started"])
     }
     
     @objc public func stopAllFileUploadRequests(_ call : CAPPluginCall){

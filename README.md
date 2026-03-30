@@ -229,10 +229,10 @@ uploadMedia(options: { id: string; }) => Promise<{ value: string; }>
 ### getAllStreamUploadRequests()
 
 ```typescript
-getAllStreamUploadRequests() => Promise<any>
+getAllStreamUploadRequests() => Promise<{ requests: string; }>
 ```
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ requests: string; }&gt;</code>
 
 --------------------
 
@@ -240,14 +240,14 @@ getAllStreamUploadRequests() => Promise<any>
 ### getStreamUploadRequestById(...)
 
 ```typescript
-getStreamUploadRequestById(options: { id: string; }) => Promise<any>
+getStreamUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -255,14 +255,14 @@ getStreamUploadRequestById(options: { id: string; }) => Promise<any>
 ### uploadStreamUploadRequest(...)
 
 ```typescript
-uploadStreamUploadRequest(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<any>
+uploadStreamUploadRequest(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                                                                                                                      |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code>{ id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -270,14 +270,14 @@ uploadStreamUploadRequest(options: { id: string; title: string; tags: string; me
 ### pauseStreamUploadRequest(...)
 
 ```typescript
-pauseStreamUploadRequest(options: { id: string; }) => Promise<any>
+pauseStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -285,14 +285,14 @@ pauseStreamUploadRequest(options: { id: string; }) => Promise<any>
 ### resumeStreamUploadRequest(...)
 
 ```typescript
-resumeStreamUploadRequest(options: { id: string; }) => Promise<any>
+resumeStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -300,14 +300,14 @@ resumeStreamUploadRequest(options: { id: string; }) => Promise<any>
 ### retryStreamUploadRequest(...)
 
 ```typescript
-retryStreamUploadRequest(options: { id: string; }) => Promise<any>
+retryStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -315,14 +315,14 @@ retryStreamUploadRequest(options: { id: string; }) => Promise<any>
 ### deleteStreamUploadRequest(...)
 
 ```typescript
-deleteStreamUploadRequest(options: { id: string; }) => Promise<any>
+deleteStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
 | ------------- | ---------------------------- |
 | **`options`** | <code>{ id: string; }</code> |
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 

@@ -71,36 +71,50 @@ export async function getAllFileUploadRequests(status?: UploadRequestStatus): Pr
 const mediaRequest: MediaRequestClass[] = [];
 let allStreamListenerHandle: PluginListenerHandle | null = null;
 let currentCallbacks: RequestsCallback | undefined = undefined;
+let byIdStreamListenerHandle: PluginListenerHandle | null = null;
+let byIdCurrentCallbacks: RequestCallback | undefined = undefined;
 
 export async function streamAllFileUploadRequests(status?: UploadRequestStatus, callbacks?: RequestsCallback) {
   mediaRequest.length = 0; // Clear previous requests
-  TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
 
   // Update callbacks if provided
   if (callbacks) {
     currentCallbacks = callbacks;
   }
 
-  // Only add listener if it doesn't already exist
+  // Attach listener first so we don't miss early native emissions.
   if (!allStreamListenerHandle) {
     allStreamListenerHandle = await TruvideoSdkMedia.addListener('AllStream', (data) => {
-      const results = parsePluginResponse<MediaData[]>(data, "requests");
-      if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
-        results.forEach(result => {
-          const requestFound = mediaRequest.find(req => req.id === result.id);
-          if (requestFound) {
-            // Update existing request
-            Object.assign(requestFound, result);
-          } else {
-            // Create new request and add to list
-            const request = new MediaRequestClass(result);
-            mediaRequest.push(request);
-          }
-        });
-        currentCallbacks.onComplete(mediaRequest);
+      try {
+        const results = parsePluginResponse<MediaData[]>(data, "requests");
+        if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
+          results.forEach(result => {
+            const requestFound = mediaRequest.find(req => req.id === result.id);
+            if (requestFound) {
+              // Update existing request
+              Object.assign(requestFound, result);
+            } else {
+              // Create new request and add to list
+              const request = new MediaRequestClass(result);
+              mediaRequest.push(request);
+            }
+          });
+          currentCallbacks.onComplete(mediaRequest);
+        }
+      } catch (error) {
+        if (currentCallbacks && typeof currentCallbacks.onError === "function") {
+          const streamError: UploadErrorEvent = {
+            id: "",
+            error
+          };
+          currentCallbacks.onError(streamError);
+        }
       }
     });
   }
+
+  // Start or restart the native stream for the requested status.
+  await TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
 }
 
 export async function stopAllFileUploadRequests(): Promise<void> {
@@ -113,27 +127,39 @@ export async function stopAllFileUploadRequests(): Promise<void> {
 
 export async function stopFileUploadRequestById(): Promise<void> {
   TruvideoSdkMedia.stopFileUploadRequestById();
+  if (byIdStreamListenerHandle) {
+    byIdStreamListenerHandle.remove();
+    byIdStreamListenerHandle = null;
+    byIdCurrentCallbacks = undefined;
+  }
 }
 
 export async function streamFileUploadRequestById(id?: string, callbacks?: RequestCallback) {
   TruvideoSdkMedia.streamFileUploadRequestById({ id: id || '' });
   mediaRequest.length = 0; // Clear previous requests
-  TruvideoSdkMedia.addListener('stream', (data) => {
-    const result = parsePluginResponse<MediaData>(data, "request");
-    if (callbacks && typeof callbacks.onComplete === 'function') {
-      const requestFound = mediaRequest.find(request => request.id === result.id);
-      if (requestFound) {
-        // Update existing request
-        Object.assign(requestFound, result);
-        callbacks.onComplete(requestFound);
-        return;
-      } else {
-        const request = new MediaRequestClass(result);
-        mediaRequest.push(request);
-        callbacks.onComplete(request);
+  if (callbacks) {
+    byIdCurrentCallbacks = callbacks;
+  }
+
+  // Keep a single active listener for the by-id stream.
+  if (!byIdStreamListenerHandle) {
+    byIdStreamListenerHandle = await TruvideoSdkMedia.addListener('stream', (data) => {
+      const result = parsePluginResponse<MediaData>(data, "request");
+      if (byIdCurrentCallbacks && typeof byIdCurrentCallbacks.onComplete === 'function') {
+        const requestFound = mediaRequest.find(request => request.id === result.id);
+        if (requestFound) {
+          // Update existing request
+          Object.assign(requestFound, result);
+          byIdCurrentCallbacks.onComplete(requestFound);
+          return;
+        } else {
+          const request = new MediaRequestClass(result);
+          mediaRequest.push(request);
+          byIdCurrentCallbacks.onComplete(request);
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 export async function getFileUploadRequestById(id: string): Promise<MediaData> {
@@ -146,7 +172,10 @@ export async function getAllStreamUploadRequests(): Promise<MediaData[]> {
   return parsePluginResponse<MediaData[]>(response, "requests");
 }
 
-export async function getStreamUploadRequestById(id: string): Promise<MediaData> {
+export async function getStreamUploadRequestById(id: string, callbacks?: RequestCallback): Promise<MediaData> {
+  if (callbacks) {
+    await streamFileUploadRequestById(id, callbacks);
+  }
   const response = await TruvideoSdkMedia.getStreamUploadRequestById({ id: id || '' });
   return parsePluginResponse<MediaData>(response, "request");
 }

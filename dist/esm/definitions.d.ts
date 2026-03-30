@@ -61,10 +61,14 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{
         value: string;
     }>;
-    getAllStreamUploadRequests(): Promise<any>;
+    getAllStreamUploadRequests(): Promise<{
+        requests: string;
+    }>;
     getStreamUploadRequestById(options: {
         id: string;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     uploadStreamUploadRequest(options: {
         id: string;
         title: string;
@@ -72,19 +76,29 @@ export interface TruvideoSdkMediaPlugin {
         metadata: string;
         includeInReport: boolean;
         isLibrary: boolean;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     pauseStreamUploadRequest(options: {
         id: string;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     resumeStreamUploadRequest(options: {
         id: string;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     retryStreamUploadRequest(options: {
         id: string;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     deleteStreamUploadRequest(options: {
         id: string;
-    }): Promise<any>;
+    }): Promise<{
+        request: string;
+    }>;
     search(options: {
         tag: string;
         type: string;

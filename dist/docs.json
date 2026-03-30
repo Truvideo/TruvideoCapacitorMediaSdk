@@ -203,9 +203,9 @@
       },
       {
         "name": "getAllStreamUploadRequests",
-        "signature": "() => Promise<any>",
+        "signature": "() => Promise<{ requests: string; }>",
         "parameters": [],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ requests: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -213,7 +213,7 @@
       },
       {
         "name": "getStreamUploadRequestById",
-        "signature": "(options: { id: string; }) => Promise<any>",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -221,7 +221,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -229,7 +229,7 @@
       },
       {
         "name": "uploadStreamUploadRequest",
-        "signature": "(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<any>",
+        "signature": "(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -237,7 +237,7 @@
             "type": "{ id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -245,7 +245,7 @@
       },
       {
         "name": "pauseStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<any>",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -253,7 +253,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -261,7 +261,7 @@
       },
       {
         "name": "resumeStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<any>",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -269,7 +269,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -277,7 +277,7 @@
       },
       {
         "name": "retryStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<any>",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -285,7 +285,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -293,7 +293,7 @@
       },
       {
         "name": "deleteStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<any>",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
             "name": "options",
@@ -301,7 +301,7 @@
             "type": "{ id: string; }"
           }
         ],
-        "returns": "Promise<any>",
+        "returns": "Promise<{ request: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
