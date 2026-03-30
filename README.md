@@ -240,12 +240,12 @@ getAllStreamUploadRequests() => Promise<any>
 ### getStreamUploadRequestById(...)
 
 ```typescript
-getStreamUploadRequestById(id: string) => Promise<any>
+getStreamUploadRequestById(options: { id: string; }) => Promise<any>
 ```
 
-| Param    | Type                |
-| -------- | ------------------- |
-| **`id`** | <code>string</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -255,17 +255,12 @@ getStreamUploadRequestById(id: string) => Promise<any>
 ### uploadStreamUploadRequest(...)
 
 ```typescript
-uploadStreamUploadRequest(id: string, title: string, tags: string, metadata: string, includeInReport: boolean, isLibrary: boolean) => Promise<any>
+uploadStreamUploadRequest(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<any>
 ```
 
-| Param                 | Type                 |
-| --------------------- | -------------------- |
-| **`id`**              | <code>string</code>  |
-| **`title`**           | <code>string</code>  |
-| **`tags`**            | <code>string</code>  |
-| **`metadata`**        | <code>string</code>  |
-| **`includeInReport`** | <code>boolean</code> |
-| **`isLibrary`**       | <code>boolean</code> |
+| Param         | Type                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -275,12 +270,12 @@ uploadStreamUploadRequest(id: string, title: string, tags: string, metadata: str
 ### pauseStreamUploadRequest(...)
 
 ```typescript
-pauseStreamUploadRequest(id: string) => Promise<any>
+pauseStreamUploadRequest(options: { id: string; }) => Promise<any>
 ```
 
-| Param    | Type                |
-| -------- | ------------------- |
-| **`id`** | <code>string</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -290,12 +285,12 @@ pauseStreamUploadRequest(id: string) => Promise<any>
 ### resumeStreamUploadRequest(...)
 
 ```typescript
-resumeStreamUploadRequest(id: string) => Promise<any>
+resumeStreamUploadRequest(options: { id: string; }) => Promise<any>
 ```
 
-| Param    | Type                |
-| -------- | ------------------- |
-| **`id`** | <code>string</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -305,12 +300,12 @@ resumeStreamUploadRequest(id: string) => Promise<any>
 ### retryStreamUploadRequest(...)
 
 ```typescript
-retryStreamUploadRequest(id: string) => Promise<any>
+retryStreamUploadRequest(options: { id: string; }) => Promise<any>
 ```
 
-| Param    | Type                |
-| -------- | ------------------- |
-| **`id`** | <code>string</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -320,12 +315,12 @@ retryStreamUploadRequest(id: string) => Promise<any>
 ### deleteStreamUploadRequest(...)
 
 ```typescript
-deleteStreamUploadRequest(id: string) => Promise<any>
+deleteStreamUploadRequest(options: { id: string; }) => Promise<any>
 ```
 
-| Param    | Type                |
-| -------- | ------------------- |
-| **`id`** | <code>string</code> |
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 

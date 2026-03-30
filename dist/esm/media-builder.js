@@ -118,27 +118,34 @@ export async function getAllStreamUploadRequests() {
     return parsePluginResponse(response, "requests");
 }
 export async function getStreamUploadRequestById(id) {
-    const response = await TruvideoSdkMedia.getStreamUploadRequestById(id || '');
+    const response = await TruvideoSdkMedia.getStreamUploadRequestById({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function uploadStreamUploadRequest(id, title, tags, metadata, includeInReport, isLibrary) {
-    const response = await TruvideoSdkMedia.uploadStreamUploadRequest(id || '', title || '', tags || '', metadata || '', includeInReport, isLibrary);
+    const response = await TruvideoSdkMedia.uploadStreamUploadRequest({
+        id: id || '',
+        title: title || '',
+        tags: tags || '',
+        metadata: metadata || '',
+        includeInReport,
+        isLibrary
+    });
     return parsePluginResponse(response, "request");
 }
 export async function pauseStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.pauseStreamUploadRequest(id || '');
+    const response = await TruvideoSdkMedia.pauseStreamUploadRequest({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function resumeStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.resumeStreamUploadRequest(id || '');
+    const response = await TruvideoSdkMedia.resumeStreamUploadRequest({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function retryStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.retryStreamUploadRequest(id || '');
+    const response = await TruvideoSdkMedia.retryStreamUploadRequest({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function deleteStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.deleteStreamUploadRequest(id || '');
+    const response = await TruvideoSdkMedia.deleteStreamUploadRequest({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function search(tag, page, pageSize, type, isLibrary) {
