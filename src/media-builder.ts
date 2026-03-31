@@ -171,6 +171,10 @@ export async function getUploadRequestById(id: string): Promise<MediaData> {
   return parsePluginResponse<MediaData>(response, "request");
 }
 
+export async function streamUploadRequestById(id: string): Promise<MediaData> {
+  let response = await TruvideoSdkMedia.streamUploadRequestById({ id: id || '' });
+  return parsePluginResponse<MediaData>(response, "request");
+}
 
 // Steam request functions (Stream All Upload Requests)
 let allUploadStreamListenerHandle: PluginListenerHandle | null = null;

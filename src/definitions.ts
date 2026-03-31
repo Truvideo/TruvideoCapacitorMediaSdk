@@ -44,7 +44,7 @@ export interface TruvideoSdkMediaPlugin {
     getUploadRequestById(options: { id: string }): Promise<{ request: string }>;
 
     // Steam request functions (Stream All Upload Requests)
-    getStreamUploadRequestById(options: { id: string }): Promise<{ request: string }>;
+    streamUploadRequestById(options: { id: string }): Promise<{ request: string }>;
     streamAllUploadRequests(): Promise<{ requests: string }>;
     stopAllUploadRequests(): Promise<void>;
     pauseStream(options: { id: string }): Promise<{ request: string }>;

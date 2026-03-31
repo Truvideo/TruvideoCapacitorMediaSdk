@@ -19,6 +19,10 @@ interface ReturnUploadData{
     fun returnUploadData(data: List<TruvideoSdkMediaUploadRequest>)
 }
 
+interface ReturnSingleUploadData{
+    fun returnUploadData(data: TruvideoSdkMediaUploadRequest?)
+}
+
 interface ReturnUploadError{
     fun returnUploadError(message: String)
 }
@@ -29,6 +33,8 @@ private var uploadObserver: Observer<List<TruvideoSdkMediaFileUploadRequest>>? =
 private var uploadJob: Job? = null
 
 private var uploadRequestsJob: Job? = null
+
+private var uploadRequestByIdJob: Job? = null
 
 
 //fun streamRequest(status: TruvideoSdkMediaFileUploadRequestStatus? = null, returnData: ReturnData){
@@ -57,7 +63,7 @@ fun streamRequest(
     returnData: ReturnData
 ) {
     uploadJob = CoroutineScope(Dispatchers.Main).launch {
-        TruvideoSdkMedia.getInstance().streamAllFileUploadRequests(status)
+        TruvideoSdkMedia.streamAllFileUploadRequests(status)
             .collect { req ->
                 returnData.returnData(req)
             }
@@ -71,13 +77,30 @@ fun streamAllUploadRequests(
     uploadRequestsJob = CoroutineScope(Dispatchers.Main).launch {
         try {
             TruvideoSdkMedia
-                .getInstance()
                 .streamAllUploadRequests()
                 .collect { list ->
                     returnData.returnUploadData(list)
                 }
         } catch (e: Exception) {
             onError.returnUploadError("❌ Failed to observe all upload requests")
+        }
+    }
+}
+
+fun streamUploadRequestById(
+    requestId: Long,
+    returnData: ReturnSingleUploadData,
+    onError: ReturnUploadError
+) {
+    uploadRequestByIdJob = CoroutineScope(Dispatchers.Main).launch {
+        try {
+            TruvideoSdkMedia
+                .streamUploadRequestById(requestId)
+                .collect { data ->
+                    returnData.returnUploadData(data)
+                }
+        } catch (e: Exception) {
+            onError.returnUploadError("❌ Failed to observe stream: ${e.message}")
         }
     }
 }
@@ -95,4 +118,9 @@ fun stopListner(){
 fun stopUploadRequestsListener(){
     uploadRequestsJob?.cancel()
     uploadRequestsJob = null
+}
+
+fun stopUploadRequestByIdListener() {
+    uploadRequestByIdJob?.cancel()
+    uploadRequestByIdJob = null
 }

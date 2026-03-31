@@ -29,7 +29,7 @@ npx cap sync
 * [`search(...)`](#search)
 * [`getAllUploadRequests()`](#getalluploadrequests)
 * [`getUploadRequestById(...)`](#getuploadrequestbyid)
-* [`getStreamUploadRequestById(...)`](#getstreamuploadrequestbyid)
+* [`streamUploadRequestById(...)`](#streamuploadrequestbyid)
 * [`streamAllUploadRequests()`](#streamalluploadrequests)
 * [`stopAllUploadRequests()`](#stopalluploadrequests)
 * [`pauseStream(...)`](#pausestream)
@@ -270,10 +270,10 @@ getUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
 --------------------
 
 
-### getStreamUploadRequestById(...)
+### streamUploadRequestById(...)
 
 ```typescript
-getStreamUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
+streamUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |

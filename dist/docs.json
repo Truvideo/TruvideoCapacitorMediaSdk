@@ -244,7 +244,7 @@
         "slug": "getuploadrequestbyid"
       },
       {
-        "name": "getStreamUploadRequestById",
+        "name": "streamUploadRequestById",
         "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
         "parameters": [
           {
@@ -257,7 +257,7 @@
         "tags": [],
         "docs": "",
         "complexTypes": [],
-        "slug": "getstreamuploadrequestbyid"
+        "slug": "streamuploadrequestbyid"
       },
       {
         "name": "streamAllUploadRequests",

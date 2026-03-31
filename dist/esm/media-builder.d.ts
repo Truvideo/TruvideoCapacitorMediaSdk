@@ -25,6 +25,7 @@ export declare function getFileUploadRequestById(id: string): Promise<MediaData>
 export declare function uploadStreamUploadRequest(id: string, title: string, tags: string, metadata: string, includeInReport: boolean, isLibrary: boolean): Promise<MediaData>;
 export declare function getAllUploadRequests(): Promise<MediaData[]>;
 export declare function getUploadRequestById(id: string): Promise<MediaData>;
+export declare function streamUploadRequestById(id: string): Promise<MediaData>;
 export declare function streamAllUploadRequests(callbacks?: UploadRequestsCallback): Promise<MediaData[]>;
 export declare function stopAllUploadRequests(): Promise<void>;
 export declare function pauseStream(id: string): Promise<MediaData>;

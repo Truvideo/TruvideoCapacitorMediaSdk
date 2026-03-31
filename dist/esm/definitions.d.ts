@@ -78,7 +78,7 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{
         request: string;
     }>;
-    getStreamUploadRequestById(options: {
+    streamUploadRequestById(options: {
         id: string;
     }): Promise<{
         request: string;
