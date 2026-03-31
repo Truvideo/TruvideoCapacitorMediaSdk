@@ -49,48 +49,34 @@ export async function getAllFileUploadRequests(status) {
 const mediaRequest = [];
 let allStreamListenerHandle = null;
 let currentCallbacks = undefined;
-let byIdStreamListenerHandle = null;
-let byIdCurrentCallbacks = undefined;
 export async function streamAllFileUploadRequests(status, callbacks) {
     mediaRequest.length = 0; // Clear previous requests
+    TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
     // Update callbacks if provided
     if (callbacks) {
         currentCallbacks = callbacks;
     }
-    // Attach listener first so we don't miss early native emissions.
+    // Only add listener if it doesn't already exist
     if (!allStreamListenerHandle) {
         allStreamListenerHandle = await TruvideoSdkMedia.addListener('AllStream', (data) => {
-            try {
-                const results = parsePluginResponse(data, "requests");
-                if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
-                    results.forEach(result => {
-                        const requestFound = mediaRequest.find(req => req.id === result.id);
-                        if (requestFound) {
-                            // Update existing request
-                            Object.assign(requestFound, result);
-                        }
-                        else {
-                            // Create new request and add to list
-                            const request = new MediaRequestClass(result);
-                            mediaRequest.push(request);
-                        }
-                    });
-                    currentCallbacks.onComplete(mediaRequest);
-                }
-            }
-            catch (error) {
-                if (currentCallbacks && typeof currentCallbacks.onError === "function") {
-                    const streamError = {
-                        id: "",
-                        error
-                    };
-                    currentCallbacks.onError(streamError);
-                }
+            const results = parsePluginResponse(data, "requests");
+            if (currentCallbacks && typeof currentCallbacks.onComplete === "function" && Array.isArray(results)) {
+                results.forEach(result => {
+                    const requestFound = mediaRequest.find(req => req.id === result.id);
+                    if (requestFound) {
+                        // Update existing request
+                        Object.assign(requestFound, result);
+                    }
+                    else {
+                        // Create new request and add to list
+                        const request = new MediaRequestClass(result);
+                        mediaRequest.push(request);
+                    }
+                });
+                currentCallbacks.onComplete(mediaRequest);
             }
         });
     }
-    // Start or restart the native stream for the requested status.
-    await TruvideoSdkMedia.streamAllFileUploadRequests({ status: status || '' });
 }
 export async function stopAllFileUploadRequests() {
     if (allStreamListenerHandle) {
@@ -101,52 +87,30 @@ export async function stopAllFileUploadRequests() {
 }
 export async function stopFileUploadRequestById() {
     TruvideoSdkMedia.stopFileUploadRequestById();
-    if (byIdStreamListenerHandle) {
-        byIdStreamListenerHandle.remove();
-        byIdStreamListenerHandle = null;
-        byIdCurrentCallbacks = undefined;
-    }
 }
 export async function streamFileUploadRequestById(id, callbacks) {
     TruvideoSdkMedia.streamFileUploadRequestById({ id: id || '' });
     mediaRequest.length = 0; // Clear previous requests
-    if (callbacks) {
-        byIdCurrentCallbacks = callbacks;
-    }
-    // Keep a single active listener for the by-id stream.
-    if (!byIdStreamListenerHandle) {
-        byIdStreamListenerHandle = await TruvideoSdkMedia.addListener('stream', (data) => {
-            const result = parsePluginResponse(data, "request");
-            if (byIdCurrentCallbacks && typeof byIdCurrentCallbacks.onComplete === 'function') {
-                const requestFound = mediaRequest.find(request => request.id === result.id);
-                if (requestFound) {
-                    // Update existing request
-                    Object.assign(requestFound, result);
-                    byIdCurrentCallbacks.onComplete(requestFound);
-                    return;
-                }
-                else {
-                    const request = new MediaRequestClass(result);
-                    mediaRequest.push(request);
-                    byIdCurrentCallbacks.onComplete(request);
-                }
+    TruvideoSdkMedia.addListener('stream', (data) => {
+        const result = parsePluginResponse(data, "request");
+        if (callbacks && typeof callbacks.onComplete === 'function') {
+            const requestFound = mediaRequest.find(request => request.id === result.id);
+            if (requestFound) {
+                // Update existing request
+                Object.assign(requestFound, result);
+                callbacks.onComplete(requestFound);
+                return;
             }
-        });
-    }
+            else {
+                const request = new MediaRequestClass(result);
+                mediaRequest.push(request);
+                callbacks.onComplete(request);
+            }
+        }
+    });
 }
 export async function getFileUploadRequestById(id) {
     let response = await TruvideoSdkMedia.getFileUploadRequestById({ id: id || '' });
-    return parsePluginResponse(response, "request");
-}
-export async function getAllStreamUploadRequests() {
-    const response = await TruvideoSdkMedia.getAllStreamUploadRequests();
-    return parsePluginResponse(response, "requests");
-}
-export async function getStreamUploadRequestById(id, callbacks) {
-    if (callbacks) {
-        await streamFileUploadRequestById(id, callbacks);
-    }
-    const response = await TruvideoSdkMedia.getStreamUploadRequestById({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function uploadStreamUploadRequest(id, title, tags, metadata, includeInReport, isLibrary) {
@@ -160,20 +124,58 @@ export async function uploadStreamUploadRequest(id, title, tags, metadata, inclu
     });
     return parsePluginResponse(response, "request");
 }
-export async function pauseStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.pauseStreamUploadRequest({ id: id || '' });
+export async function getAllUploadRequests() {
+    let response = await TruvideoSdkMedia.getAllUploadRequests();
+    return parsePluginResponse(response, "requests");
+}
+export async function getUploadRequestById(id) {
+    let response = await TruvideoSdkMedia.getUploadRequestById({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
-export async function resumeStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.resumeStreamUploadRequest({ id: id || '' });
+// Steam request functions (Stream All Upload Requests)
+let allUploadStreamListenerHandle = null;
+let currentUploadStreamCallbacks = undefined;
+export async function streamAllUploadRequests(callbacks) {
+    if (callbacks) {
+        currentUploadStreamCallbacks = callbacks;
+    }
+    if (!allUploadStreamListenerHandle) {
+        allUploadStreamListenerHandle = await TruvideoSdkMedia.addListener('AllUploadStream', (data) => {
+            const results = parsePluginResponse(data, "requests");
+            if (currentUploadStreamCallbacks && typeof currentUploadStreamCallbacks.onComplete === "function" && Array.isArray(results)) {
+                currentUploadStreamCallbacks.onComplete(results);
+            }
+        });
+    }
+    const response = await TruvideoSdkMedia.streamAllUploadRequests();
+    const initial = parsePluginResponse(response, "requests");
+    if (currentUploadStreamCallbacks && typeof currentUploadStreamCallbacks.onComplete === "function" && Array.isArray(initial)) {
+        currentUploadStreamCallbacks.onComplete(initial);
+    }
+    return initial;
+}
+export async function stopAllUploadRequests() {
+    if (allUploadStreamListenerHandle) {
+        allUploadStreamListenerHandle.remove();
+        allUploadStreamListenerHandle = null;
+        currentUploadStreamCallbacks = undefined;
+    }
+    await TruvideoSdkMedia.stopAllUploadRequests();
+}
+export async function pauseStream(id) {
+    let response = await TruvideoSdkMedia.pauseStream({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
-export async function retryStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.retryStreamUploadRequest({ id: id || '' });
+export async function resumeStream(id) {
+    let response = await TruvideoSdkMedia.resumeStream({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
-export async function deleteStreamUploadRequest(id) {
-    const response = await TruvideoSdkMedia.deleteStreamUploadRequest({ id: id || '' });
+export async function retryStream(id) {
+    let response = await TruvideoSdkMedia.retryStream({ id: id || '' });
+    return parsePluginResponse(response, "request");
+}
+export async function deleteStream(id) {
+    let response = await TruvideoSdkMedia.deleteStream({ id: id || '' });
     return parsePluginResponse(response, "request");
 }
 export async function search(tag, page, pageSize, type, isLibrary) {

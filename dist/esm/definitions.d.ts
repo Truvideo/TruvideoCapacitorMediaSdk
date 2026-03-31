@@ -61,10 +61,48 @@ export interface TruvideoSdkMediaPlugin {
     }): Promise<{
         value: string;
     }>;
-    getAllStreamUploadRequests(): Promise<{
+    search(options: {
+        tag: string;
+        type: string;
+        page: string;
+        pageSize: string;
+        isLibrary: boolean;
+    }): Promise<{
+        value: string;
+    }>;
+    getAllUploadRequests(): Promise<{
         requests: string;
     }>;
+    getUploadRequestById(options: {
+        id: string;
+    }): Promise<{
+        request: string;
+    }>;
     getStreamUploadRequestById(options: {
+        id: string;
+    }): Promise<{
+        request: string;
+    }>;
+    streamAllUploadRequests(): Promise<{
+        requests: string;
+    }>;
+    stopAllUploadRequests(): Promise<void>;
+    pauseStream(options: {
+        id: string;
+    }): Promise<{
+        request: string;
+    }>;
+    resumeStream(options: {
+        id: string;
+    }): Promise<{
+        request: string;
+    }>;
+    retryStream(options: {
+        id: string;
+    }): Promise<{
+        request: string;
+    }>;
+    deleteStream(options: {
         id: string;
     }): Promise<{
         request: string;
@@ -78,35 +116,6 @@ export interface TruvideoSdkMediaPlugin {
         isLibrary: boolean;
     }): Promise<{
         request: string;
-    }>;
-    pauseStreamUploadRequest(options: {
-        id: string;
-    }): Promise<{
-        request: string;
-    }>;
-    resumeStreamUploadRequest(options: {
-        id: string;
-    }): Promise<{
-        request: string;
-    }>;
-    retryStreamUploadRequest(options: {
-        id: string;
-    }): Promise<{
-        request: string;
-    }>;
-    deleteStreamUploadRequest(options: {
-        id: string;
-    }): Promise<{
-        request: string;
-    }>;
-    search(options: {
-        tag: string;
-        type: string;
-        page: string;
-        pageSize: string;
-        isLibrary: boolean;
-    }): Promise<{
-        value: string;
     }>;
     addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: MediaEventMap[K]) => void): Promise<PluginListenerHandle>;
 }

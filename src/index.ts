@@ -87,10 +87,16 @@ export interface RequestCallback {
     onError?: (event: UploadErrorEvent) => void;
 }
 
+export interface UploadRequestsCallback {
+    onComplete?: (event: MediaData[]) => void;
+    onError?: (event: UploadErrorEvent) => void;
+}
+
 export type MediaEventMap = {
     onProgress: UploadProgressEvent;
     onComplete: UploadCompleteEventData;
     onError: UploadErrorEvent;
     stream: string;
     AllStream: string;
+    AllUploadStream: string;
 };

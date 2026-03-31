@@ -202,14 +202,46 @@
         "slug": "uploadmedia"
       },
       {
-        "name": "getAllStreamUploadRequests",
+        "name": "search",
+        "signature": "(options: { tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }) => Promise<{ value: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }"
+          }
+        ],
+        "returns": "Promise<{ value: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "search"
+      },
+      {
+        "name": "getAllUploadRequests",
         "signature": "() => Promise<{ requests: string; }>",
         "parameters": [],
         "returns": "Promise<{ requests: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
-        "slug": "getallstreamuploadrequests"
+        "slug": "getalluploadrequests"
+      },
+      {
+        "name": "getUploadRequestById",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ request: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "getuploadrequestbyid"
       },
       {
         "name": "getStreamUploadRequestById",
@@ -228,6 +260,90 @@
         "slug": "getstreamuploadrequestbyid"
       },
       {
+        "name": "streamAllUploadRequests",
+        "signature": "() => Promise<{ requests: string; }>",
+        "parameters": [],
+        "returns": "Promise<{ requests: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "streamalluploadrequests"
+      },
+      {
+        "name": "stopAllUploadRequests",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "stopalluploadrequests"
+      },
+      {
+        "name": "pauseStream",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ request: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "pausestream"
+      },
+      {
+        "name": "resumeStream",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ request: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "resumestream"
+      },
+      {
+        "name": "retryStream",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ request: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "retrystream"
+      },
+      {
+        "name": "deleteStream",
+        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<{ request: string; }>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "deletestream"
+      },
+      {
         "name": "uploadStreamUploadRequest",
         "signature": "(options: { id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }) => Promise<{ request: string; }>",
         "parameters": [
@@ -242,86 +358,6 @@
         "docs": "",
         "complexTypes": [],
         "slug": "uploadstreamuploadrequest"
-      },
-      {
-        "name": "pauseStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ id: string; }"
-          }
-        ],
-        "returns": "Promise<{ request: string; }>",
-        "tags": [],
-        "docs": "",
-        "complexTypes": [],
-        "slug": "pausestreamuploadrequest"
-      },
-      {
-        "name": "resumeStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ id: string; }"
-          }
-        ],
-        "returns": "Promise<{ request: string; }>",
-        "tags": [],
-        "docs": "",
-        "complexTypes": [],
-        "slug": "resumestreamuploadrequest"
-      },
-      {
-        "name": "retryStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ id: string; }"
-          }
-        ],
-        "returns": "Promise<{ request: string; }>",
-        "tags": [],
-        "docs": "",
-        "complexTypes": [],
-        "slug": "retrystreamuploadrequest"
-      },
-      {
-        "name": "deleteStreamUploadRequest",
-        "signature": "(options: { id: string; }) => Promise<{ request: string; }>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ id: string; }"
-          }
-        ],
-        "returns": "Promise<{ request: string; }>",
-        "tags": [],
-        "docs": "",
-        "complexTypes": [],
-        "slug": "deletestreamuploadrequest"
-      },
-      {
-        "name": "search",
-        "signature": "(options: { tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }) => Promise<{ value: string; }>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }"
-          }
-        ],
-        "returns": "Promise<{ value: string; }>",
-        "tags": [],
-        "docs": "",
-        "complexTypes": [],
-        "slug": "search"
       },
       {
         "name": "addListener",
@@ -495,7 +531,7 @@
       "docs": "",
       "types": [
         {
-          "text": "{\n    onProgress: UploadProgressEvent;\n    onComplete: UploadCompleteEventData;\n    onError: UploadErrorEvent;\n    stream: string;\n    AllStream: string;\n}",
+          "text": "{\n    onProgress: UploadProgressEvent;\n    onComplete: UploadCompleteEventData;\n    onError: UploadErrorEvent;\n    stream: string;\n    AllStream: string;\n    AllUploadStream: string;\n}",
           "complexTypes": [
             "UploadProgressEvent",
             "UploadCompleteEventData",

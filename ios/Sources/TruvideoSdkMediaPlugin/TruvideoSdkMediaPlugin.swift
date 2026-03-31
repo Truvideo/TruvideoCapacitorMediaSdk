@@ -26,6 +26,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "deleteMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pauseMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resumeMedia", returnType: CAPPluginReturnPromise),
+        // Upload request functions (non-stream naming expected by TS)
         CAPPluginMethod(name: "getAllStreamUploadRequests", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getStreamUploadRequestById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "uploadStreamUploadRequest", returnType: CAPPluginReturnPromise),
@@ -33,6 +34,15 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "resumeStreamUploadRequest", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "retryStreamUploadRequest", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteStreamUploadRequest", returnType: CAPPluginReturnPromise),
+        // Aliases to match `src/definitions.ts` naming
+        CAPPluginMethod(name: "getAllUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getUploadRequestById", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "streamAllUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopAllUploadRequests", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pauseStream", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "resumeStream", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "retryStream", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteStream", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "search", returnType: CAPPluginReturnPromise)
         
     ]
@@ -636,7 +646,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                                 self.sendEvent(withName: "AllStream", body: response)
                             }
                         }
-                    }catch {
+                    }catch let error {
                         self.sendEvent(withName: "onError", body: [
                             "id": "",
                             "error": error.localizedDescription
@@ -649,6 +659,83 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
 
         // Resolve immediately; updates are delivered through "AllStream" events.
         call.resolve(["message": "All stream subscription started"])
+    }
+
+    // ─── streamAllUploadRequests (TS alias) ────────────────────────────────
+    // TS expects this to resolve with `{ requests: string }`.
+    // We stream the "all file upload requests" and settle on the first emission.
+    @objc public func streamAllUploadRequests(_ call : CAPPluginCall) {
+        let status = call.getString("status") ?? ""
+        var statusData : TruvideoSdkMediaUploadRequest.Status?
+        if status == "COMPLETED" {
+          statusData = .completed
+        } else if status == "CANCELED" {
+          statusData = .cancelled
+        } else if status == "PAUSED" {
+          statusData = .paused
+        } else if status == "SYNCHRONIZING" {
+          statusData = .synchronizing
+        } else if status == "IDLE" {
+          statusData = .idle
+        } else if status == "UPLOADING" {
+          statusData = .processing
+        } else if status == "ERROR" {
+          statusData = .error
+        } else {
+          statusData = nil
+        }
+
+        // Cancel any previous stream before starting a new one.
+        uploadRequestsCancellable?.cancel()
+        uploadRequestsCancellable = nil
+
+        var resolvedOnce = false
+        uploadRequestsCancellable = TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.sendEvent(withName: "onError", body: [
+                        "id": "",
+                        "error": error.localizedDescription
+                    ])
+                }
+            } receiveValue: { requests in
+                Task {
+                    var responseArray: [[String: String]] = []
+                    for request in requests {
+                        responseArray.append(await self.returnRequest(request))
+                    }
+
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: responseArray, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8) ?? "[]"
+
+                        // Keep existing event contract for callers that listen.
+                        self.sendEvent(withName: "AllUploadStream", body: [
+                            "requests": jsonString,
+                        ])
+
+                        // Settle TS Promise on first emission.
+                        if !resolvedOnce {
+                            resolvedOnce = true
+                            call.resolve(["requests": jsonString])
+                        }
+                    } catch let error {
+                        self.sendEvent(withName: "onError", body: [
+                            "id": "",
+                            "error": error.localizedDescription
+                        ])
+                    }
+                }
+            }
+    }
+
+    @objc public func stopAllUploadRequests(_ call : CAPPluginCall){
+        uploadRequestsCancellable?.cancel()
+        uploadRequestsCancellable = nil
+        call.resolve()
     }
     
     @objc public func stopAllFileUploadRequests(_ call : CAPPluginCall){
@@ -809,6 +896,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    // Alias to match `src/definitions.ts` naming
+    @objc public func getAllUploadRequests(_ call: CAPPluginCall) {
+        getAllStreamUploadRequests(call)
+    }
+
     @objc public func getStreamUploadRequestById(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
@@ -823,6 +915,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve(["request": "{}"])
             }
         }
+    }
+
+    // Alias to match `src/definitions.ts` naming
+    @objc public func getUploadRequestById(_ call: CAPPluginCall) {
+        getStreamUploadRequestById(call)
     }
 
     @objc public func uploadStreamUploadRequest(_ call: CAPPluginCall) {
@@ -873,6 +970,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    // Alias to match `src/definitions.ts` naming
+    @objc public func pauseStream(_ call: CAPPluginCall) {
+        pauseStreamUploadRequest(call)
+    }
+
     @objc public func resumeStreamUploadRequest(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
@@ -888,6 +990,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve(["request": "{}"])
             }
         }
+    }
+
+    // Alias to match `src/definitions.ts` naming
+    @objc public func resumeStream(_ call: CAPPluginCall) {
+        resumeStreamUploadRequest(call)
     }
 
     @objc public func retryStreamUploadRequest(_ call: CAPPluginCall) {
@@ -907,6 +1014,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    // Alias to match `src/definitions.ts` naming
+    @objc public func retryStream(_ call: CAPPluginCall) {
+        retryStreamUploadRequest(call)
+    }
+
     @objc public func deleteStreamUploadRequest(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
@@ -922,6 +1034,11 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve(["request": "{}"])
             }
         }
+    }
+
+    // Alias to match `src/definitions.ts` naming
+    @objc public func deleteStream(_ call: CAPPluginCall) {
+        deleteStreamUploadRequest(call)
     }
     
     @objc public func search(_ call : CAPPluginCall){

@@ -31,8 +31,28 @@ export interface TruvideoSdkMediaPlugin {
 
     uploadMedia(options: { id: string }): Promise<{ value: string }>;
 
-    getAllStreamUploadRequests(): Promise<{ requests: string }>;
+    search(options: {
+        tag: string;
+        type: string;
+        page: string;
+        pageSize: string;
+        isLibrary: boolean;
+    }): Promise<{ value: string }>;
+
+    // Get all upload requests functions
+    getAllUploadRequests(): Promise<{ requests: string }>;
+    getUploadRequestById(options: { id: string }): Promise<{ request: string }>;
+
+    // Steam request functions (Stream All Upload Requests)
     getStreamUploadRequestById(options: { id: string }): Promise<{ request: string }>;
+    streamAllUploadRequests(): Promise<{ requests: string }>;
+    stopAllUploadRequests(): Promise<void>;
+    pauseStream(options: { id: string }): Promise<{ request: string }>;
+    resumeStream(options: { id: string }): Promise<{ request: string }>;
+    retryStream(options: { id: string }): Promise<{ request: string }>;
+    deleteStream(options: { id: string }): Promise<{ request: string }>;
+
+
     uploadStreamUploadRequest(options: {
         id: string;
         title: string;
@@ -41,18 +61,6 @@ export interface TruvideoSdkMediaPlugin {
         includeInReport: boolean;
         isLibrary: boolean;
     }): Promise<{ request: string }>;
-    pauseStreamUploadRequest(options: { id: string }): Promise<{ request: string }>;
-    resumeStreamUploadRequest(options: { id: string }): Promise<{ request: string }>;
-    retryStreamUploadRequest(options: { id: string }): Promise<{ request: string }>;
-    deleteStreamUploadRequest(options: { id: string }): Promise<{ request: string }>;
-
-    search(options: {
-        tag: string;
-        type: string;
-        page: string;
-        pageSize: string;
-        isLibrary: boolean;
-    }): Promise<{ value: string }>;
 
     // Event Listeners
     addListener<K extends keyof MediaEventMap>(

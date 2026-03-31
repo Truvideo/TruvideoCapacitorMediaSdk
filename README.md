@@ -26,14 +26,17 @@ npx cap sync
 * [`pauseMedia(...)`](#pausemedia)
 * [`resumeMedia(...)`](#resumemedia)
 * [`uploadMedia(...)`](#uploadmedia)
-* [`getAllStreamUploadRequests()`](#getallstreamuploadrequests)
-* [`getStreamUploadRequestById(...)`](#getstreamuploadrequestbyid)
-* [`uploadStreamUploadRequest(...)`](#uploadstreamuploadrequest)
-* [`pauseStreamUploadRequest(...)`](#pausestreamuploadrequest)
-* [`resumeStreamUploadRequest(...)`](#resumestreamuploadrequest)
-* [`retryStreamUploadRequest(...)`](#retrystreamuploadrequest)
-* [`deleteStreamUploadRequest(...)`](#deletestreamuploadrequest)
 * [`search(...)`](#search)
+* [`getAllUploadRequests()`](#getalluploadrequests)
+* [`getUploadRequestById(...)`](#getuploadrequestbyid)
+* [`getStreamUploadRequestById(...)`](#getstreamuploadrequestbyid)
+* [`streamAllUploadRequests()`](#streamalluploadrequests)
+* [`stopAllUploadRequests()`](#stopalluploadrequests)
+* [`pauseStream(...)`](#pausestream)
+* [`resumeStream(...)`](#resumestream)
+* [`retryStream(...)`](#retrystream)
+* [`deleteStream(...)`](#deletestream)
+* [`uploadStreamUploadRequest(...)`](#uploadstreamuploadrequest)
 * [`addListener(K, ...)`](#addlistenerk-)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -226,13 +229,43 @@ uploadMedia(options: { id: string; }) => Promise<{ value: string; }>
 --------------------
 
 
-### getAllStreamUploadRequests()
+### search(...)
 
 ```typescript
-getAllStreamUploadRequests() => Promise<{ requests: string; }>
+search(options: { tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }) => Promise<{ value: string; }>
+```
+
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### getAllUploadRequests()
+
+```typescript
+getAllUploadRequests() => Promise<{ requests: string; }>
 ```
 
 **Returns:** <code>Promise&lt;{ requests: string; }&gt;</code>
+
+--------------------
+
+
+### getUploadRequestById(...)
+
+```typescript
+getUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
 
 --------------------
 
@@ -241,6 +274,86 @@ getAllStreamUploadRequests() => Promise<{ requests: string; }>
 
 ```typescript
 getStreamUploadRequestById(options: { id: string; }) => Promise<{ request: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
+
+--------------------
+
+
+### streamAllUploadRequests()
+
+```typescript
+streamAllUploadRequests() => Promise<{ requests: string; }>
+```
+
+**Returns:** <code>Promise&lt;{ requests: string; }&gt;</code>
+
+--------------------
+
+
+### stopAllUploadRequests()
+
+```typescript
+stopAllUploadRequests() => Promise<void>
+```
+
+--------------------
+
+
+### pauseStream(...)
+
+```typescript
+pauseStream(options: { id: string; }) => Promise<{ request: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
+
+--------------------
+
+
+### resumeStream(...)
+
+```typescript
+resumeStream(options: { id: string; }) => Promise<{ request: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
+
+--------------------
+
+
+### retryStream(...)
+
+```typescript
+retryStream(options: { id: string; }) => Promise<{ request: string; }>
+```
+
+| Param         | Type                         |
+| ------------- | ---------------------------- |
+| **`options`** | <code>{ id: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
+
+--------------------
+
+
+### deleteStream(...)
+
+```typescript
+deleteStream(options: { id: string; }) => Promise<{ request: string; }>
 ```
 
 | Param         | Type                         |
@@ -263,81 +376,6 @@ uploadStreamUploadRequest(options: { id: string; title: string; tags: string; me
 | **`options`** | <code>{ id: string; title: string; tags: string; metadata: string; includeInReport: boolean; isLibrary: boolean; }</code> |
 
 **Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
-
---------------------
-
-
-### pauseStreamUploadRequest(...)
-
-```typescript
-pauseStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
-```
-
-| Param         | Type                         |
-| ------------- | ---------------------------- |
-| **`options`** | <code>{ id: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
-
---------------------
-
-
-### resumeStreamUploadRequest(...)
-
-```typescript
-resumeStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
-```
-
-| Param         | Type                         |
-| ------------- | ---------------------------- |
-| **`options`** | <code>{ id: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
-
---------------------
-
-
-### retryStreamUploadRequest(...)
-
-```typescript
-retryStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
-```
-
-| Param         | Type                         |
-| ------------- | ---------------------------- |
-| **`options`** | <code>{ id: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
-
---------------------
-
-
-### deleteStreamUploadRequest(...)
-
-```typescript
-deleteStreamUploadRequest(options: { id: string; }) => Promise<{ request: string; }>
-```
-
-| Param         | Type                         |
-| ------------- | ---------------------------- |
-| **`options`** | <code>{ id: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ request: string; }&gt;</code>
-
---------------------
-
-
-### search(...)
-
-```typescript
-search(options: { tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }) => Promise<{ value: string; }>
-```
-
-| Param         | Type                                                                                            |
-| ------------- | ----------------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ tag: string; type: string; page: string; pageSize: string; isLibrary: boolean; }</code> |
-
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
@@ -404,6 +442,6 @@ addListener<K extends keyof MediaEventMap>(eventName: K, listenerFunc: (event: M
 
 #### MediaEventMap
 
-<code>{ onProgress: <a href="#uploadprogressevent">UploadProgressEvent</a>; onComplete: <a href="#uploadcompleteeventdata">UploadCompleteEventData</a>; onError: <a href="#uploaderrorevent">UploadErrorEvent</a>; stream: string; AllStream: string; }</code>
+<code>{ onProgress: <a href="#uploadprogressevent">UploadProgressEvent</a>; onComplete: <a href="#uploadcompleteeventdata">UploadCompleteEventData</a>; onError: <a href="#uploaderrorevent">UploadErrorEvent</a>; stream: string; AllStream: string; AllUploadStream: string; }</code>
 
 </docgen-api>
