@@ -262,26 +262,49 @@ public class TruvideoSdkMediaPlugin extends Plugin {
 
         // Keep the call alive so events can keep firing after resolve()
         call.setKeepAlive(true);
+        final boolean[] resolvedOnce = new boolean[]{false};
 
         TruvideoSdkMedia.getInstance().streamFileUploadRequestById(id,
             new TruvideoSdkMediaCallback<Flow<TruvideoSdkMediaFileUploadRequest>>() {
                 @Override
                 public void onComplete(Flow<TruvideoSdkMediaFileUploadRequest> flow) {
-                    singleJob = KotlinBridgeKt.collectUploadFlow(flow, request -> {
-                        JSObject ret = new JSObject();
-                        ret.put("request", returnRequest(request));
-                        sendEvent("stream", ret);
-                        return kotlin.Unit.INSTANCE;
-                    });
+                    singleJob = KotlinBridgeKt.streamFileUploadRequestById(
+                        flow,
+                        new ReturnSingleFileUploadData() {
+                            @Override
+                            public void returnFileUploadData(TruvideoSdkMediaFileUploadRequest request) {
+                                // Flow may emit null around DB state transitions; skip empty payloads.
+                                if (request == null) {
+                                    return;
+                                }
+                                JSObject payload = new JSObject();
+                                payload.put("request", returnRequest(request));
+                                sendEvent("stream", payload);
 
-                    // ✅ Settle the Promise immediately after the stream is set up
-                    call.resolve(new JSObject());
+                                if (!resolvedOnce[0]) {
+                                    resolvedOnce[0] = true;
+                                    call.resolve(payload);
+                                }
+                            }
+                        },
+                        new ReturnUploadError() {
+                            @Override
+                            public void returnUploadError(@NotNull String message) {
+                                if (!resolvedOnce[0]) {
+                                    resolvedOnce[0] = true;
+                                    call.reject("STREAM_FILE_UPLOAD_REQUEST_BY_ID_ERROR", message);
+                                }
+                            }
+                        }
+                    );
                 }
 
                 @Override
                 public void onError(@NonNull TruvideoSdkException e) {
-                    // ✅ Was previously empty — rejection was silently swallowed
-                    call.reject("SDK Exception", "TruvideoSdkException", e);
+                    if (!resolvedOnce[0]) {
+                        resolvedOnce[0] = true;
+                        call.reject("STREAM_FILE_UPLOAD_REQUEST_BY_ID_ERROR", e.getMessage(), e);
+                    }
                 }
             });
     }
@@ -921,6 +944,9 @@ public class TruvideoSdkMediaPlugin extends Plugin {
     }
 
     public String returnRequest(TruvideoSdkMediaFileUploadRequest request) {
+        if (request == null) {
+            return "{}";
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("id", request.getId());
         map.put("filePath", request.getFilePath());
@@ -942,6 +968,9 @@ public class TruvideoSdkMediaPlugin extends Plugin {
 
     public JSObject returnRequestJSON(TruvideoSdkMediaFileUploadRequest request) {
         JSObject map = new JSObject();
+        if (request == null) {
+            return map;
+        }
         map.put("id", request.getId());
         map.put("filePath", request.getFilePath());
         map.put("fileType", request.getFileType());

@@ -5,6 +5,7 @@ import com.truvideo.sdk.media.TruvideoSdkMedia
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequest
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaFileUploadRequestStatus
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaUploadRequest
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,6 +24,10 @@ interface ReturnSingleUploadData{
     fun returnUploadData(data: TruvideoSdkMediaUploadRequest?)
 }
 
+interface ReturnSingleFileUploadData{
+    fun returnFileUploadData(data: TruvideoSdkMediaFileUploadRequest?)
+}
+
 interface ReturnUploadError{
     fun returnUploadError(message: String)
 }
@@ -35,6 +40,7 @@ private var uploadJob: Job? = null
 private var uploadRequestsJob: Job? = null
 
 private var uploadRequestByIdJob: Job? = null
+private var fileUploadRequestByIdJob: Job? = null
 
 
 //fun streamRequest(status: TruvideoSdkMediaFileUploadRequestStatus? = null, returnData: ReturnData){
@@ -93,16 +99,50 @@ fun streamUploadRequestById(
     onError: ReturnUploadError
 ) {
     uploadRequestByIdJob = CoroutineScope(Dispatchers.Main).launch {
+        observeStreamById(
+            requestId = requestId,
+            onUpdate = { request -> returnData.returnUploadData(request) },
+            onError = { message -> onError.returnUploadError(message) }
+        )
+    }
+}
+
+suspend fun observeStreamById(
+    requestId: Long,
+    onUpdate: (TruvideoSdkMediaUploadRequest?) -> Unit,
+    onError: (String) -> Unit
+) {
+    try {
+        TruvideoSdkMedia
+            .streamUploadRequestById(requestId)
+            .collect { request ->
+                onUpdate(request)
+            }
+
+    } catch (_: CancellationException) {
+        // Expected when listener is explicitly stopped/cancelled.
+    } catch (e: Exception) {
+        onError("❌ Failed to observe stream: ${e.message}")
+    }
+}
+
+fun streamFileUploadRequestById(
+    flow: Flow<TruvideoSdkMediaFileUploadRequest>,
+    returnData: ReturnSingleFileUploadData,
+    onError: ReturnUploadError
+): Job {
+    fileUploadRequestByIdJob = CoroutineScope(Dispatchers.Main).launch {
         try {
-            TruvideoSdkMedia
-                .streamUploadRequestById(requestId)
-                .collect { data ->
-                    returnData.returnUploadData(data)
-                }
+            flow.collect { data ->
+                returnData.returnFileUploadData(data)
+            }
+        } catch (_: CancellationException) {
+            // Expected when listener is explicitly stopped/cancelled.
         } catch (e: Exception) {
-            onError.returnUploadError("❌ Failed to observe stream: ${e.message}")
+            onError.returnUploadError("Failed to observe file upload request stream: ${e.message}")
         }
     }
+    return fileUploadRequestByIdJob!!
 }
 
 fun stopListner(){
@@ -123,4 +163,7 @@ fun stopUploadRequestsListener(){
 fun stopUploadRequestByIdListener() {
     uploadRequestByIdJob?.cancel()
     uploadRequestByIdJob = null
+
+    fileUploadRequestByIdJob?.cancel()
+    fileUploadRequestByIdJob = null
 }
