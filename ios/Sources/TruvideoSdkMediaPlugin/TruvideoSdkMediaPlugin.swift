@@ -26,27 +26,21 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "deleteMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pauseMedia", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resumeMedia", returnType: CAPPluginReturnPromise),
-        // Upload request functions (non-stream naming expected by TS)
-        CAPPluginMethod(name: "getAllStreamUploadRequests", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getStreamUploadRequestById", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "uploadStreamUploadRequest", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "pauseStreamUploadRequest", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "resumeStreamUploadRequest", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "retryStreamUploadRequest", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteStreamUploadRequest", returnType: CAPPluginReturnPromise),
-        // Aliases to match `src/definitions.ts` naming
+
         CAPPluginMethod(name: "getAllUploadRequests", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getUploadRequestById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "streamAllUploadRequests", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stopAllUploadRequests", returnType: CAPPluginReturnPromise),
+        
+        CAPPluginMethod(name: "uploadStreamUploadRequest", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pauseStream", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resumeStream", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "retryStream", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteStream", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "search", returnType: CAPPluginReturnPromise)
         
+        CAPPluginMethod(name: "search", returnType: CAPPluginReturnPromise)
+       
     ]
-    //private let implementation = TruvideoSdkMedia()
     
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
@@ -69,19 +63,6 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
             Task{
                 let builder = try createFileUploadRequestBuilder(fileURL: fileURL, tag: tag, metaData: metaData)
                 let request = try builder.build()
-                
-    //            let mainResponse: [String: String] = [
-    //                "id": request.id.uuidString, // Generate a unique ID for the event
-    //                "filePath": request.filePath,
-    //                "fileType": request.fileType.rawValue,
-    //                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
-    //                "remoteId" : request.remoteId ?? "",
-    //                "remoteURL" : request.remoteURL?.absoluteString ?? "",
-    //                "transcriptionURL" : request.transcriptionURL ?? "",
-    //                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
-    //                "status" : "\(request.status.rawValue)",
-    //                "progress" : "\(request.uploadProgress)"
-    //            ]
                 let jsonData = try JSONSerialization.data(withJSONObject: await returnRequest(request), options: [])
                 
                 
@@ -314,71 +295,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         
         return try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: String] ?? [:]
     }
-    
-    //    private func convertToMetadata(from jsonString: String) throws -> Metadata {
-    //        guard let jsonData = jsonString.data(using: .utf8) else {
-    //            throw NSError(domain: "Invalid JSON string", code: 0, userInfo: nil)
-    //        }
-    //
-    //        guard let metadataDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-    //            throw NSError(domain: "Invalid JSON format", code: 0, userInfo: nil)
-    //        }
-    //
-    //        return convertToMetadata(metadataDict)
-    //    }
-    //
-    //    private func convertToMetadata(_ dict: [String: Any]) -> Metadata {
-    //        var metadata = Metadata()
-    //        for (key, value) in dict {
-    //            if let metadataValue = convertToMetadataValue(value) {
-    //                metadata[key] = metadataValue
-    //            }
-    //        }
-    //        return metadata
-    //    }
-    //
-    //    private func convertToMetadataValue(_ value: Any) -> MetadataValue? {
-    //        if value is NSNull {
-    //            return nil
-    //        } else if let value = value as? String {
-    //            return .string(value)
-    //        } else if let value = value as? Int {
-    //            return .int(value)
-    //        } else if let value = value as? Float {
-    //            return .float(value)
-    //        } else if let value = value as? [Any] {
-    //            return .array(value.compactMap { convertToMetadataValue($0) })
-    //        } else if let value = value as? [String: Any] {
-    //            return .dictionary(convertToMetadata(value))
-    //        }
-    //        return nil
-    //    }
-    //
-    //    private func convertMetadataToDictionary(_ metadata: Metadata) -> [String: Any] {
-    //        var dict = [String: Any]()
-    //        for (key, value) in metadata {
-    //            dict[key] = convertMetadataValueToAny(value)
-    //        }
-    //        return dict
-    //    }
-    //
-    //    private func convertMetadataValueToAny(_ value: MetadataValue) -> Any {
-    //        switch value {
-    //        case .string(let stringValue):
-    //            return stringValue
-    //        case .int(let intValue):
-    //            return intValue
-    //        case .float(let floatValue):
-    //            return floatValue
-    //        case .array(let arrayValue):
-    //            return arrayValue.map { convertMetadataValueToAny($0) }
-    //        case .dictionary(let dictValue):
-    //            return convertMetadataToDictionary(dictValue)
-    //        }
-    //  }
-    
-    // Function to send events to React Native
-    
+
     func returnRequest(_ request : TruvideoSdkMediaUploadRequest) async -> [String:String]{
         let dateFormatter = ISO8601DateFormatter()
 
@@ -474,49 +391,50 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
 
     private func returnStreamUploadRequest(_ request: TruvideoSdkMediaStreamRequest) -> [String: String] {
         let dateFormatter = ISO8601DateFormatter()
-
-        let statusString = request.status.rawValue.uppercased()
-        let fileTypeString = request.fileType.rawValue.uppercased()
-
         return [
             "id": request.id.uuidString,
-            "status": statusString,
-            "fileType": fileTypeString,
+            "status": request.status.rawValue.uppercased(),
+            "fileType": request.fileType.rawValue.uppercased(),
             "remoteId": request.remoteId ?? "",
+            "tags": "\(request.tags.dictionary)",
+            "metaData": "\(request.metadata.dictionary)",
+            "includeInReport": "\(request.isIncludedInReport)",
+            "isLibrary": "\(request.isLibrary)",
+            "createdAt": dateFormatter.string(from: request.createdAt),
+        ]
+    }
+
+    private func returnFullStreamUploadRequest(_ request: TruvideoSdkMediaStreamRequest) -> [String: Any] {
+        let dateFormatter = ISO8601DateFormatter()
+        return [
+            "id": request.id.uuidString,
+            "status": request.status.rawValue.uppercased(),
+            "fileType": request.fileType.rawValue.uppercased(),
+            "remoteId": request.remoteId ?? "",
+            "tags": request.tags.dictionary,
+            "tag": request.tags.dictionary,
+            "metaData": request.metadata.dictionary,
+            "metadata": request.metadata.dictionary,
+            "includeInReport": request.isIncludedInReport,
+            "isLibrary": request.isLibrary,
+            "createdAt": dateFormatter.string(from: request.createdAt),
+            // Backward-compatible placeholders expected by existing TS parsing.
             "filePath": "",
             "durationMilliseconds": "0",
             "remoteURL": "",
             "transcriptionURL": "",
             "transcriptionLength": "0",
             "progress": "0",
-            "tags": "\(request.tags.dictionary)",
-            "metaData": "\(request.metadata.dictionary)",
-            "includeInReport": "\(request.isIncludedInReport)",
-            "isLibrary": "\(request.isLibrary)",
-            "createdAt": dateFormatter.string(from: request.createdAt),
             "updatedAt": "",
             "errorMessage": ""
         ]
     }
-    
     
     @objc public func getFileUploadRequestById(_ call : CAPPluginCall){
         let id = call.getString("id") ?? ""
         do {
             Task {
                 let request =  try TruvideoSdkMedia.getFileUploadRequest(withId : id)
-    //            let mainResponse: [String: String] = [
-    //                "id": request.id.uuidString, // Generate a unique ID for the event
-    //                "filePath": request.filePath,
-    //                "fileType": request.fileType.rawValue,
-    //                "durationMilliseconds":  "\(String(describing: request.durationMilliseconds))",
-    //                "remoteId" : request.remoteId ?? "",
-    //                "remoteURL" : request.remoteURL?.absoluteString ?? "",
-    //                "transcriptionURL" : request.transcriptionURL ?? "",
-    //                "transcriptionLength" : "\(String(describing: request.transcriptionLength))" ,
-    //                "status" : "\(request.status.rawValue)",
-    //                "progress" : "\(request.uploadProgress)"
-    //            ]
                 let jsonData = try JSONSerialization.data(withJSONObject: await returnRequest(request), options: [])
                 
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -589,6 +507,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     }
      
     private var uploadRequestsCancellable: AnyCancellable? = nil
+    private var uploadRequestsTask: Task<Void, Never>? = nil
         
     @objc public func streamAllFileUploadRequests(_ call : CAPPluginCall){
         let status = call.getString("status") ?? ""
@@ -661,51 +580,23 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve(["message": "All stream subscription started"])
     }
 
-    // ─── streamAllUploadRequests (TS alias) ────────────────────────────────
-    // TS expects this to resolve with `{ requests: string }`.
-    // We stream the "all file upload requests" and settle on the first emission.
-    @objc public func streamAllUploadRequests(_ call : CAPPluginCall) {
-        let status = call.getString("status") ?? ""
-        var statusData : TruvideoSdkMediaUploadRequest.Status?
-        if status == "COMPLETED" {
-          statusData = .completed
-        } else if status == "CANCELED" {
-          statusData = .cancelled
-        } else if status == "PAUSED" {
-          statusData = .paused
-        } else if status == "SYNCHRONIZING" {
-          statusData = .synchronizing
-        } else if status == "IDLE" {
-          statusData = .idle
-        } else if status == "UPLOADING" {
-          statusData = .processing
-        } else if status == "ERROR" {
-          statusData = .error
-        } else {
-          statusData = nil
-        }
 
+    @objc public func streamAllUploadRequests(_ call : CAPPluginCall) {
         // Cancel any previous stream before starting a new one.
+        uploadRequestsTask?.cancel()
+        uploadRequestsTask = nil
         uploadRequestsCancellable?.cancel()
         uploadRequestsCancellable = nil
 
         var resolvedOnce = false
-        uploadRequestsCancellable = TruvideoSdkMedia.streamFileUploadRequests(byStatus: statusData)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self.sendEvent(withName: "onError", body: [
-                        "id": "",
-                        "error": error.localizedDescription
-                    ])
-                }
-            } receiveValue: { requests in
-                Task {
+        uploadRequestsTask = Task {
+            do {
+                let stream = TruvideoSdkMedia.streamAllUploadRequests()
+
+                for try await requests in stream {
                     var responseArray: [[String: String]] = []
                     for request in requests {
-                        responseArray.append(await self.returnRequest(request))
+                        responseArray.append(self.returnStreamUploadRequest(request))
                     }
 
                     do {
@@ -729,10 +620,18 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                         ])
                     }
                 }
+            } catch let error {
+                self.sendEvent(withName: "onError", body: [
+                    "id": "",
+                    "error": error.localizedDescription
+                ])
             }
+        }
     }
 
     @objc public func stopAllUploadRequests(_ call : CAPPluginCall){
+        uploadRequestsTask?.cancel()
+        uploadRequestsTask = nil
         uploadRequestsCancellable?.cancel()
         uploadRequestsCancellable = nil
         call.resolve()
@@ -878,7 +777,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    @objc public func getAllStreamUploadRequests(_ call: CAPPluginCall) {
+    @objc public func getAllUploadRequests(_ call: CAPPluginCall) {
         Task {
             do {
                 let requests = try await TruvideoSdkMedia.getAllUploadRequests()
@@ -896,17 +795,13 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    // Alias to match `src/definitions.ts` naming
-    @objc public func getAllUploadRequests(_ call: CAPPluginCall) {
-        getAllStreamUploadRequests(call)
-    }
-
-    @objc public func getStreamUploadRequestById(_ call: CAPPluginCall) {
+    @objc public func getUploadRequestById(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
             do {
                 let request = try await TruvideoSdkMedia.getUploadRequestById(id)
-                let dict = returnStreamUploadRequest(request)
+                print("==========Request========", request)
+                let dict = returnFullStreamUploadRequest(request)
                 let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
                 let jsonString = String(data: jsonData, encoding: .utf8) ?? "{}"
                 call.resolve(["request": jsonString])
@@ -915,11 +810,6 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve(["request": "{}"])
             }
         }
-    }
-
-    // Alias to match `src/definitions.ts` naming
-    @objc public func getUploadRequestById(_ call: CAPPluginCall) {
-        getStreamUploadRequestById(call)
     }
 
     @objc public func uploadStreamUploadRequest(_ call: CAPPluginCall) {
@@ -953,7 +843,7 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    @objc public func pauseStreamUploadRequest(_ call: CAPPluginCall) {
+    @objc public func pauseStream(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
             do {
@@ -964,18 +854,13 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
                 let jsonString = String(data: jsonData, encoding: .utf8) ?? "{}"
                 call.resolve(["request": jsonString])
-            } catch {
-                call.resolve(["request": "{}"])
+            } catch let error {
+                call.reject("STREAM_PAUSE_ERROR", error.localizedDescription, error)
             }
         }
     }
 
-    // Alias to match `src/definitions.ts` naming
-    @objc public func pauseStream(_ call: CAPPluginCall) {
-        pauseStreamUploadRequest(call)
-    }
-
-    @objc public func resumeStreamUploadRequest(_ call: CAPPluginCall) {
+    @objc public func resumeStream(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
             do {
@@ -986,18 +871,13 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
                 let jsonString = String(data: jsonData, encoding: .utf8) ?? "{}"
                 call.resolve(["request": jsonString])
-            } catch {
-                call.resolve(["request": "{}"])
+            } catch let error {
+                call.reject("STREAM_RESUME_ERROR", error.localizedDescription, error)
             }
         }
     }
 
-    // Alias to match `src/definitions.ts` naming
-    @objc public func resumeStream(_ call: CAPPluginCall) {
-        resumeStreamUploadRequest(call)
-    }
-
-    @objc public func retryStreamUploadRequest(_ call: CAPPluginCall) {
+    @objc public func retryStream(_ call: CAPPluginCall) {
         let id = call.getString("id") ?? ""
         Task {
             do {
@@ -1014,13 +894,12 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    // Alias to match `src/definitions.ts` naming
-    @objc public func retryStream(_ call: CAPPluginCall) {
-        retryStreamUploadRequest(call)
-    }
-
-    @objc public func deleteStreamUploadRequest(_ call: CAPPluginCall) {
-        let id = call.getString("id") ?? ""
+    @objc public func deleteStream(_ call: CAPPluginCall) {
+        let id = call.getString("id")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if id.isEmpty {
+            call.reject("STREAM_DELETE_ERROR", "Missing or invalid stream upload request id.")
+            return
+        }
         Task {
             do {
                 let request = try await TruvideoSdkMedia.getUploadRequestById(id)
@@ -1030,15 +909,10 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                 let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
                 let jsonString = String(data: jsonData, encoding: .utf8) ?? "{}"
                 call.resolve(["request": jsonString])
-            } catch {
-                call.resolve(["request": "{}"])
+            } catch let error {
+                call.reject("STREAM_DELETE_ERROR", error.localizedDescription, error)
             }
         }
-    }
-
-    // Alias to match `src/definitions.ts` naming
-    @objc public func deleteStream(_ call: CAPPluginCall) {
-        deleteStreamUploadRequest(call)
     }
     
     @objc public func search(_ call : CAPPluginCall){
