@@ -473,13 +473,20 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc public func streamFileUploadRequestById(_ call : CAPPluginCall){
         let id = call.getString("id") ?? ""
         do{
+            // Cancel any previous stream before starting a new one.
+            uploadRequestsCancellableById?.cancel()
+            uploadRequestsCancellableById = nil
+
             uploadRequestsCancellableById = try TruvideoSdkMedia.streamFileUploadRequest(withId: id)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         print("Upload finished")
                     case .failure(let error):
-                        call.reject(error.localizedDescription)
+                        self.sendEvent(withName: "onError", body: [
+                            "id": id,
+                            "error": error.localizedDescription
+                        ])
                     }
                 } receiveValue: { request in
                     Task{
@@ -492,15 +499,22 @@ public class TruvideoSdkMediaPlugin: CAPPlugin, CAPBridgedPlugin {
                                     "request": jsonString,
                                 ]
                                 if JSONSerialization.isValidJSONObject(response) {
-                                    self.sendEvent(withName: "stream", body: response)
+                                    DispatchQueue.main.async {
+                                        self.sendEvent(withName: "stream", body: response)
+                                    }
                                 }
                             }
                         }catch{
-                            call.reject(error.localizedDescription)
+                            self.sendEvent(withName: "onError", body: [
+                                "id": id,
+                                "error": error.localizedDescription
+                            ])
                         }
                     }
                 }
-        
+
+            // Resolve immediately; updates are delivered through "stream" events.
+            call.resolve(["message": "Stream subscription started", "id": id])
         }catch{
             call.reject(error.localizedDescription)
         }
