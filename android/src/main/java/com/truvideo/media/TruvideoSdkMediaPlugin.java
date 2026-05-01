@@ -27,10 +27,14 @@ import com.truvideo.sdk.media.model.external.TruvideoSdkMediaPagedResult;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaResponse;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaMetadata;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaTags;
-import com.truvideo.sdk.media.util.DateUtilsKt;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaModel;
 import com.truvideo.sdk.media.model.external.TruvideoSdkMediaUploadRequest;
+import com.truvideo.sdk.model.exceptions.TruvideoSdkException;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -44,7 +48,6 @@ import java.lang.reflect.Method;
 import kotlin.Unit;
 import kotlinx.coroutines.Job;
 import kotlinx.coroutines.flow.Flow;
-import truvideo.sdk.common.exceptions.TruvideoSdkException;
 
 @CapacitorPlugin(name = "TruvideoSdkMedia")
 public class TruvideoSdkMediaPlugin extends Plugin {
@@ -661,11 +664,11 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         for (TruvideoSdkMediaModel it : response.getItems()) {
                             Map<String, Object> mainResponse = new HashMap<>();
                             mainResponse.put("id", it.getId());
-                            mainResponse.put("createdDate", DateUtilsKt.toIsoString(it.getCreatedAt()));
+                            mainResponse.put("createdDate", toIsoString(it.getCreatedAt()));
                             mainResponse.put("remoteId", it.getId());
                             mainResponse.put("uploadedFileURL", it.getUrl());
-                            mainResponse.put("metaData", it.getMetadata().toJsonObject().toString());
-                            mainResponse.put("tags", it.getTags().toJsonObject().toString());
+                            mainResponse.put("metaData", new Gson().toJson(it.getMetadata().toMap()));
+                            mainResponse.put("tags", new Gson().toJson(it.getTags().toMap()));
                             mainResponse.put("transcriptionURL", it.getTranscriptionUrl());
                             mainResponse.put("transcriptionLength", it.getTranscriptionLength());
                             mainResponse.put("fileType", it.getType().name());
@@ -933,11 +936,11 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             map.put("transcriptionLength", "0");
             map.put("status", request.getStatus());
             map.put("progress", request.getUploadProgress());
-            map.put("tags", request.getTags());
-            map.put("metadata", request.getMetadata());
+            map.put("tags", request.getTags().toMap());
+            map.put("metadata", request.getMetadata().toMap());
             map.put("errorMessage", request.getErrorMessage());
-            map.put("createdAt", DateUtilsKt.toIsoString(request.getCreatedAt()));
-            map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
+            map.put("createdAt", toIsoString(request.getCreatedAt()));
+            map.put("updatedAt", toIsoString(request.getUpdatedAt()));
             list.add(map);
         }
         return new Gson().toJson(list);
@@ -958,11 +961,11 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("transcriptionLength", "0");
         map.put("status", request.getStatus());
         map.put("progress", request.getUploadProgress());
-        map.put("tags", request.getTags());
-        map.put("metadata", request.getMetadata());
+        map.put("tags", request.getTags().toMap());
+        map.put("metadata", request.getMetadata().toMap());
         map.put("errorMessage", request.getErrorMessage());
-        map.put("createdAt", DateUtilsKt.toIsoString(request.getCreatedAt()));
-        map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
+        map.put("createdAt", toIsoString(request.getCreatedAt()));
+        map.put("updatedAt", toIsoString(request.getUpdatedAt()));
         return new Gson().toJson(map);
     }
 
@@ -981,11 +984,11 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("transcriptionLength", "0");
         map.put("status", request.getStatus());
         map.put("progress", request.getUploadProgress());
-        map.put("tags", request.getTags());
-        map.put("metadata", request.getMetadata());
+        map.put("tags", request.getTags().toMap());
+        map.put("metadata", request.getMetadata().toMap());
         map.put("errorMessage", request.getErrorMessage());
-        map.put("createdAt", DateUtilsKt.toIsoString(request.getCreatedAt()));
-        map.put("updatedAt", DateUtilsKt.toIsoString(request.getUpdatedAt()));
+        map.put("createdAt", toIsoString(request.getCreatedAt()));
+        map.put("updatedAt", toIsoString(request.getUpdatedAt()));
         return map;
     }
 
@@ -1037,11 +1040,11 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         public void onComplete(@NonNull String id, @NonNull TruvideoSdkMediaFileUploadRequest response) {
                             JSObject ret = new JSObject();
                             ret.put("id", id);
-                            ret.put("createdDate", DateUtilsKt.toIsoString(response.getCreatedAt()));
+                            ret.put("createdDate", toIsoString(response.getCreatedAt()));
                             ret.put("remoteId", response.getMediaId());
                             ret.put("uploadedFileURL", response.getMediaUrl());
-                            ret.put("metaData", response.getMetadata().toJsonObject().toString());
-                            ret.put("tags", request.getTags().toJsonObject().toString());
+                            ret.put("metaData", new Gson().toJson(response.getMetadata().toMap()));
+                            ret.put("tags", new Gson().toJson(request.getTags().toMap()));
                             ret.put("transcriptionURL", response.getTranscriptionUrl());
                             ret.put("transcriptionLength", "0");
                             ret.put("fileType", response.getFileType().name());
@@ -1061,5 +1064,12 @@ public class TruvideoSdkMediaPlugin extends Plugin {
 
     public void sendEvent(String event, JSObject object) {
         notifyListeners(event, object);
+    }
+
+    private String toIsoString(Date date) {
+        if (date == null) return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(date);
     }
 }
