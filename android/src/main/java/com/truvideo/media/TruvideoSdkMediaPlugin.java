@@ -147,7 +147,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                     @Override
                     public void returnUploadData(TruvideoSdkMediaUploadRequest data) {
                         JSObject payload = new JSObject();
-                        payload.put("request", data == null ? "{}" : new Gson().toJson(data));
+                        payload.put("request", returnStreamUploadRequestJson(data));
                         sendEvent("UploadRequestByIdStream", payload);
 
                         if (!resolvedOnce[0]) {
@@ -186,7 +186,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                 new ReturnUploadData() {
                     @Override
                     public void returnUploadData(@NotNull List<@NotNull TruvideoSdkMediaUploadRequest> data) {
-                        String jsonString = new Gson().toJson(data != null ? data : new ArrayList<>());
+                        String jsonString = returnStreamUploadRequestList(data);
 
                         JSObject payload = new JSObject();
                         payload.put("requests", jsonString);
@@ -479,7 +479,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                 @Override
                 public void onComplete(List<TruvideoSdkMediaUploadRequest> requests) {
                     JSObject ret = new JSObject();
-                    ret.put("requests", new Gson().toJson(requests != null ? requests : new ArrayList<>()));
+                    ret.put("requests", returnStreamUploadRequestList(requests));
                     call.resolve(ret);
                 }
 
@@ -514,7 +514,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
             @Override
             public void onComplete(TruvideoSdkMediaUploadRequest request) {
                 JSObject ret = new JSObject();
-                ret.put("request", request == null ? "{}" : new Gson().toJson(request));
+                ret.put("request", returnStreamUploadRequestJson(request));
                 call.resolve(ret);
             }
 
@@ -583,7 +583,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         );
 
                         JSObject ret = new JSObject();
-                        ret.put("request", new Gson().toJson(request));
+                        ret.put("request", returnStreamUploadRequestJson(request));
                         call.resolve(ret);
                     } catch (Exception e) {
                         call.reject("Exception", e.getMessage(), e);
@@ -806,7 +806,7 @@ public class TruvideoSdkMediaPlugin extends Plugin {
                         @Override
                         public void onComplete(Object unit) {
                             JSObject ret = new JSObject();
-                            ret.put("request", new Gson().toJson(request));
+                            ret.put("request", returnStreamUploadRequestJson(request));
                             call.resolve(ret);
                         }
 
@@ -990,6 +990,108 @@ public class TruvideoSdkMediaPlugin extends Plugin {
         map.put("createdAt", toIsoString(request.getCreatedAt()));
         map.put("updatedAt", toIsoString(request.getUpdatedAt()));
         return map;
+    }
+
+    /**
+     * Serializes stream upload requests without Gson-reflecting the Kotlin data class.
+     * The SDK model exposes {@code internalMedia}, which pulls in Ktor HTTP types and
+     * causes Gson failures (duplicate {@code developmentMode} on pipeline types).
+     */
+    private String returnStreamUploadRequestList(List<TruvideoSdkMediaUploadRequest> requests) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        if (requests != null) {
+            for (TruvideoSdkMediaUploadRequest request : requests) {
+                list.add(streamUploadRequestToMap(request));
+            }
+        }
+        return new Gson().toJson(list);
+    }
+
+    private String returnStreamUploadRequestJson(TruvideoSdkMediaUploadRequest request) {
+        if (request == null) {
+            return "{}";
+        }
+        return new Gson().toJson(streamUploadRequestToMap(request));
+    }
+
+    private Map<String, Object> streamUploadRequestToMap(TruvideoSdkMediaUploadRequest request) {
+        Map<String, Object> tagsMap = new HashMap<>();
+        if (request.getTags() != null) {
+            for (Map.Entry<String, String> e : request.getTags().toMap().entrySet()) {
+                tagsMap.put(e.getKey(), e.getValue());
+            }
+        }
+        Map<String, Object> metaMap = request.getMetadata() != null
+            ? new HashMap<>(request.getMetadata().toMap())
+            : new HashMap<>();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", String.valueOf(request.getId()));
+        map.put("status", request.getStatus() != null ? request.getStatus().name() : "");
+        map.put("fileType", request.getType() != null ? request.getType().name() : "");
+        map.put("contentType", nullToEmpty(request.getContentType()));
+        map.put("fileExtension", nullToEmpty(request.getFileExtension()));
+        map.put("durationMilliseconds", request.getDuration());
+        map.put("remoteId", nullToEmpty(request.getMediaId()));
+        map.put("mediaId", nullToEmpty(request.getMediaId()));
+        map.put("title", nullToEmpty(request.getTitle()));
+        map.put("tag", nullToEmpty(request.getTag()));
+        map.put("tags", tagsMap);
+        map.put("metaData", metaMap);
+        map.put("metadata", metaMap);
+        map.put("includeInReport", request.getIncludeInReport());
+        map.put("isLibrary", request.isLibrary());
+        map.put("markForCompletion", request.getMarkForCompletion());
+        map.put("filePath", nullToEmpty(request.getThumbnailPath()));
+        map.put("thumbnailPath", nullToEmpty(request.getThumbnailPath()));
+        map.put("remoteURL", "");
+        map.put("transcriptionURL", "");
+        map.put("transcriptionLength", 0);
+        map.put("progress", request.getProgress());
+        map.put("createdAt", toIsoString(request.getCreatedAt()));
+        map.put("updatedAt", toIsoString(request.getUpdatedAt()));
+        map.put("errorMessage", nullToEmpty(request.getErrorMessage()));
+        map.put("initializationMetrics", operationMetricsToMap(request.getInitializationMetrics()));
+        map.put("completionMetrics", operationMetricsToMap(request.getCompletionMetrics()));
+        map.put("fileUploadMetrics", operationMetricsToMap(request.getFileUploadMetrics()));
+        map.put("metrics", operationMetricsToMap(request.getMetrics()));
+        map.put("parts", uploadRequestPartsToList(request.getParts()));
+        return map;
+    }
+
+    private static String nullToEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
+    private Map<String, Object> operationMetricsToMap(
+        TruvideoSdkMediaUploadRequest.OperationMetrics metrics
+    ) {
+        if (metrics == null) {
+            return null;
+        }
+        Map<String, Object> m = new HashMap<>();
+        m.put("startedAt", toIsoString(metrics.getStartedAt()));
+        m.put("endedAt", toIsoString(metrics.getEndedAt()));
+        m.put("completed", metrics.getCompleted());
+        return m;
+    }
+
+    private List<Map<String, Object>> uploadRequestPartsToList(
+        List<TruvideoSdkMediaUploadRequest.UploadRequestPart> parts
+    ) {
+        List<Map<String, Object>> out = new ArrayList<>();
+        if (parts == null) {
+            return out;
+        }
+        for (TruvideoSdkMediaUploadRequest.UploadRequestPart part : parts) {
+            Map<String, Object> pm = new HashMap<>();
+            pm.put("index", part.getIndex());
+            pm.put("createdAt", toIsoString(part.getCreatedAt()));
+            pm.put("updatedAt", toIsoString(part.getUpdatedAt()));
+            pm.put("metrics", operationMetricsToMap(part.getMetrics()));
+            out.add(pm);
+        }
+        return out;
     }
 
     @PluginMethod
